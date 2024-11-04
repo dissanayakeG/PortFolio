@@ -5,3 +5,16 @@
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
   }
+
+  .techCard{
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    padding: 2%;
+    max-width: 5rem;
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+  .techCard:hover {
+    background: #9bd4d0;
+}
