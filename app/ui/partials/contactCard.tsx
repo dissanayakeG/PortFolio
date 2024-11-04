@@ -12,7 +12,7 @@ export default function ContactCard({ src, alt }: ContactsProps) {
 			alt={alt}
 			width={50}
 			height={50}
-			className="rounded-xl p-2"
+			className="rounded-xl p-3"
 		/>
 	);
 }
