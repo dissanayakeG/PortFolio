@@ -14,7 +14,10 @@ export default function TechSkills() {
 	];
 
 	return (
-		<div id="tech-skills" className="flex flex-wrap gap-4 p-6">
+		<div
+			id="tech-skills"
+			className="flex flex-wrap justify-center gap-4 p-6"
+		>
 			{techSkills.map((skill) => {
 				return <TechCard key={skill} src={skill} alt={skill} />;
 			})}
