@@ -4,10 +4,15 @@ subtitle: 'subtitle 2'
 date: '2024-10-10'
 ---
 
-### Main heading
-- point 1
-- point 2
+# Heading 1
 
-#### sub heading
+## Heading 2
 
-some text goes here
+- List item 1
+- List item 2
+
+**Bold Text**
+
+_Italic Text_
+
+[Link](https://example.com)

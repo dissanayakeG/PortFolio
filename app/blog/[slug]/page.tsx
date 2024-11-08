@@ -1,7 +1,7 @@
-import Link from "next/link";
 import fs from "fs";
 import Markdown from "markdown-to-jsx";
 import getPostMetaData from "@/app/lib/getPostMetaData";
+import markdownOptions from "../../../markdownOptions";
 
 const getPostContent = (slug: string) => {
 	const folder = "posts/";
@@ -24,8 +24,7 @@ const PostPage = async (props: any) => {
 
 	return (
 		<div className="flex flex-col">
-			<Link href="/blog">Main page</Link>
-			<Markdown>{content}</Markdown>
+			<Markdown options={markdownOptions}>{content}</Markdown>
 		</div>
 	);
 };

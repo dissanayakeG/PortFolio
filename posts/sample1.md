@@ -1,14 +1,19 @@
 ---
-title: 'some title 1'
-subtitle: 'subtitle 1'
-date: '2024-10-10'
+title: "some title 1"
+subtitle: "subtitle 1"
+date: "2024-10-10"
 ---
 
-### Main heading
-- point 1
-- point 2
+```js
+var some = code();
+```
 
-#### sub heading
+# Main heading
+
+-   point 1
+-   point 2
+
+## sub heading
 
 some text goes here
 
