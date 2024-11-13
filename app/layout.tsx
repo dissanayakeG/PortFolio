@@ -9,7 +9,7 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en" >
-			<body className={`${inter.className} antialiased bg-gray-600 p-4`}>
+			<body className={`${inter.className} antialiased bg-theme-dark p-4`}>
 				<div className="flex flex-col">
 					<Nav />
 					{children}

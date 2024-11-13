@@ -12,17 +12,21 @@ const config: Config = {
         '13': 'repeat(13, minmax(0, 1fr))',
       },
       colors: {
-        blue: {
-          400: '#2589FE',
-          500: '#0070F3',
-          600: '#2F6FEB',
+        // primary: '#1DA1F2', //bg-primary
+        theme: {
+          DEFAULT: '#dce0e2', // bg-primary
+          light: '#727c83',   // bg-primary-light
+          dark: '#304653',    // bg-primary-dark
         },
-      },
-    },
-    keyframes: {
-      shimmer: {
-        '100%': {
-          transform: 'translateX(100%)',
+        primary: {
+          DEFAULT: '#1DA1F2', // bg-primary
+          light: '#3683b3',   // bg-primary-light
+          dark: '#1e6b9b',    // bg-primary-dark
+        },
+        secondary: {
+          DEFAULT: '#c1d31c', // bg-secondary
+          light: '#bbc752',   // bg-secondary-light
+          dark: '#cbe00d',    // bg-secondary-dark
         },
       },
     },
