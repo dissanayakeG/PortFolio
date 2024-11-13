@@ -6,7 +6,7 @@ date: "2024-11-08"
 
 **rendering a view in browser**
 
-```cpp
+```php
 Route::get('/', function () {
     return view('welcome', ['name' => 'Samantha']);
 });
@@ -14,13 +14,13 @@ Route::get('/', function () {
 
 **using variables**
 
-```cpp
+```php
 Hello, {{ $name }}
 ```
 
 **include php scripts**
 
-```cpp
+```php
 @php
     $counter = 1;
 @endphp
@@ -28,7 +28,7 @@ Hello, {{ $name }}
 
 **example blade directives**
 
-```cpp
+```php
 @if (count($records) === 1)
     I have one record!
 @elseif (count($records) > 1)
@@ -38,13 +38,13 @@ Hello, {{ $name }}
 @endif
 ```
 
-```cpp
+```php
 @unless (Auth::check())
     You are not signed in.
 @endunless
 ```
 
-```cpp
+```php
 @isset($records)
     // $records is defined and is not null...
 @endisset
@@ -54,7 +54,7 @@ Hello, {{ $name }}
 @endempty
 ```
 
-```cpp
+```php
 @auth
     // The user is authenticated...
 @endauth
@@ -64,7 +64,7 @@ Hello, {{ $name }}
 @endguest
 ```
 
-```cpp
+```php
 @auth('admin')
     // The user is authenticated...
 @endauth
@@ -74,13 +74,13 @@ Hello, {{ $name }}
 @endguest
 ```
 
-```cpp
+```php
 @production
     // Production specific content...
 @endproduction
 ```
 
-```cpp
+```php
 @env('staging')
     // The application is running in "staging"...
 @endenv
@@ -90,7 +90,7 @@ Hello, {{ $name }}
 @endenv
 ```
 
-```cpp
+```php
 @switch($i)
     @case(1)
         First case...
@@ -107,7 +107,7 @@ Hello, {{ $name }}
 
 **LOOPS**
 
-```cpp
+```php
 @for ($i = 0; $i < 10; $i++)
     The current value is {{ $i }}
 @endfor
@@ -141,7 +141,7 @@ $loop->index/iteration/remaining/count/first/last/even/odd/depth/parent
 
 **Conditional Classes**
 
-```cpp
+```php
 @php
     $isActive = false;
     $hasError = true;

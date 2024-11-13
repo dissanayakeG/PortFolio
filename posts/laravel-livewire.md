@@ -7,34 +7,32 @@ date: "2024-11-08"
 **STEPS TO BUILD SIMPLE APP WITH LARAVEL LIVEWIRE**
 
 ```
-art make:component AppLayout
+php artisan make:component AppLayout
 ```
 
 move component/app-layout.blade into new layout directory
 
 rename app-layout.blade to app.blade
 
-```cpp
+```php
 //in app/View/Components/appLayout.php
- public function render()
- {
+public function render()
+{
     return view('layout.app');
- }
+}
 ```
 
 copy everything in welcome.blade into app.blade.php
 
 ```html
-//app.blade.php
-
+<!-- app.blade.php -->
 <body>
 	<div>{{$slot}}</div>
 </body>
 ```
 
 ```html
-//welcome.blade
-
+<!-- welcome.blade -->
 <x-app-layout>
 	<div>some some some</div>
 </x-app-layout>
@@ -46,28 +44,28 @@ copy everything in welcome.blade into app.blade.php
 artisan make:livewire Collection
 ```
 
-```cpp
+```php
 //web.php
-    Route::get('/collection', \App\Http\Livewire\Collection::class);
+Route::get('/collection', \App\Http\Livewire\Collection::class);
 ```
 
-```cpp
+```php
 //Collection.php
-    public function render()
-    {
-        return view('livewire.collection') ->layout('layout.app');
-    }
+public function render()
+{
+    return view('livewire.collection') ->layout('layout.app');
+}
 ```
 
 ```html
-//collection.blade.php
+<!-- collection.blade.php -->
 <div>Hello Foo! Welcome to the register page!</div>
 ```
 
 **computed properties**
 
-```cpp
-//coomputed property name surrounded by get and Property keywords
+```php
+//computed property name surrounded by get and Property keywords
 public function getFirstNameProperty(){
     return 'some';
 }

@@ -2,6 +2,7 @@ import React from "react";
 import Prism from "prismjs";
 import "prismjs/components/prism-c";
 import "prismjs/components/prism-cpp";
+import "prismjs/components/prism-php";
 import "prismjs/components/prism-markdown";
 import "prismjs/components/prism-markup";
 import "prismjs/components/prism-markup-templating";
@@ -9,7 +10,6 @@ import "prismjs/components/prism-cshtml";
 import "prismjs/components/prism-python";
 import "prismjs/components/prism-javascript";
 import "prismjs/components/prism-css";
-//
 
 type MarkdownOptions = {
 	overrides: {
@@ -40,9 +40,6 @@ const markdownOptions: MarkdownOptions = {
 		},
 		code: {
 			component: ({ children, className }: CodeOptions) => {
-				// const language = className
-				// 	? className.replace("language-", "")
-				// 	: "";
 				const language =
 					className
 						?.replace("lang-", "language-")
