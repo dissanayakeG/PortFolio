@@ -1,5 +1,15 @@
 import React from "react";
 import Prism from "prismjs";
+import "prismjs/components/prism-c";
+import "prismjs/components/prism-cpp";
+import "prismjs/components/prism-markdown";
+import "prismjs/components/prism-markup";
+import "prismjs/components/prism-markup-templating";
+import "prismjs/components/prism-cshtml";
+import "prismjs/components/prism-python";
+import "prismjs/components/prism-javascript";
+import "prismjs/components/prism-css";
+//
 
 type MarkdownOptions = {
 	overrides: {
@@ -9,10 +19,10 @@ type MarkdownOptions = {
 		};
 	};
 };
-
-import "prismjs/components/prism-javascript";
-import "prismjs/components/prism-css";
-import "prismjs/components/prism-python";
+type CodeOptions = {
+	children: string;
+	className: string;
+};
 
 const markdownOptions: MarkdownOptions = {
 	overrides: {
@@ -29,16 +39,15 @@ const markdownOptions: MarkdownOptions = {
 			props: { className: "list-disc list-inside" },
 		},
 		code: {
-			component: ({
-				children,
-				className,
-			}: {
-				children: string;
-				className: string;
-			}) => {
-				const language = className
-					? className.replace("language-", "")
-					: "";
+			component: ({ children, className }: CodeOptions) => {
+				// const language = className
+				// 	? className.replace("language-", "")
+				// 	: "";
+				const language =
+					className
+						?.replace("lang-", "language-")
+						.replace("language-", "") || "markup";
+
 				const html = Prism.highlight(
 					children,
 					Prism.languages[language] || Prism.languages.markup,

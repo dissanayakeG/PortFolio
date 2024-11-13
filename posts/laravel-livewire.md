@@ -14,7 +14,7 @@ move component/app-layout.blade into new layout directory
 
 rename app-layout.blade to app.blade
 
-```php
+```cpp
 //in app/View/Components/appLayout.php
  public function render()
  {
@@ -46,12 +46,12 @@ copy everything in welcome.blade into app.blade.php
 artisan make:livewire Collection
 ```
 
-```php
+```cpp
 //web.php
     Route::get('/collection', \App\Http\Livewire\Collection::class);
 ```
 
-```php
+```cpp
 //Collection.php
     public function render()
     {
@@ -66,7 +66,7 @@ artisan make:livewire Collection
 
 **computed properties**
 
-```php
+```cpp
 //coomputed property name surrounded by get and Property keywords
 public function getFirstNameProperty(){
     return 'some';
