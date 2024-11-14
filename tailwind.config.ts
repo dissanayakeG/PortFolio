@@ -28,6 +28,7 @@ const config: Config = {
           light: '#f1e736',   // bg-secondary-light
           dark: '#ada51e',    // bg-secondary-dark
         },
+        white: '#ffffff'
       },
     },
   },

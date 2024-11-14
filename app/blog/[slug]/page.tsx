@@ -23,7 +23,7 @@ const PostPage = async (props: any) => {
 	const content = getPostContent(slug);
 
 	return (
-		<div className="flex flex-col">
+		<div className="flex flex-col text-white">
 			<Markdown options={markdownOptions}>{content}</Markdown>
 		</div>
 	);

@@ -42,6 +42,10 @@ const markdownOptions: MarkdownOptions = {
 			component: "h3" as React.ElementType,
 			props: { className: "text-xl font-semibold text-secondary" },
 		},
+		h4: {
+			component: "h4" as React.ElementType,
+			props: { className: "text-lg font-semibold text-secondary" },
+		},
 		ul: {
 			component: "ul" as React.ElementType,
 			props: { className: "list-disc list-inside" },

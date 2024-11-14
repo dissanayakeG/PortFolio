@@ -1,12 +1,12 @@
 ---
-title: "Getting started with laravel blades"
+title: "Laravel blades"
 subtitle: "Blade component as front-end"
 date: "2024-11-08"
 ---
 
 ![Alt text](/skills/laravel.png)
 
-**rendering a view in browser**
+#### Rendering a view in browser
 
 ```php
 Route::get('/', function () {
@@ -14,13 +14,13 @@ Route::get('/', function () {
 });
 ```
 
-**using variables**
+#### Using variables in blades
 
 ```php
 Hello, {{ $name }}
 ```
 
-**include php scripts**
+#### Include php scripts
 
 ```php
 @php
@@ -28,7 +28,7 @@ Hello, {{ $name }}
 @endphp
 ```
 
-**example blade directives**
+#### Example blade directives
 
 ```php
 @if (count($records) === 1)
@@ -107,7 +107,7 @@ Hello, {{ $name }}
 @endswitch
 ```
 
-**LOOPS**
+#### Loops
 
 ```php
 @for ($i = 0; $i < 10; $i++)
@@ -141,7 +141,7 @@ loop variables avalable
 $loop->index/iteration/remaining/count/first/last/even/odd/depth/parent
 ```
 
-**Conditional Classes**
+#### Conditional Classes
 
 ```php
 @php

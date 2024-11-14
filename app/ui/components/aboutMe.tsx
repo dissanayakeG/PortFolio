@@ -30,7 +30,7 @@ export default function AboutMe() {
 					{heading}
 				</h1>
 				<p className="text-secondary-light italic">{subHeading}</p>
-				<p className="text-slate-200 italic">{aboutMe}</p>
+				<p className="text-white italic">{aboutMe}</p>
 			</div>
 
 			<div className="flex flex-col sm:flex-row justify-between p-2">

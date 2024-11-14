@@ -14,7 +14,7 @@ export default function Page() {
 					{post.title}
 				</h2>
 			</Link>
-			<h2 className="text-ls md:text-xl text-primary-dark italic">
+			<h2 className="text-ls md:text-xl text-white italic">
 				{post.subtitle}
 			</h2>
 			<p className="text-sm md:text-md text-secondary-light italic">{`Added on ${post.date}`}</p>

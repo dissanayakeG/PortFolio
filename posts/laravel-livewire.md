@@ -1,18 +1,18 @@
 ---
-title: "Build SPA with Laravel livewire and AlpineJs"
+title: "Laravel Livewire and AlpineJs"
 subtitle: "Livewire and Alpine"
 date: "2024-11-08"
 ---
 
-**STEPS TO BUILD SIMPLE APP WITH LARAVEL LIVEWIRE**
+## STEPS TO BUILD SIMPLE APP WITH LARAVEL LIVEWIRE
 
 ```
 php artisan make:component AppLayout
 ```
 
-move component/app-layout.blade into new layout directory
+move <i class="text-secondary-light">component/app-layout.blade</i> into new <i class="text-secondary-light">layout</i> directory
 
-rename app-layout.blade to app.blade
+rename <i class="text-secondary-light">app-layout.blade to app.blade</i>
 
 ```php
 //in app/View/Components/appLayout.php
@@ -22,7 +22,7 @@ public function render()
 }
 ```
 
-copy everything in welcome.blade into app.blade.php
+copy everything in <i class="text-secondary-light">welcome.blade into app.blade.php</i>
 
 ```html
 <!-- app.blade.php -->
@@ -38,7 +38,7 @@ copy everything in welcome.blade into app.blade.php
 </x-app-layout>
 ```
 
-**render new component with navigations**
+#### render new component with navigation
 
 ```
 artisan make:livewire Collection
@@ -62,7 +62,7 @@ public function render()
 <div>Hello Foo! Welcome to the register page!</div>
 ```
 
-**computed properties**
+#### computed properties
 
 ```php
 //computed property name surrounded by get and Property keywords
