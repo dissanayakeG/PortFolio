@@ -9,10 +9,10 @@ date: "2024-11-08"
 -   Create an empty directory
 -   Open the created directory in a text editor or in an IDE
 -   Goto <i class="text-secondary-light">
-    <a style="color:blue" href="https://packagist.org">https://packagist.org</a></i> and search <i class="text-secondary-light">phpunit</i>
+    <a href="https://packagist.org">https://packagist.org</a></i> and search <i class="text-secondary-light">phpunit</i>
 
 <i class="text-secondary-light">
-<a style="color:blue" href="https://packagist.org/packages/phpunit/phpunit">(https://packagist.org/packages/phpunit/phpunit)</a></i>
+<a href="https://packagist.org/packages/phpunit/phpunit">(https://packagist.org/packages/phpunit/phpunit)</a></i>
 <br/>
 <br/>
 
@@ -48,7 +48,7 @@ class ExampleTest extends TestCase
 
 -   To execute specific test case
     <i class="text-secondary-light">php vendor/bin/phpunit tests/ExampleTest.php</i>
--   To get the coverage report<i class="text-secondary-light">php vendor/bin/phpunit --coverage-text</i>
+-   To get the coverage report <i class="text-secondary-light">php vendor/bin/phpunit --coverage-text</i>
 -   To execute specific test case with additional details
     <i class="text-secondary-light">php vendor/bin/phpunit tests/ExampleTest.php --colors
     php vendor/bin/phpunit tests/ExampleTest.php --colors --testdox</i>
@@ -90,23 +90,25 @@ Now you can execute all the test cases inside test directory by
 
 <br/>
 
-**There are 3 parts of a test case**
+### There are 3 parts of a test case
+
 <br/>
 
-**Setup:**
+**1. Setup:**
 In this process, you set up the initial test settings and prepare the environment.
 
 -   Construct any necessary objects
 -   Initialize variables
     etc.
     <br/>
+    <br/>
 
-**Do something:**
+**2. Do something:**
 In this phase the code you want to test will be executed.This stage involves calling methods or carrying out operations on the setup-phase-prepared objects.Here, you replicate the use of your code in the actual world and collect data for eventual use in assertions.
 
 <br/>
 
-**Assertion:**
+**3. Assertion:**
 In this phase, you compare the actual outcomes of the "do something" phase with the anticipated results during the assertion step. There are a variety of assertion methods that PHPUnit provides to verify that the behaviour of your code adheres to your expectations.
 
 <br/>
