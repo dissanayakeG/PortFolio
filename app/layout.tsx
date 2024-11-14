@@ -1,6 +1,6 @@
 import "@/app/ui/global.css";
 import { inter } from "@/app/ui/fonts";
-import Nav from "./ui/nav";
+import Nav from "./ui/components/nav";
 
 export default function RootLayout({
 	children,
@@ -8,9 +8,11 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang="en" >
-			<body className={`${inter.className} antialiased bg-theme-dark p-4`}>
-				<div className="flex flex-col">
+		<html lang="en">
+			<body
+				className={`${inter.className} antialiased bg-theme-dark p-4`}
+			>
+				<div className="flex flex-col mx-auto max-w-screen-md">
 					<Nav />
 					{children}
 				</div>

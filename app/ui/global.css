@@ -1,12 +1,8 @@
-/* styles/globals.css */
 @import 'prismjs/themes/prism-okaidia.css'; /* You can choose another theme here */
-
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-
 
 input[type='number'] {
   -moz-appearance: textfield;

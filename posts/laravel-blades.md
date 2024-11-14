@@ -4,6 +4,8 @@ subtitle: "Blade component as front-end"
 date: "2024-11-08"
 ---
 
+![Alt text](/skills/laravel.png)
+
 **rendering a view in browser**
 
 ```php

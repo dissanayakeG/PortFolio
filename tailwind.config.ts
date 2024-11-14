@@ -19,14 +19,14 @@ const config: Config = {
           dark: '#304653',    // bg-primary-dark
         },
         primary: {
-          DEFAULT: '#1DA1F2', // bg-primary
-          light: '#3683b3',   // bg-primary-light
-          dark: '#1e6b9b',    // bg-primary-dark
+          DEFAULT: '#047df6', // bg-primary
+          light: '#3794f0',   // bg-primary-light
+          dark: '#386695',    // bg-primary-dark
         },
         secondary: {
-          DEFAULT: '#c1d31c', // bg-secondary
-          light: '#bbc752',   // bg-secondary-light
-          dark: '#cbe00d',    // bg-secondary-dark
+          DEFAULT: '#FFC300', // bg-secondary
+          light: '#f1e736',   // bg-secondary-light
+          dark: '#ada51e',    // bg-secondary-dark
         },
       },
     },

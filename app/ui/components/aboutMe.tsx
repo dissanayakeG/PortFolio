@@ -1,5 +1,5 @@
 import Image from "next/image";
-import ContactCard from "./partials/contactCard";
+import ContactCard from "../partials/contactCard";
 import Link from "next/link";
 
 export default function AboutMe() {
@@ -15,21 +15,22 @@ export default function AboutMe() {
 		{ name: "whatsapp", src: "contacts/whatsapp.svg" },
 	];
 
+	const heading: string = "Madusanka Dissanayake";
+	const subHeading: string = "I'm a Professional PHP/JavaScript Developer";
+	const aboutMe: string = `Software engineer with more that 5 years of experience in the full
+					software development cycle. Highly adapted to leading
+					engineering teams to achieve software development upgrades
+					and increase business efficiency while delivering
+					world-class solutions to clients.`;
+
 	return (
 		<div className="flex flex-col sm:flex-row sm:justify-between items-center p-4">
-			<div className="flex flex-col gap-2 justify-center items-center">
-				<h1 className="text-2xl font-bold text-amber-500">
-					Jhon Smith
+			<div className="flex flex-col gap-2 ">
+				<h1 className="text-xl md:text-2xl font-bold text-secondary italic">
+					{heading}
 				</h1>
-				<p className="text-slate-200">
-					I'm a Professional PHP/Javascript Developer
-				</p>
-				<Link
-					href="/blog"
-					className="bg-slate-50 p-2 rounded-md hover:bg-blue-300"
-				>
-					Read My Blog
-				</Link>
+				<p className="text-secondary-light italic">{subHeading}</p>
+				<p className="text-slate-200 italic">{aboutMe}</p>
 			</div>
 
 			<div className="flex flex-col sm:flex-row justify-between p-2">

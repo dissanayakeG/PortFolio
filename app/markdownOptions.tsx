@@ -26,13 +26,21 @@ type CodeOptions = {
 
 const markdownOptions: MarkdownOptions = {
 	overrides: {
+		img: {
+			component: "img" as React.ElementType,
+			props: { style: { width: "50px", height: "50px" } },
+		},
 		h1: {
 			component: "h1" as React.ElementType,
-			props: { className: "text-2xl font-bold" },
+			props: { className: "text-3xl font-bold text-secondary-dark" },
 		},
 		h2: {
 			component: "h2" as React.ElementType,
-			props: { className: "text-xl font-semibold" },
+			props: { className: "text-2xl font-bold text-secondary" },
+		},
+		h3: {
+			component: "h3" as React.ElementType,
+			props: { className: "text-xl font-semibold text-secondary" },
 		},
 		ul: {
 			component: "ul" as React.ElementType,

@@ -1,5 +1,5 @@
-import AboutMe from "./ui/aboutMe";
-import TechSkills from "./ui/techSkills";
+import AboutMe from "./ui/components/aboutMe";
+import TechSkills from "./ui/components/techSkills";
 
 export default function Page() {
 	return (

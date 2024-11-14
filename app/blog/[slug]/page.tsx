@@ -1,7 +1,7 @@
 import fs from "fs";
 import Markdown from "markdown-to-jsx";
 import getPostMetaData from "@/app/lib/getPostMetaData";
-import markdownOptions from "../../../markdownOptions";
+import markdownOptions from "../../markdownOptions";
 
 const getPostContent = (slug: string) => {
 	const folder = "posts/";
