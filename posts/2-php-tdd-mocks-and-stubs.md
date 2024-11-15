@@ -4,6 +4,9 @@ subtitle: "Mocks and Stubs"
 date: "2024-11-08"
 ---
 
+# Mocks and Stubs
+
+<br>
 The <i class="text-secondary-light">createStub($type)</i> and <i class="text-secondary-light">createMock($type)</i> methods immediately return a test double object for the specified type (interface or class).
 
 The <i class="text-secondary-light">**construct()</i> and <i class="text-secondary-light">**clone()</i> methods of the original class are not executed and the arguments passed to a method of the test double will not be cloned.

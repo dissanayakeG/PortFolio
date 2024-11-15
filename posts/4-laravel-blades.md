@@ -4,6 +4,9 @@ subtitle: "Blade component as front-end"
 date: "2024-11-08"
 ---
 
+# Laravel blades
+
+<br>
 ![Alt text](/skills/laravel.png)
 
 #### Rendering a view in browser
