@@ -30,7 +30,7 @@ export default function ExperienceCard({ experience }: ExperienceType) {
 											{data.duration}
 										</h1>
 									</div>
-									<h1>- {data.notes}</h1>
+									<h1 className="ml-2">{data.notes}</h1>
 								</div>
 							);
 					  })
