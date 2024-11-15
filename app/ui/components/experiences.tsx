@@ -1,36 +1,23 @@
 import { Experience } from "@/app/definitions/Experiences";
 import ExperienceCard from "../partials/experienceCard";
+import experiences from "@/app/lib/data";
 
 //define data outside as this is static data, this helps to reduce memory usage and reusability across this file
-const experiences: Experience[] = [
-	{
-		company: "OX",
-		duration: "July-2019 - November-2022",
-		skills: "Laravel,Vue,MySql",
-		breakdown: [
-			{
-				designation: "asc",
-				duration: "july-aug",
-				notes: "test",
-			},
-			{
-				designation: "asc",
-				duration: "july-aug",
-				notes: "test",
-			},
-		],
-	},
-];
 
 export default function Experiences() {
 	return (
-		<div className="flex flex-col justify-center items-center p-4">
-			<h1 className="flex text-secondary text-3xl font-bold italic">
+		<div className="flex flex-col p-4">
+			<h1 className="flex justify-center text-secondary text-3xl font-bold italic">
 				EXPERIENCES
 			</h1>
-			<div>
+			<div className="flex flex-col text-white space-y-2">
 				{experiences.map((experience: Experience) => {
-					return <ExperienceCard experience={experience} />;
+					return (
+						<ExperienceCard
+							experience={experience}
+							key={experience.duration}
+						/>
+					);
 				})}
 			</div>
 		</div>

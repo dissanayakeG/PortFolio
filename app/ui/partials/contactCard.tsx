@@ -15,7 +15,7 @@ export default function ContactCard({ src, alt, link }: ContactsProps) {
 				alt={alt}
 				width={50}
 				height={50}
-				className="rounded-xl p-3"
+				className="rounded-xl p-3 hover:bg-theme"
 			/>
 		</Link>
 	);
