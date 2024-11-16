@@ -1,6 +1,5 @@
 import Image from "next/image";
 import ContactCard from "../partials/contactCard";
-import Link from "next/link";
 
 export default function AboutMe() {
 	const contacts = [
@@ -35,10 +34,10 @@ export default function AboutMe() {
 
 			<div className="flex flex-col sm:flex-row justify-between p-2">
 				<Image
-					src="/Avatar.jpg"
+					src="/profilePicture.jpeg"
 					alt="flutters profile picture"
 					className="flex items-center justify-center p-4 max-w-80 overflow-hidden"
-					width={250}
+					width={300}
 					height={250}
 				/>
 
