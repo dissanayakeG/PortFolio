@@ -11,13 +11,13 @@ export default function ExperienceCard({ experience }: ExperienceType) {
 				<h1>{experience.company}</h1>
 				<h1>{experience.duration}</h1>
 			</div>
-			<p className="text-white italic text-md">
+			<p className="text-white italic text-md font-bold">
 				{experience.skills.toUpperCase()}
 			</p>
 
-			<div className="w-full bg-theme h-0.5"></div>
+			<div className="w-full h-0.5 bg-theme-light"></div>
 
-			<div className="ml-2">
+			<div>
 				{experience.breakdown
 					? experience.breakdown.map((data) => {
 							return (
@@ -36,7 +36,7 @@ export default function ExperienceCard({ experience }: ExperienceType) {
 					  })
 					: ""}
 			</div>
-			<div className="w-full bg-theme h-0.5"></div>
+			<div className="w-full h-0.5 bg-theme"></div>
 		</div>
 	);
 

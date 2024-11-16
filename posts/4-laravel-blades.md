@@ -7,7 +7,7 @@ date: "2024-11-08"
 # Laravel blades
 
 <br>
-![Alt text](/skills/laravel.png)
+![Alt text](/skills/laravel.svg)
 
 #### Rendering a view in browser
 

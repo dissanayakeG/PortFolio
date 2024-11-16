@@ -1,6 +1,7 @@
 import "@/app/ui/global.css";
-import { inter,montserrat } from "@/app/ui/fonts";
+import { inter, montserrat } from "@/app/ui/fonts";
 import Nav from "./ui/components/nav";
+import Footer from "./ui/components/footer";
 
 export default function RootLayout({
 	children,
@@ -15,6 +16,8 @@ export default function RootLayout({
 				<div className="flex flex-col mx-auto max-w-screen-md">
 					<Nav />
 					{children}
+					<div className="w-full h-0.5 bg-theme mt-2"></div>
+					<Footer />
 				</div>
 			</body>
 		</html>

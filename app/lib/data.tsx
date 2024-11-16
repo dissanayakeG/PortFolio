@@ -23,21 +23,21 @@ const experiences: Experience[] = [
 				notes: `Designed, modified and implemented technology solutions |
 						Created and implemented complex VueJs components | 
 						Designed complex database designs | 
-						Managed 4 junior developers`,
+						Lead a Team`,
 			},
 			{
 				designation: "Senior Software Engineer",
 				duration: "August 2022 - November 2022",
 				notes: `Designed, modified and implemented technology solutions | 
 						Designed complex database designing | 
-						Managed 4 junior developers`,
+						Lead a Team`,
 			},
 		],
 	},
 	{
 		company: "Intervest",
 		duration: "November 2022 - Present",
-		skills: "Laravel | Vue | MySql",
+		skills: "Laravel | Laravel Package Development | Livewire | AlpineJs | Pest | TDD",
 		breakdown: [
 			{
 				designation: "Senior Software Engineer",

@@ -4,7 +4,7 @@ export default function TechSkills() {
 	const techSkills = [
 		"skills/php.svg",
 		"skills/js.svg",
-		"/skills/laravel.png",
+		"/skills/laravel.svg",
 		"skills/vue.svg",
 		"skills/nodejs.svg",
 		"skills/react.svg",
