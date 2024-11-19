@@ -9,13 +9,13 @@ type ContactsProps = {
 
 export default function ContactCard({ src, alt, link }: ContactsProps) {
 	return (
-		<Link href={link}>
+		<Link href={link} target="_blank">
 			<Image
 				src={src}
 				alt={alt}
 				width={50}
 				height={50}
-				className="rounded-xl p-3 hover:bg-theme"
+				className="rounded-md p-3 hover:bg-theme"
 			/>
 		</Link>
 	);
