@@ -16,7 +16,7 @@ export default function AboutMe() {
 
 	const heading: string = "Madusanka Dissanayake";
 	const subHeading: string = "I'm a Professional PHP/JavaScript Developer";
-	const aboutMe: string = `Software engineer with more that 5 years of experience in the full
+	const aboutMe: string = `Software engineer with more than 5 years of experience in the full
 					software development cycle. Highly adapted to leading
 					engineering teams to achieve software development upgrades
 					and increase business efficiency while delivering
