@@ -68,7 +68,7 @@ cd ServiceProviders
 touch EverestServiceProvider.php
 ```
 
-in order to get <i class="text-secondary-light">illuminate/support </i> features, we will install that package (the package version should be compatible with the
+In order to get <i class="text-secondary-light">illuminate/support </i> features, we will install that package (the package version should be compatible with the
 <i class="text-secondary-light">test-bench</i> Laravel version).
 We will install livewire as well for later usage.
 
@@ -85,7 +85,7 @@ composer.json should look like this
 		}
 	},
 	"require": {
-		 "illuminate/support": "^10.0" //this should be compatible with application version
+		 "illuminate/support": "^10.0", //this should be compatible with application version
          "livewire/livewire": "^3.5" //this should be compatible with application version
 	},
 	"extra": {
@@ -103,19 +103,19 @@ cd everest
 composer update
 ```
 
-Note: We autoloaded our src and app directories in order to recognize them by Laravel and registered our main service provider of the package.
+Note: We auto-loaded our src and app directories in order to recognize them by Laravel and registered our main service provider of the package.
 
 Now, let's try to create a simple view file in the package and use it in the
 <i class="text-secondary-light">test-bench</i>.
-For that we first need to configure <i class="text-secondary-light">test-bench</i> to use our <i class="text-secondary-light">everest </i> package as a dependency.
+For that we first need to configure <i class="text-secondary-light">test-bench</i> to use our <i class="text-secondary-light">everest</i> package as a dependency.
 
 Update <i class="text-secondary-light">test-bench</i> composer.json as below.
 
 ```php
 "require": {
         "php": "^8.1",
-        "dissanayake/everest": "dev-main", //if you have no tagged the package, this is the way to use it
-        "livewire/livewire": "^3.5" //install livewire for later usage
+        "dissanayake/everest": "dev-main", //If you have not tagged the package, this is the way to use it
+        "livewire/livewire": "^3.5" //install Livewire for later usage
     },
 "minimum-stability": "dev",
 "prefer-stable": true,
@@ -136,7 +136,7 @@ composer update
 Now everything is set up.
 We have to load our views of the packages in order to recognize them by
 <i class="text-secondary-light">test-bench</i>.
-update <i class="text-secondary-light">EverestServiceProvider</i>
+Update <i class="text-secondary-light">EverestServiceProvider</i>
 
 ```php
 public function boot(): void
@@ -147,8 +147,8 @@ public function boot(): void
     $this->loadViewsFrom($rootPathFromThisLocation . '/resources/views', 'everest');
 
     //Overriding Package Views from the application
-    //Laravel will first check if a custom version of the view has been placed in the resources/views/vendor/everest 				//directory by the developer.
-    //Then, if the view has not been customized, Laravel will search the package view directory you specified in your call          //to loadViewsFrom
+    //Laravel will first check if a custom version of the view has been placed in the resources/views/vendor/everest directory by the developer.
+    //Then, if the view has not been customized, Laravel will search the package view directory you specified in your call to loadViewsFrom
 }
 ```
 
@@ -159,24 +159,23 @@ Create a view in the <i class="text-secondary-light">everest </i>
 <h1>Blade view from everest package!</h1>
 ```
 
-Now, lets use this in our <i class="text-secondary-light">test-bench</i>
+Now, let's use this in our <i class="text-secondary-light">test-bench</i>
+
+Update your <i class="text-secondary-light">web.php</i> like below.
 
 ```php
-web.php
 Route::get('/package', function () {
     return view('everest::welcome');
 });
 ```
 
-now we can run, laravel server up command from
-<i class="text-secondary-light">test-bench</i> and see the view in the broser
+Now we can run the Laravel server up command from the <i class="text-secondary-light">test-bench</i> and see the view in the browser.
 
 ```
 php artisan serve
 ```
 
-So, that is basically it.
-we can even publish our package views,configs,components, livewires by updating the boot method like below
+So, that is basically it. We can even publish our package views, configs, components, and livewires by updating the boot method like below.
 
 ```php
  $this->publishes([
@@ -190,10 +189,9 @@ php artisan vendor:publish --tag=everest-config
 
 #### Setting up package routes
 
-create a route in the package everest/routes/web_routes.php
+Create a route in the package <i class="text-secondary-light">everest/routes/web_routes.php</i>
 
 ```php
-//everest/routes/web_routes.php
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -203,7 +201,7 @@ Route::get('/everest-default-web-route', function () {
 });
 ```
 
-load routes from service provider
+Load routes from the service provider.
 
 ```php
 $this->loadRoutesFrom($rootPathFromThisLocation . '/routes/web_routes.php');
@@ -211,14 +209,13 @@ $this->loadRoutesFrom($rootPathFromThisLocation . '/routes/web_routes.php');
 
 #### Setting up blade components
 
-<i class="text-secondary-light">create everest/app/View/Components/AlertComponent.php</i>
+Create <i class="text-secondary-light">everest/app/View/Components/AlertComponent.php</i>
 
 ```php
-//everest/app/View/Components/AlertComponent.php
 <?php
 
-namespace Dissanayake\Everest\App\View\Components; //we autoloaded our package app directory from the composer.json
-//namespace App\View\Components; // we can use default namespace as well, but is not a good practice as the better way is to keep package things under package's namespace
+namespace Dissanayake\Everest\App\View\Components; //We autoloaded our package app directory from the composer. json
+//namespace App\View\Components; // We can use the default namespace as well, but it is not a good practice, as the better way is to keep package things under the package's namespace.
 
 use Illuminate\View\Component;
 
@@ -228,19 +225,19 @@ class AlertComponent extends Component
 
     public function render()
     {
-        return view('everest::alert'); //we already have registered out views under everest name
+        return view('everest::alert'); //We already have registered our views under the everest name.
     }
 }
 
 ```
 
-then create the blade <i class="text-secondary-light">everest/resources/views/alert.blade.php</i>
+Then create the blade <i class="text-secondary-light">everest/resources/views/alert.blade.php</i>
 
 ```html
 <h1>I'm the alert blade from everest</h1>
 ```
 
-now update the service provider
+Now update the service provider.
 
 ```php
 Blade::component('everest-alert', AlertComponent::class);
@@ -266,15 +263,15 @@ and update <i class="text-secondary-light">resources/views/welcome.blade.php</i>
 </html>
 ```
 
-run the server and you can see this component has been rendered successfully.
+Run the server, and you can see this component has been rendered successfully.
 
-as the last thing lets setup livewire as well
+As the last thing, let's set up Livewire as well.
 
-#### Setting up livewire
+#### Setting up Livewire
 
-Livewire component has two files, the class and the blade view
+Livewire components have two files, the class and the blade view.
 
-create a livewire class called ExampleComponent in
+create a Livewire class called ExampleComponent in
 <i class="text-secondary-light">app/Http/Livewire/</i>
 
 ```php
@@ -296,7 +293,7 @@ class ExampleComponent extends Component
 
 ```
 
-and create the livewire blade
+and create the Livewire Blade
 <i class="text-secondary-light">resources/views/livewire/example-component.blade.php</i>
 
 ```html
@@ -305,15 +302,15 @@ and create the livewire blade
 </div>
 ```
 
-then lets update our package service provider boot method once again
+Then let's update our package service provider boot method once again.
 
 ```php
 Livewire::component('example-component', ExampleComponent::class);
 ```
 
-now we want to check if this is working in the
-<i class="text-secondary-light">test-bench</i>
-<i class="text-secondary-light">update resources/views/welcome.blade.php</i>
+Now we want to check if this is working in the
+<i class="text-secondary-light">test-bench</i>.
+Update <i class="text-secondary-light">resources/views/welcome.blade.php</i>
 
 ```html
 <!DOCTYPE html>
@@ -327,12 +324,12 @@ now we want to check if this is working in the
 
 And hooray!, you can see it is working fine.
 
-Here i only covered view, blade,livewire and routes. For greater details please check the official documentation of the laravel [here](https://laravel.com/docs/11.x/packages)
+Here I only covered view, Blade, Livewire, and routes. For greater details, please check the official documentation of Laravel
+<i class="text-secondary-light">[here](https://laravel.com/docs/11.x/packages).</i>
 
 Bonus:
 
-You may have more than one livewire/blade component. Loading them one by one in the service provider is not a good approach.
-so move it to a separate function.
+You may have more than one Livewire/Blade component. Loading them one by one in the service provider is not a good approach. So move it to a separate function.
 
 ```php
 // Livewire::component('example-component', ExampleComponent::class);
@@ -353,7 +350,7 @@ protected function registerLivewireComponents()
                 );
 
                 if (class_exists($className)) {
-                    //i use everest alias here, but it is up to you
+                    //I use 'everest' as an alias here, but it is up to you.
                     $alias = 'everest::' . strtolower(preg_replace(
                         '/([a-z])([A-Z])/',
                         '$1-$2',
@@ -367,11 +364,11 @@ protected function registerLivewireComponents()
     }
 ```
 
-now use them in the <i class="text-secondary-light">test-bench</i> like below
+Now use them in the <i class="text-secondary-light">test-bench</i> like below.
 
 ```html
 <livewire:example-component />
-//if an alias added
+//if an alias was added
 <livewire:everest::example-component />
 ```
 
