@@ -85,8 +85,8 @@ composer.json should look like this
 		}
 	},
 	"require": {
-		 "illuminate/support": "^10.0", //this should be compatible with application version
-         "livewire/livewire": "^3.5" //this should be compatible with application version
+		 "illuminate/support": "^10.0", //This should be compatible with the application version.
+         "livewire/livewire": "^3.5" //This should be compatible with the application version.
 	},
 	"extra": {
 		"laravel": {
