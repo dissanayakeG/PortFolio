@@ -8,10 +8,13 @@ date: "2024-12-14"
 
 We are going to build a simple Laravel package called
 <i class="text-secondary-light">everest </i>.
+
+<br>
 We need a way to test and run our package. Since we can't run the artisan command within the package, we will use a Laravel 10 application as a
 <i class="text-secondary-light">test-bench</i> for our
 <i class="text-secondary-light">everest</i> package.
-
+<br>
+<br>
 Here I'll be using Laravel 10 with PHP 8.1.
 We will symlink our package into the Laravel application, so keeping both the package and the application within the same directory will be easy for us.
 
@@ -26,9 +29,9 @@ cd LaravelPackageDevelopment
 
 #### Create the test bench
 
-Then first we were going to create our <i class="text-secondary-light">test-bench</i> by running the below command in the above-created directory.
+Then first we are going to create our <i class="text-secondary-light">test-bench</i> by running the below command in the above-created directory.
 
-```php
+```
 composer create-project laravel/laravel:^10.0 test-bench
 ```
 
