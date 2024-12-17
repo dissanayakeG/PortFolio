@@ -244,7 +244,7 @@ Now update the service provider.
 
 ```php
 Blade::component('everest-alert', AlertComponent::class);
-// Blade::component('package-alert', \App\View\Components\AlertComponent::class); //use this if you used default namespace for the blade component
+// Blade::component('package-alert', \App\View\Components\AlertComponent::class); //Use this if you used the default namespace for the blade component.﻿
 ```
 
 update <i class="text-secondary-light">test-bench</i> web.php
