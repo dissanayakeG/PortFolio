@@ -20,6 +20,7 @@ let previousBracket: number = 0;
 let fromValue: number;
 let totalTaxUpToPreviousGroup: number = 0;
 let newTaxGroups: NewTaxGroup[] = [];
+let lastGroup: object;
 
 const taxGroups: TaxGroup[] = [
 	{
@@ -45,7 +46,7 @@ const taxGroups: TaxGroup[] = [
 ];
 
 const addStaticTaxGroups = () => {
-	let lastGroup: object = newTaxGroups[4];
+	lastGroup = newTaxGroups[4];
 	previousBracket = newTaxGroups[4].bracket;
 	for (
 		let i = lastGroup.upTo;
@@ -72,14 +73,20 @@ const addStaticTaxGroups = () => {
 
 const buildTaxGroup = (group: any) => {
 	if (group.bracket == 1) {
+		let upTo = taxFreeLimit + maxEarningsForAYearForFirstBracket;
+		let from = taxFreeLimit;
+
 		return {
 			previousBracket: group.bracket - 1,
-			from: taxFreeLimit,
+			from: from,
 			upTo: Math.round(taxFreeLimit + maxEarningsForAYearForFirstBracket),
-			taxForThisGroupUpperLimit: getTaxForCurrentGroupUpperLimit(group),
-			taxUptoNow: Math.round(
-				((group.upTo - group.from) * group.percentage) / 100
+			taxForThisGroupUpperLimit: getTaxForCurrentGroupUpperLimit(
+				{
+					percentage: 6,
+				},
+				maxEarningsForAYearForFirstBracket
 			),
+			taxUptoNow: Math.round(((upTo - from) * group.percentage) / 100),
 			bracket: group.bracket,
 			percentage: group.percentage,
 		};
@@ -88,7 +95,10 @@ const buildTaxGroup = (group: any) => {
 			previousBracket: group.bracket - 1,
 			from: getFromValue(previousBracket),
 			upTo: getUptoValue(previousBracket),
-			taxForThisGroupUpperLimit: getTaxForCurrentGroupUpperLimit(group),
+			taxForThisGroupUpperLimit: getTaxForCurrentGroupUpperLimit(
+				group,
+				bracketSizeForRestOfTheIncome
+			),
 			taxUptoNow: getTaxUptoNow(),
 			bracket: group.bracket,
 			percentage: group.percentage,
@@ -98,9 +108,11 @@ const buildTaxGroup = (group: any) => {
 	}
 };
 
-const getTaxForCurrentGroupUpperLimit = (group: object) => {
-	let taxForCurrentGroup =
-		((group.upTo - group.from) * group.percentage) / 100;
+const getTaxForCurrentGroupUpperLimit = (
+	group: object,
+	bracketSize: number
+) => {
+	let taxForCurrentGroup = (bracketSize * group.percentage) / 100;
 	//tax up to now + taxForCurrentGroup
 	totalTaxUpToPreviousGroup = Math.round(
 		totalTaxUpToPreviousGroup + taxForCurrentGroup
@@ -125,9 +137,12 @@ const updateTaxGroups = () => {
 	for (let group of taxGroups) {
 		let newGroup = buildTaxGroup(group);
 		newTaxGroups.push(newGroup);
+		lastGroup = newGroup;
 	}
 	addStaticTaxGroups();
 	return newTaxGroups;
 };
 
-export default updateTaxGroups;
+updateTaxGroups();
+
+export default newTaxGroups;
