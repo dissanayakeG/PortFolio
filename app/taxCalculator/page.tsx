@@ -4,8 +4,6 @@ import { useState } from "react";
 
 export default function Page() {
 	interface TaxGroup {
-		from: number;
-		upTo: number;
 		percentage: number;
 		bracket: number;
 	}
@@ -22,7 +20,7 @@ export default function Page() {
 
 	const taxFreeLimit: number = 150_000;
 	const [yourSalary, setYourSalary] = useState<number>(0);
-	const [totalTax, setTotalTax] = useState<number>(0);
+	const [totalTax, setTotalTax] = useState<number | string>(0);
 	let taxCategory: any;
 	const maxEarningsForAYearForFirstBracket: number = 1_000_000 / 12; //1 Million
 	const bracketSizeForRestOfTheIncome: number = 500_000 / 12; //1/2 Million
@@ -32,40 +30,24 @@ export default function Page() {
 
 	const taxGroups: TaxGroup[] = [
 		{
-			from: 150000,
-			upTo: 233333,
 			percentage: 6,
 			bracket: 1,
 		},
 		{
-			from: 233333,
-			upTo: 275000,
 			percentage: 18,
 			bracket: 2,
 		},
 		{
-			from: 275000,
-			upTo: 316667,
 			percentage: 24,
 			bracket: 3,
 		},
 		{
-			from: 316667,
-			upTo: 358334,
 			percentage: 30,
 			bracket: 4,
 		},
 		{
-			from: 358334,
-			upTo: 400001,
 			percentage: 36,
 			bracket: 5,
-		},
-		{
-			from: 400001,
-			upTo: 441668,
-			percentage: 36,
-			bracket: 6,
 		},
 	];
 
@@ -74,6 +56,32 @@ export default function Page() {
 	const updateTaxGroups = () => {
 		for (let group of taxGroups) {
 			let newGroup = buildTaxGroup(group);
+			newTaxGroups.push(newGroup);
+		}
+
+		let lastGroup: object = newTaxGroups[4];
+		previousBracket = newTaxGroups[4].bracket;
+		for (
+			let i = lastGroup.upTo;
+			i <= 10_000_000;
+			i += bracketSizeForRestOfTheIncome
+		) {
+			let newGroup = {
+				previousBracket: previousBracket,
+				from: lastGroup.upTo,
+				upTo: Math.round(
+					lastGroup.upTo + bracketSizeForRestOfTheIncome
+				),
+				taxForThisGroupUpperLimit:
+					(bracketSizeForRestOfTheIncome * 36) / 100,
+				taxUptoNow:
+					lastGroup.taxUptoNow +
+					(bracketSizeForRestOfTheIncome * 36) / 100,
+				bracket: previousBracket + 1,
+				percentage: 36,
+			};
+			lastGroup = newGroup;
+			previousBracket = lastGroup.bracket;
 			newTaxGroups.push(newGroup);
 		}
 	};
@@ -133,6 +141,9 @@ export default function Page() {
 		return totalTaxUpToPreviousGroup;
 	};
 
+	updateTaxGroups();
+	// console.log("newTaxGroups", newTaxGroups);
+
 	const findTaxCategory = (): void => {
 		for (let group of newTaxGroups) {
 			if (yourSalary > group.from && yourSalary <= group.upTo) {
@@ -161,9 +172,14 @@ export default function Page() {
 	};
 
 	const calculateFinalTax = () => {
+		if (yourSalary > 10_000_000) {
+			setTotalTax(
+				"Don't consider your tax, if you get this much salary..."
+			);
+			return;
+		}
 		if (yourSalary > taxFreeLimit) {
 			console.log(yourSalary);
-			updateTaxGroups();
 			findTaxCategory();
 			calculateTaxForLastBracket();
 			updateFullTax();
