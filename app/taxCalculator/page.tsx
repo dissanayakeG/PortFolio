@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import newTaxGroups from "../lib/buildTaxGroups";
+import taxGroups from "../lib/buildTaxGroups";
 
 export default function Page() {
 	const taxFreeLimit: number = 150_000;
@@ -9,7 +9,7 @@ export default function Page() {
 	let taxCategory: any;
 
 	const findTaxCategory = (): void => {
-		for (let group of newTaxGroups) {
+		for (let group of taxGroups) {
 			if (yourSalary > group.from && yourSalary <= group.upTo) {
 				taxCategory = group;
 			}
@@ -17,7 +17,7 @@ export default function Page() {
 	};
 
 	const calculateTaxForLastBracket = (): number => {
-		return ((yourSalary - taxCategory.from) * taxCategory.percentage) / 100;
+		return (yourSalary - taxCategory.from) * taxCategory.percentage;
 	};
 
 	const taxUptoPreviousBracket = (): number => {

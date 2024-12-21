@@ -1,9 +1,9 @@
-interface TaxGroup {
+interface GroupsTaxPercentages {
 	percentage: number;
 	bracket: number;
 }
 
-interface NewTaxGroup {
+interface TaxGroup {
 	previousBracket: number;
 	from: number;
 	upTo: number;
@@ -13,98 +13,103 @@ interface NewTaxGroup {
 	percentage: number;
 }
 
-const taxFreeLimit: number = 150_000;
-const maxEarningsForAYearForFirstBracket: number = 1_000_000 / 12; //1 Million
-const bracketSizeForRestOfTheIncome: number = 500_000 / 12; //1/2 Million
-let previousBracket: number = 0;
-let fromValue: number;
-let totalTaxUpToPreviousGroup: number = 0;
-let newTaxGroups: NewTaxGroup[] = [];
-let lastGroup: object;
+const TAX_FREE_LIMIT: number = 150_000;
+const BRACKET_SIZE_FOR_FIRST_GROUP: number = 1_000_000 / 12; //1 Million
+const BRACKET_SIZE_FOR_OTHER_GROUPS: number = 500_000 / 12; //1/2 Million
+const TAX_PERCENTAGE_FOR_FIXED_TAX_GROUPS = 0.36; //36%;
 
-const taxGroups: TaxGroup[] = [
+let previousBracket: number = 0;
+let currentGroupFromValue: number;
+let totalTaxUpToPreviousGroup: number = 0;
+let taxGroups: TaxGroup[] = [];
+let lastTaxGroup: object;
+
+const groupsTaxPercentages: GroupsTaxPercentages[] = [
 	{
-		percentage: 6,
+		percentage: 0.06,
 		bracket: 1,
 	},
 	{
-		percentage: 18,
+		percentage: 0.18,
 		bracket: 2,
 	},
 	{
-		percentage: 24,
+		percentage: 0.24,
 		bracket: 3,
 	},
 	{
-		percentage: 30,
+		percentage: 0.3,
 		bracket: 4,
 	},
 	{
-		percentage: 36,
+		percentage: 0.36,
 		bracket: 5,
 	},
 ];
 
-const addStaticTaxGroups = () => {
-	lastGroup = newTaxGroups[4];
-	previousBracket = newTaxGroups[4].bracket;
-	for (
-		let i = lastGroup.upTo;
-		i <= 10_000_000;
-		i += bracketSizeForRestOfTheIncome
-	) {
-		let newGroup = {
-			previousBracket: previousBracket,
-			from: lastGroup.upTo,
-			upTo: Math.round(lastGroup.upTo + bracketSizeForRestOfTheIncome),
-			taxForThisGroupUpperLimit:
-				(bracketSizeForRestOfTheIncome * 36) / 100,
-			taxUptoNow:
-				lastGroup.taxUptoNow +
-				(bracketSizeForRestOfTheIncome * 36) / 100,
-			bracket: previousBracket + 1,
-			percentage: 36,
-		};
-		lastGroup = newGroup;
-		previousBracket = lastGroup.bracket;
-		newTaxGroups.push(newGroup);
-	}
-};
-
 const buildTaxGroup = (group: any) => {
 	if (group.bracket == 1) {
-		let upTo = taxFreeLimit + maxEarningsForAYearForFirstBracket;
-		let from = taxFreeLimit;
-
+		let from = TAX_FREE_LIMIT;
+		let upTo = Math.round(TAX_FREE_LIMIT + BRACKET_SIZE_FOR_FIRST_GROUP);
+		totalTaxUpToPreviousGroup = Math.round(
+			(upTo - from) * group.percentage
+		);
 		return {
-			previousBracket: group.bracket - 1,
+			previousBracket: 0,
 			from: from,
-			upTo: Math.round(taxFreeLimit + maxEarningsForAYearForFirstBracket),
+			upTo: upTo,
 			taxForThisGroupUpperLimit: getTaxForCurrentGroupUpperLimit(
-				{
-					percentage: 6,
-				},
-				maxEarningsForAYearForFirstBracket
+				{ percentage: 0.06 },
+				BRACKET_SIZE_FOR_FIRST_GROUP
 			),
-			taxUptoNow: Math.round(((upTo - from) * group.percentage) / 100),
+			taxUptoNow: Math.round((upTo - from) * group.percentage),
 			bracket: group.bracket,
 			percentage: group.percentage,
 		};
 	} else {
-		let newGroup = {
+		let taxGroup = {
 			previousBracket: group.bracket - 1,
-			from: getFromValue(previousBracket),
+			from: getCurrentGroupFromValue(previousBracket),
 			upTo: getUptoValue(previousBracket),
 			taxForThisGroupUpperLimit: getTaxForCurrentGroupUpperLimit(
 				group,
-				bracketSizeForRestOfTheIncome
+				BRACKET_SIZE_FOR_OTHER_GROUPS
 			),
-			taxUptoNow: getTaxUptoNow(),
+			taxUptoNow: getTaxUptoNow(group, BRACKET_SIZE_FOR_OTHER_GROUPS),
 			bracket: group.bracket,
 			percentage: group.percentage,
 		};
 		previousBracket++;
-		return newGroup;
+		return taxGroup;
+	}
+};
+
+const addStaticTaxGroups = () => {
+	lastTaxGroup = taxGroups[4];
+	previousBracket = lastTaxGroup.bracket;
+	for (
+		let i = lastTaxGroup.upTo;
+		i <= 10_000_000;
+		i += BRACKET_SIZE_FOR_OTHER_GROUPS
+	) {
+		let taxGroup = {
+			previousBracket: previousBracket,
+			from: lastTaxGroup.upTo,
+			upTo: Math.round(lastTaxGroup.upTo + BRACKET_SIZE_FOR_OTHER_GROUPS),
+			taxForThisGroupUpperLimit: Math.round(
+				BRACKET_SIZE_FOR_OTHER_GROUPS *
+					TAX_PERCENTAGE_FOR_FIXED_TAX_GROUPS
+			),
+			taxUptoNow:
+				lastTaxGroup.taxUptoNow +
+				BRACKET_SIZE_FOR_OTHER_GROUPS *
+					TAX_PERCENTAGE_FOR_FIXED_TAX_GROUPS,
+			bracket: previousBracket + 1,
+			percentage: TAX_PERCENTAGE_FOR_FIXED_TAX_GROUPS,
+		};
+		lastTaxGroup = taxGroup;
+		previousBracket = lastTaxGroup.bracket;
+		taxGroups.push(taxGroup);
 	}
 };
 
@@ -112,37 +117,37 @@ const getTaxForCurrentGroupUpperLimit = (
 	group: object,
 	bracketSize: number
 ) => {
-	let taxForCurrentGroup = (bracketSize * group.percentage) / 100;
-	//tax up to now + taxForCurrentGroup
-	totalTaxUpToPreviousGroup = Math.round(
-		totalTaxUpToPreviousGroup + taxForCurrentGroup
-	);
+	let taxForCurrentGroup = bracketSize * group.percentage;
 	return Math.round(taxForCurrentGroup);
 };
 
-const getFromValue = (previousBracket: number) => {
-	return Math.round(newTaxGroups[previousBracket].upTo);
+const getCurrentGroupFromValue = (previousBracket: number) => {
+	return Math.round(taxGroups[previousBracket].upTo);
 };
 
 const getUptoValue = (previousBracket: number) => {
-	fromValue = newTaxGroups[previousBracket].upTo;
-	return Math.round(fromValue + bracketSizeForRestOfTheIncome);
+	currentGroupFromValue = taxGroups[previousBracket].upTo;
+	return Math.round(currentGroupFromValue + BRACKET_SIZE_FOR_OTHER_GROUPS);
 };
 
-const getTaxUptoNow = () => {
+const getTaxUptoNow = (group: object, bracketSize: number) => {
+	let taxForCurrentGroup = bracketSize * group.percentage;
+	totalTaxUpToPreviousGroup = Math.round(
+		totalTaxUpToPreviousGroup + taxForCurrentGroup
+	);
 	return totalTaxUpToPreviousGroup;
 };
 
 const updateTaxGroups = () => {
-	for (let group of taxGroups) {
-		let newGroup = buildTaxGroup(group);
-		newTaxGroups.push(newGroup);
-		lastGroup = newGroup;
+	for (let group of groupsTaxPercentages) {
+		let taxGroup = buildTaxGroup(group);
+		taxGroups.push(taxGroup);
+		lastTaxGroup = taxGroup;
 	}
 	addStaticTaxGroups();
-	return newTaxGroups;
+	return taxGroups;
 };
 
 updateTaxGroups();
 
-export default newTaxGroups;
+export default taxGroups;
