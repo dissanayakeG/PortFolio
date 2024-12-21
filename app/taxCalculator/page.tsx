@@ -107,7 +107,7 @@ export default function Page() {
 						)}
 					</>
 				) : (
-					<p className="mt-2 font-normal text-secondary">
+					<p className="mt-2 font-normal text-primary">
 						{totalTax}
 					</p>
 				)}
