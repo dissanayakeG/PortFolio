@@ -30,6 +30,7 @@ export default function Page() {
 	};
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setTotalTax(0);
 		const value = e.target.value.replace(/\D/g, "");
 		const parsedValue = value ? parseInt(value) : 0;
 		setYourSalary(parsedValue);
@@ -55,16 +56,16 @@ export default function Page() {
 
 	return (
 		<div className="w-full min-w-md max-w-md">
-			<form className="bg-primary-dark shadow-md rounded px-8 pt-6 pb-8 mb-4 min-w-80">
+			<form className="bg-theme shadow-md rounded px-8 pt-6 pb-8 mb-4 min-w-80">
 				<div className="mb-4">
 					<label
-						className="block text-gray-700 text-sm font-bold mb-2"
+						className="block text-primary text-sm font-bold mb-2"
 						htmlFor="salary"
 					>
 						Enter Your Salary
 					</label>
 					<input
-						className="min-w-md max-w-md shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+						className="min-w-md max-w-md shadow appearance-none border rounded border-primary-light w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline"
 						id="salary"
 						type="text"
 						placeholder="Enter Salary"
@@ -74,7 +75,7 @@ export default function Page() {
 				</div>
 
 				<button
-					className="shadow bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full max-w-md"
+					className="shadow bg-primary-light hover:bg-primary text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full max-w-md"
 					type="button"
 					onClick={calculateFinalTax}
 				>
@@ -83,13 +84,13 @@ export default function Page() {
 				{typeof totalTax === "number" ? (
 					<>
 						<div className="mt-2 font-bold flex">
-							<p className="text-secondary-light mr-2">
+							<p className="text-primary-light mr-2">
 								Your Total Tax is (LKR):
 							</p>
 							<p className="text-red-500">{totalTax}</p>
 						</div>
 						<div className="mt-2 font-bold flex">
-							<p className="text-secondary-light mr-2">
+							<p className="text-primary-light mr-2">
 								Remaining Salary (LKR):
 							</p>
 							<p className="text-green-500">
@@ -97,7 +98,7 @@ export default function Page() {
 							</p>
 						</div>
 						{totalTax ? (
-							<div className="text-green-500">
+							<div className="text-green-500 font-bold">
 								Tax percentage for total salary :{" "}
 								{((totalTax / yourSalary) * 100).toFixed(2)} %
 							</div>

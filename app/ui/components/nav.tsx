@@ -12,8 +12,11 @@ export default function Nav() {
 				</a>
 			</li>
 			<li className="mr-6">
-				<a className="text-white hover:text-secondary" href="/taxCalculator">
-					SL Payee Tax Calculator
+				<a
+					className="text-white hover:text-secondary"
+					href="/taxCalculator"
+				>
+					Payee Tax (SL 2025)
 				</a>
 			</li>
 		</ul>

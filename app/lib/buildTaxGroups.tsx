@@ -22,7 +22,7 @@ let previousBracket: number = 0;
 let currentGroupFromValue: number;
 let totalTaxUpToPreviousGroup: number = 0;
 let taxGroups: TaxGroup[] = [];
-let lastTaxGroup: object;
+let lastTaxGroup: any;
 
 const groupsTaxPercentages: GroupsTaxPercentages[] = [
 	{
@@ -114,7 +114,7 @@ const addStaticTaxGroups = () => {
 };
 
 const getTaxForCurrentGroupUpperLimit = (
-	group: object,
+	group: any,
 	bracketSize: number
 ) => {
 	let taxForCurrentGroup = bracketSize * group.percentage;
@@ -130,7 +130,7 @@ const getUptoValue = (previousBracket: number) => {
 	return Math.round(currentGroupFromValue + BRACKET_SIZE_FOR_OTHER_GROUPS);
 };
 
-const getTaxUptoNow = (group: object, bracketSize: number) => {
+const getTaxUptoNow = (group: any, bracketSize: number) => {
 	let taxForCurrentGroup = bracketSize * group.percentage;
 	totalTaxUpToPreviousGroup = Math.round(
 		totalTaxUpToPreviousGroup + taxForCurrentGroup
