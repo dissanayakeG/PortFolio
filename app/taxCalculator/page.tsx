@@ -1,16 +1,16 @@
 "use client";
 import { useState } from "react";
-import taxGroups from "../lib/buildTaxGroups";
+import taxGroups, { TaxGroup } from "../lib/buildTaxGroups";
 
 export default function Page() {
 	const taxFreeLimit: number = 150_000;
 	const [yourSalary, setYourSalary] = useState<number>(0);
 	const [totalTax, setTotalTax] = useState<number | string>(0);
-	let taxCategory: any;
-	const [taxBuildings, setTaxBuildings] = useState<any[]>([]);
+	let taxCategory: TaxGroup;
+	const [taxBuildings, setTaxBuildings] = useState<TaxGroup[]>([]);
 
 	const findTaxCategory = (): void => {
-		taxCategory = null;
+		// taxCategory = null;
 		for (let group of taxGroups) {
 			if (yourSalary > group.from && yourSalary <= group.upTo) {
 				taxCategory = group;
@@ -77,7 +77,7 @@ export default function Page() {
 	};
 
 	const clearTax = () => {
-		taxCategory = null;
+		// taxCategory = null;
 		setTotalTax(0);
 		setYourSalary(0);
 		setTaxBuildings([]);
@@ -195,7 +195,6 @@ export default function Page() {
 					</tbody>
 				</table>
 			</div>
-			
 		</div>
 	);
 }

@@ -3,7 +3,7 @@ interface GroupsTaxPercentages {
 	bracket: number;
 }
 
-interface TaxGroup {
+export interface TaxGroup {
 	previousBracket: number;
 	from: number;
 	upTo: number;
