@@ -1,4 +1,4 @@
-import { Experience } from "../definitions/Experiences";
+import { Experience } from "@/app/definitions/Types";
 
 const experiences: Experience[] = [
 	{

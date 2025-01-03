@@ -1,4 +1,4 @@
-import { Experience } from "@/app/definitions/Experiences";
+import { Experience } from "@/app/definitions/Types";
 import ExperienceCard from "../partials/experienceCard";
 import experiences from "@/app/lib/data";
 

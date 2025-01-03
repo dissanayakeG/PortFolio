@@ -1,17 +1,4 @@
-interface GroupsTaxPercentages {
-	percentage: number;
-	bracket: number;
-}
-
-export interface TaxGroup {
-	previousBracket: number;
-	from: number;
-	upTo: number;
-	taxForThisGroupUpperLimit: number;
-	taxUptoNow: number;
-	bracket: number;
-	percentage: number;
-}
+import { TaxGroup, GroupsTaxPercentages } from "@/app/definitions/Types";
 
 const TAX_FREE_LIMIT: number = 150_000;
 const BRACKET_SIZE_FOR_FIRST_GROUP: number = 1_000_000 / 12; //1 Million
@@ -113,10 +100,7 @@ const addStaticTaxGroups = () => {
 	}
 };
 
-const getTaxForCurrentGroupUpperLimit = (
-	group: any,
-	bracketSize: number
-) => {
+const getTaxForCurrentGroupUpperLimit = (group: any, bracketSize: number) => {
 	let taxForCurrentGroup = bracketSize * group.percentage;
 	return Math.round(taxForCurrentGroup);
 };

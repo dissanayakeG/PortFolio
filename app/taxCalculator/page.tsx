@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
-import taxGroups, { TaxGroup } from "../lib/buildTaxGroups";
+import { TaxGroup } from "@/app/definitions/Types";
+import taxGroups from "../lib/buildTaxGroups";
 
 export default function Page() {
 	const taxFreeLimit: number = 150_000;
