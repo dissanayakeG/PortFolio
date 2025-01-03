@@ -7,12 +7,34 @@ export default function Page() {
 	const [yourSalary, setYourSalary] = useState<number>(0);
 	const [totalTax, setTotalTax] = useState<number | string>(0);
 	let taxCategory: any;
+	const [taxBuildings, setTaxBuildings] = useState<any[]>([]);
 
 	const findTaxCategory = (): void => {
+		taxCategory = null;
 		for (let group of taxGroups) {
 			if (yourSalary > group.from && yourSalary <= group.upTo) {
 				taxCategory = group;
+				break;
 			}
+		}
+
+		if (taxCategory) {
+			const buildings = taxGroups.slice(0, taxCategory?.bracket);
+			const taxFreeGroup = [
+				{
+					previousBracket: NaN,
+					from: 0,
+					upTo: taxFreeLimit,
+					taxForThisGroupUpperLimit: 0,
+					taxUptoNow: 0,
+					bracket: 1,
+					percentage: 0,
+				},
+			];
+
+			setTaxBuildings(taxFreeGroup.concat(buildings));
+		} else {
+			setTaxBuildings([]);
 		}
 	};
 
@@ -54,8 +76,15 @@ export default function Page() {
 		}
 	};
 
+	const clearTax = () => {
+		taxCategory = null;
+		setTotalTax(0);
+		setYourSalary(0);
+		setTaxBuildings([]);
+	};
+
 	return (
-		<div className="w-full min-w-md max-w-md">
+		<div className="w-full min-w-md max-w-xl">
 			<form className="bg-theme shadow-md rounded px-8 pt-6 pb-8 mb-4 min-w-80">
 				<div className="mb-4">
 					<label
@@ -80,6 +109,13 @@ export default function Page() {
 					onClick={calculateFinalTax}
 				>
 					Calculate
+				</button>
+				<button
+					className="mt-2 shadow bg-theme-light hover:bg-theme-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full max-w-md"
+					type="button"
+					onClick={clearTax}
+				>
+					Clear
 				</button>
 				{typeof totalTax === "number" ? (
 					<>
@@ -107,11 +143,59 @@ export default function Page() {
 						)}
 					</>
 				) : (
-					<p className="mt-2 font-normal text-primary">
-						{totalTax}
-					</p>
+					<p className="mt-2 font-normal text-primary">{totalTax}</p>
 				)}
 			</form>
+
+			<div className="bg-theme shadow-md rounded px-8 pt-6 pb-8 mb-4 min-w-80">
+				<table className="table-auto w-full text-left border-collapse">
+					<thead>
+						<tr>
+							<th className="px-4 py-2 border-b">From</th>
+							<th className="px-4 py-2 border-b">Up To</th>
+							<th className="px-4 py-2 border-b">Percentage</th>
+							<th className="px-4 py-2 border-b">
+								Tax For Group
+							</th>
+							<th className="px-4 py-2 border-b">Tax Upto Now</th>
+						</tr>
+					</thead>
+					<tbody>
+						{taxBuildings.length > 0 ? (
+							taxBuildings.map((tax: any, index: number) => (
+								<tr key={index}>
+									<td className="px-4 py-2 border-b">
+										{tax.from}
+									</td>
+									<td className="px-4 py-2 border-b">
+										{tax.upTo}
+									</td>
+
+									<td className="px-4 py-2 border-b">
+										{(tax.percentage * 100).toFixed(2)}%
+									</td>
+									<td className="px-4 py-2 border-b">
+										{tax.taxForThisGroupUpperLimit}
+									</td>
+									<td className="px-4 py-2 border-b">
+										{tax.taxUptoNow}
+									</td>
+								</tr>
+							))
+						) : (
+							<tr>
+								<td
+									colSpan={5}
+									className="px-4 py-2 border-b text-center"
+								>
+									No tax brackets available
+								</td>
+							</tr>
+						)}
+					</tbody>
+				</table>
+			</div>
+			
 		</div>
 	);
 }
