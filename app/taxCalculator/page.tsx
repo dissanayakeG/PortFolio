@@ -5,13 +5,12 @@ import taxGroups from "../lib/buildTaxGroups";
 
 export default function Page() {
 	const taxFreeLimit: number = 150_000;
-	const [yourSalary, setYourSalary] = useState<number>(0);
+	const [yourSalary, setYourSalary] = useState<any>("");
 	const [totalTax, setTotalTax] = useState<number | string>(0);
 	let taxCategory: TaxGroup;
 	const [taxBuildings, setTaxBuildings] = useState<TaxGroup[]>([]);
 
 	const findTaxCategory = (): void => {
-		// taxCategory = null;
 		for (let group of taxGroups) {
 			if (yourSalary > group.from && yourSalary <= group.upTo) {
 				taxCategory = group;
@@ -54,9 +53,13 @@ export default function Page() {
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setTotalTax(0);
-		const value = e.target.value.replace(/\D/g, "");
-		const parsedValue = value ? parseInt(value) : 0;
-		setYourSalary(parsedValue);
+		let value = e.target.value;
+		// const regex = /^[+-]?\d*\.?\d*$/;
+		const regex = /^(\d+(\.\d*)?)?$/;
+
+		if (regex.test(value)) {
+			setYourSalary(value);
+		}
 	};
 
 	const calculateFinalTax = () => {
@@ -78,9 +81,8 @@ export default function Page() {
 	};
 
 	const clearTax = () => {
-		// taxCategory = null;
 		setTotalTax(0);
-		setYourSalary(0);
+		setYourSalary("");
 		setTaxBuildings([]);
 	};
 
