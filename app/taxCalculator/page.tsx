@@ -150,7 +150,7 @@ export default function Page() {
 				)}
 			</form>
 
-			<div className="bg-theme shadow-md rounded px-8 pt-6 pb-8 mb-4 min-w-80">
+			<div className="bg-theme shadow-md rounded px-8 pt-6 pb-8 mb-4 min-w-80 overflow-x-auto">
 				<table className="table-auto w-full text-left border-collapse">
 					<thead>
 						<tr>
