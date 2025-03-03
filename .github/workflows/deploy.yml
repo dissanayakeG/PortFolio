@@ -1,6 +1,10 @@
 name: Deploy
 
-on: [push]
+# on: [push] # Trigger the workflow on push or pull request events
+on:
+  push:
+    branches:
+      - main  # Only trigger when there's a push to the 'main' branch
 
 jobs:
   build:
