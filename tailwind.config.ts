@@ -14,9 +14,9 @@ const config: Config = {
       colors: {
         // primary: '#1DA1F2', //bg-primary
         theme: {
-          DEFAULT: '#dce0e2', // bg-primary
-          light: '#727c83',   // bg-primary-light
-          dark: '#304653',    // bg-primary-dark
+          DEFAULT: '#dce0e2', // bg-theme
+          light: '#727c83',   // bg-theme-light
+          dark: '#304653',    // bg-theme-dark
         },
         primary: {
           DEFAULT: '#047df6', // bg-primary
