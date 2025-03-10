@@ -2,6 +2,8 @@ import "@/app/ui/global.css";
 import { inter, montserrat } from "@/app/ui/fonts";
 import Nav from "./ui/components/nav";
 import Footer from "./ui/components/footer";
+import Head from 'next/head';
+
 
 export default function RootLayout({
 	children,
@@ -10,6 +12,9 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en">
+			<Head>
+				<link rel="icon" href="/favicon.png"  />
+			</Head>
 			<body
 				className={`${montserrat.className} antialiased bg-theme-dark p-4`}
 			>
