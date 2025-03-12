@@ -13,7 +13,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<Head>
-				<link rel="icon" href="/favicon.png"  />
+				<link rel="icon" href="/favicon.png" sizes="32*32" />
 			</Head>
 			<body
 				className={`${montserrat.className} antialiased bg-theme-dark p-4`}
