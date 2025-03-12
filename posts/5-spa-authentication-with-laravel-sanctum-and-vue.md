@@ -6,7 +6,6 @@ date: "2024-11-08"
 
 # SPA authentication with laravel Sanctum and VueJs
 
-<br>
 Create a new laravel project by running
 
 ```

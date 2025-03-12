@@ -2,6 +2,12 @@
 import { useState } from "react";
 import { TaxGroup } from "@/app/definitions/Types";
 import taxGroups from "../lib/buildTaxGroups";
+import { Metadata } from "next";
+
+// export const metadata: Metadata = {
+// 	title: "SL Payee Tax Calculator",
+// 	description: "Calculate your Sri Lanka PAYEE taxes effortlessly with Madusanka's SL Payee Tax Calculator. Accurate, easy-to-use tool for employees and businesses in Sri Lanka.",
+// };
 
 export default function Page() {
 	const taxFreeLimit: number = 150_000;

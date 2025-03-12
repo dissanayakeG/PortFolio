@@ -1,5 +1,12 @@
 import Link from "next/link";
 import getPostMetaData from "../lib/getPostMetaData";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+	title: "Developer Blog",
+	description: "Dive into developer blog, featuring insights, tutorials, and articles on various technologies, web development trends, and best practices.",
+};
+
 
 export default function Page() {
 	const postMetaData = getPostMetaData();
