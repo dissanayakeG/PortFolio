@@ -19,19 +19,24 @@ export const generateStaticParams = async () => {
 	}));
 };
 
-export async function generateMetadata(props: any) : Promise<Metadata | undefined> {
+export async function generateMetadata(
+	props: any
+): Promise<Metadata | undefined> {
 	const { slug } = await props.params;
 	const post = getPostMetaData().find((post) => post.slug === slug);
+	const url = process.env.SITE_URL || "https://www.madusankadissanayake.com";
+
 	if (!post) return;
+
 	return {
 		title: post.title,
-		description: post?.title + " | "+ post?.subtitle,
-		openGraph:{
+		description: post?.title + " | " + post?.subtitle,
+		openGraph: {
 			title: post.title,
-			description: post?.title + " | "+ post?.subtitle,
+			description: post?.title + " | " + post?.subtitle,
 			type: "article",
 			locale: "en_US",
-			url: process.env.SITE_URL + "/blog/"+post.slug,
+			url: url + "/blog/" + post.slug,
 			siteName: "Madusanka's Portfolio",
 			images: [
 				// {
@@ -39,12 +44,11 @@ export async function generateMetadata(props: any) : Promise<Metadata | undefine
 				// 	url: "https://www.madusankadissanayake.com/images/"+post.slug+".png",
 				// 	width: 800,
 				// 	height: 600,
-				// 	alt: post.title	
+				// 	alt: post.title
 				// }
-			],	
-		}
+			],
+		},
 	};
-
 }
 
 const PostPage = async (props: any) => {
