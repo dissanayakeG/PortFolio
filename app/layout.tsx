@@ -3,7 +3,25 @@ import { inter, montserrat } from "@/app/ui/fonts";
 import Nav from "./ui/components/nav";
 import Footer from "./ui/components/footer";
 import Head from 'next/head';
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+	metadataBase:new URL(`${process.env.SITE_URL}`),
+	// title: "PortFolio | DEV Blog | SL Payee TAX Calculator",
+	title:{
+		default: "PortFolio | DEV Blog | SL Payee TAX Calculator",
+		template: "%s | Madusanka Dissanayake"
+	},
+	description: "Explore my portfolio, insightful DEV blog, and an SL Payee tax calculator—all in one place.",
+	openGraph: {
+		title: "PortFolio | DEV Blog | SL Payee TAX Calculator",
+		description:"Explore my portfolio, insightful DEV blog, and an SL Payee tax calculator—all in one place.",
+		type: "website",
+		locale: "en_US",
+		url: process.env.SITE_URL,
+		siteName: "Madusanka's Portfolio",
+	}			
+};
 
 export default function RootLayout({
 	children,

@@ -4,7 +4,7 @@ subtitle: "First step into PHPUnit testing"
 date: "2024-11-08"
 ---
 
-## First step into PHPUnit testing
+# First step into PHPUnit testing
 
 -   Create an empty directory
 -   Open the created directory in a text editor or in an IDE
