@@ -6,7 +6,8 @@ import Head from 'next/head';
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-	metadataBase:new URL(`${process.env.SITE_URL}`),
+	metadataBase: process.env.SITE_URL ? new URL(process.env.SITE_URL) : new URL('http://localhost:3000'),
+
 	// title: "PortFolio | DEV Blog | SL Payee TAX Calculator",
 	title:{
 		default: "PortFolio | DEV Blog | SL Payee TAX Calculator",
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
 		description:"Explore my portfolio, insightful DEV blog, and an SL Payee tax calculator—all in one place.",
 		type: "website",
 		locale: "en_US",
-		url: process.env.SITE_URL,
+		url: process.env.SITE_URL ? process.env.SITE_URL : 'http://localhost:3000',
 		siteName: "Madusanka's Portfolio",
 	}			
 };
