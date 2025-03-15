@@ -1,12 +1,14 @@
 import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
+    const siteUrl = process.env.SITE_URL || "https://madusankadissanayake.com";
+
     return {
         rules: {
             userAgent: "*",
             allow: "/",
             disallow: ["/test"],
         },
-        sitemap: `${process.env.SITE_URL}/sitemap.xml`
+        sitemap: `${siteUrl}/sitemap.xml`
     };
 }   
