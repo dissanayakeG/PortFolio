@@ -2,6 +2,7 @@
 title: "Laravel blades"
 subtitle: "Blade component as front-end"
 date: "2024-11-08"
+tags: "#Laravel, #PHP"
 ---
 
 # Laravel blades

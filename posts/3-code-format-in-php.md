@@ -2,6 +2,7 @@
 title: "Code format fixer for Laravel/PHP"
 subtitle: "How to add code format fixer in your Laravel/PHP project"
 date: "2024-11-08"
+tags: "#PHP"
 ---
 
 # Code format fixer for Laravel/PHP

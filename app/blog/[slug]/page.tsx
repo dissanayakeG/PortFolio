@@ -1,6 +1,6 @@
 import fs from "fs";
 import Markdown from "markdown-to-jsx";
-import getPostMetaData from "@/app/lib/getPostMetaData";
+import { getPostMetaData } from "@/app/lib/getPostMetaData";
 import markdownOptions from "../../lib/markdownOptions";
 import { Metadata } from "next";
 
