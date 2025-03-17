@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { getPostMetaData } from "@/app/lib/getPostMetaData";
+import { getPostMetaDataTags } from "@/app/lib/getPostMetaData";
 
 export async function GET() {
-    const posts = getPostMetaData();
+    const posts = getPostMetaDataTags();
     return NextResponse.json(posts);
 }

@@ -1,9 +1,46 @@
-import { getPostMetaData } from "@/app/lib/getPostMetaData";
+"use client";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import PostTags from "./PostTags";
+import { PostMetadata } from "@/app/definitions/Types";
 
 export default function Posts() {
-	const postMetaData = getPostMetaData();
+	const [postMetaData, setPostMetaData] = useState<PostMetadata[]>([]);
+	const [postMetaDataTags, setPostMetaDataTags] = useState([]);
+	const selectedItems = {
+		"#PHP": true,
+		"#Python": true,
+		"#JavaScript": true,
+	};
+
+	useEffect(() => {
+		fetch("/api/posts")
+			.then((res) => res.json())
+			.then((data) => setPostMetaData(data));
+	}, []);
+
+	useEffect(() => {
+		fetch("/api/posts/tags")
+			.then((res) => res.json())
+			.then((data) => setPostMetaDataTags(data));
+	}, []);
+
+	function handleDataFromChild(event: any) {
+		console.log("selecting...", event.target.name, event.target.checked);
+		const encodedTag = encodeURIComponent(event.target.name);
+		try {
+			fetch(`/api/posts/filterByTags?tag=${encodedTag}`)
+				.then((res) => res.json())
+				// .then((data)=>console.log('filtered posts:', data));
+				.then((data) => setPostMetaData(data));
+		} catch (error) {
+			console.error("Error fetching posts:", error);
+		}
+	}
+
+	if (postMetaData.length == 0) {
+		return <div>Loading...</div>;
+	}
 
 	const postPreview = postMetaData.map((post, index) => (
 		<div
@@ -23,7 +60,11 @@ export default function Posts() {
 	));
 	return (
 		<div>
-			<PostTags />
+			<PostTags
+				postMetaDataTags={postMetaDataTags}
+				checkedItems={selectedItems}
+				selectTags={handleDataFromChild}
+			/>
 			{postPreview}
 		</div>
 	);

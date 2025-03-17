@@ -38,6 +38,8 @@ const getPostMetaDataTags = (): string[] => {
 const getPostMetaDataByTags = (searchTags: Array<string>): PostMetadata[] => {
 	const posts: PostMetadata[] = [];
 
+	console.log("from lib:", searchTags);
+
 	markDownPosts.forEach((fileName) => {
 		const fileContents = fs.readFileSync(`posts/${fileName}`, "utf8");
 		const matterResult = matter(fileContents);
