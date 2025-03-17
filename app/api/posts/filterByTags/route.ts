@@ -2,13 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { getPostMetaDataByTags } from "@/app/lib/getPostMetaData";
 import { PostMetadata } from "@/app/definitions/Types";
 
-
-
 export async function GET(req: NextRequest): Promise<NextResponse> {
     const { searchParams } = new URL(req.url);
-    const tag: string | null = searchParams.get("tag");
-
-    console.log('from route:', tag);
+    const tag: string | null = searchParams.get("tags");
 
     if (!tag) {
         return NextResponse.json({ error: "Tag is required" }, { status: 400 });

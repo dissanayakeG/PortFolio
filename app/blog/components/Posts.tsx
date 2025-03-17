@@ -6,39 +6,63 @@ import { PostMetadata } from "@/app/definitions/Types";
 
 export default function Posts() {
 	const [postMetaData, setPostMetaData] = useState<PostMetadata[]>([]);
-	const [postMetaDataTags, setPostMetaDataTags] = useState([]);
-	const selectedItems = {
-		"#PHP": true,
-		"#Python": true,
-		"#JavaScript": true,
-	};
+	const [postMetaDataTags, setPostMetaDataTags] = useState<string[]>([]);
+	const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
 	useEffect(() => {
+		getAllPosts();
+	}, []);
+
+	useEffect(() => {
+		getAllTags();
+	}, []);
+
+	const getAllPosts = () => {
 		fetch("/api/posts")
 			.then((res) => res.json())
 			.then((data) => setPostMetaData(data));
-	}, []);
+	};
 
-	useEffect(() => {
+	const getAllTags = () => {
 		fetch("/api/posts/tags")
 			.then((res) => res.json())
 			.then((data) => setPostMetaDataTags(data));
-	}, []);
+	};
 
 	function handleDataFromChild(event: any) {
-		console.log("selecting...", event.target.name, event.target.checked);
-		const encodedTag = encodeURIComponent(event.target.name);
-		try {
-			fetch(`/api/posts/filterByTags?tag=${encodedTag}`)
-				.then((res) => res.json())
-				// .then((data)=>console.log('filtered posts:', data));
-				.then((data) => setPostMetaData(data));
-		} catch (error) {
-			console.error("Error fetching posts:", error);
+		let updatedTags: string[] = selectedTags;
+		const selectedTagIndex = selectedTags.indexOf(event.target.name);
+
+		if (event.target.checked) {
+			updatedTags.push(event.target.name.trim());
+		} else {
+			if (selectedTagIndex > -1) {
+				updatedTags.splice(selectedTagIndex, 1);
+			}
+		}
+
+		if (updatedTags.length == 0) {
+			getAllPosts();
+		} else {
+			const uniqueTags = [...new Set(updatedTags)];
+			setSelectedTags(uniqueTags);
+
+			const encodedTags = uniqueTags
+				.map((tag) => encodeURIComponent(tag))
+				.join(",");
+
+			try {
+				fetch(`/api/posts/filterByTags?tags=${encodedTags}`)
+					.then((res) => res.json())
+					// .then((data)=>console.log('filtered posts:', data));
+					.then((data) => setPostMetaData(data));
+			} catch (error) {
+				console.error("Error fetching posts:", error);
+			}
 		}
 	}
 
-	if (postMetaData.length == 0) {
+	if (postMetaData.length === 0) {
 		return <div>Loading...</div>;
 	}
 
@@ -62,7 +86,7 @@ export default function Posts() {
 		<div>
 			<PostTags
 				postMetaDataTags={postMetaDataTags}
-				checkedItems={selectedItems}
+				checkedItems={selectedTags}
 				selectTags={handleDataFromChild}
 			/>
 			{postPreview}

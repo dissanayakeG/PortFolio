@@ -29,7 +29,9 @@ const getPostMetaDataTags = (): string[] => {
 	markDownPosts.forEach((fileName) => {
 		const fileContents = fs.readFileSync(`posts/${fileName}`, "utf8");
 		const matterResult = matter(fileContents);
-		tags.push(matterResult.data.tags?.split(","));
+		matterResult.data.tags?.split(",").forEach((tag: string) => {
+			tags.push(tag.trim());
+		});
 	});
 	// Remove duplicates and empty tags
 	return [...new Set(tags.flat())].filter(Boolean);
@@ -37,8 +39,6 @@ const getPostMetaDataTags = (): string[] => {
 
 const getPostMetaDataByTags = (searchTags: Array<string>): PostMetadata[] => {
 	const posts: PostMetadata[] = [];
-
-	console.log("from lib:", searchTags);
 
 	markDownPosts.forEach((fileName) => {
 		const fileContents = fs.readFileSync(`posts/${fileName}`, "utf8");
@@ -49,6 +49,8 @@ const getPostMetaDataByTags = (searchTags: Array<string>): PostMetadata[] => {
 				?.split(",")
 				.map((tag: string) => tag.trim())
 				.filter(Boolean) || [];
+
+		searchTags = searchTags[0].split(",");
 
 		// Check if any of the search tags match the post tags
 		const hasMatchingTag = postTags.some((postTag: string) =>
