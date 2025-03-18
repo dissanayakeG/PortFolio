@@ -4,12 +4,13 @@ import { PostMetadata } from "@/app/definitions/Types";
 
 export async function GET(req: NextRequest): Promise<NextResponse> {
     const { searchParams } = new URL(req.url);
-    const tag: string | null = searchParams.get("tags");
+    const tagsParam: string | null = searchParams.get("tags");
 
-    if (!tag) {
-        return NextResponse.json({ error: "Tag is required" }, { status: 400 });
+    if (!tagsParam) {
+        return NextResponse.json({ error: "Tags are required" }, { status: 400 });
     }
 
-    const posts: PostMetadata[] = getPostMetaDataByTags([tag.trim()]);
+    const tagsArray = tagsParam.split(",").map(tag => tag.trim());
+    const posts: PostMetadata[] = await getPostMetaDataByTags(tagsArray);
     return NextResponse.json(posts);
 }

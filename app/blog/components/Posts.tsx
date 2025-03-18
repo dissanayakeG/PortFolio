@@ -3,24 +3,28 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import PostTags from "./PostTags";
 import { PostMetadata } from "@/app/definitions/Types";
+import Loading from "./loading";
 
 export default function Posts() {
 	const [postMetaData, setPostMetaData] = useState<PostMetadata[]>([]);
 	const [postMetaDataTags, setPostMetaDataTags] = useState<string[]>([]);
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
+	const [loading, setLoading] = useState<boolean>(true); // Add loading state
 
 	useEffect(() => {
 		getAllPosts();
-	}, []);
-
-	useEffect(() => {
 		getAllTags();
 	}, []);
 
 	const getAllPosts = () => {
+		setLoading(true); // Start loading
 		fetch("/api/posts")
 			.then((res) => res.json())
-			.then((data) => setPostMetaData(data));
+			.then((data) => {
+				setPostMetaData(data);
+				setLoading(false); // Stop loading after data is fetched
+			})
+			.catch(() => setLoading(false));
 	};
 
 	const getAllTags = () => {
@@ -29,41 +33,42 @@ export default function Posts() {
 			.then((data) => setPostMetaDataTags(data));
 	};
 
-	function handleDataFromChild(event: any) {
-		let updatedTags: string[] = selectedTags;
-		const selectedTagIndex = selectedTags.indexOf(event.target.name);
+	function handleDataFromChild(event: React.ChangeEvent<HTMLInputElement>) {
+		setSelectedTags((prevSelectedTags) => {
+			let updatedTags = [...prevSelectedTags];
+			const tagIndex = updatedTags.indexOf(event.target.name);
 
-		if (event.target.checked) {
-			updatedTags.push(event.target.name.trim());
-		} else {
-			if (selectedTagIndex > -1) {
-				updatedTags.splice(selectedTagIndex, 1);
+			if (event.target.checked) {
+				updatedTags.push(event.target.name.trim());
+			} else {
+				if (tagIndex > -1) {
+					updatedTags.splice(tagIndex, 1);
+				}
 			}
-		}
 
-		if (updatedTags.length == 0) {
-			getAllPosts();
-		} else {
 			const uniqueTags = [...new Set(updatedTags)];
-			setSelectedTags(uniqueTags);
 
-			const encodedTags = uniqueTags
-				.map((tag) => encodeURIComponent(tag))
-				.join(",");
-
-			try {
+			if (uniqueTags.length === 0) {
+				getAllPosts();
+			} else {
+				const encodedTags = uniqueTags
+					.map(encodeURIComponent)
+					.join(",");
 				fetch(`/api/posts/filterByTags?tags=${encodedTags}`)
 					.then((res) => res.json())
-					// .then((data)=>console.log('filtered posts:', data));
-					.then((data) => setPostMetaData(data));
-			} catch (error) {
-				console.error("Error fetching posts:", error);
+					.then((data) => setPostMetaData(data))
+					.catch((error) =>
+						console.error("Error fetching posts:", error)
+					);
 			}
-		}
+
+			return uniqueTags; // Ensure state updates correctly
+		});
 	}
 
-	if (postMetaData.length === 0) {
-		return <div>Loading...</div>;
+	// Show the Loading component while fetching data
+	if (loading) {
+		return <Loading />;
 	}
 
 	const postPreview = postMetaData.map((post, index) => (

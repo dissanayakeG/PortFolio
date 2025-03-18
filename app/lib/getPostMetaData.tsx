@@ -37,7 +37,7 @@ const getPostMetaDataTags = (): string[] => {
 	return [...new Set(tags.flat())].filter(Boolean);
 };
 
-const getPostMetaDataByTags = (searchTags: Array<string>): PostMetadata[] => {
+const getPostMetaDataByTags = async (searchTags: string[]): Promise<PostMetadata[]> => {
 	const posts: PostMetadata[] = [];
 
 	markDownPosts.forEach((fileName) => {
@@ -50,8 +50,6 @@ const getPostMetaDataByTags = (searchTags: Array<string>): PostMetadata[] => {
 				.map((tag: string) => tag.trim())
 				.filter(Boolean) || [];
 
-		searchTags = searchTags[0].split(",");
-
 		// Check if any of the search tags match the post tags
 		const hasMatchingTag = postTags.some((postTag: string) =>
 			searchTags.includes(postTag)
@@ -63,7 +61,7 @@ const getPostMetaDataByTags = (searchTags: Array<string>): PostMetadata[] => {
 				subtitle: matterResult.data.subtitle,
 				date: matterResult.data.date,
 				slug: fileName.replace(".md", ""),
-				tags: matterResult.data.tags?.split(","),
+				tags: postTags,
 			});
 		}
 	});
