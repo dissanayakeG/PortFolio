@@ -4,19 +4,14 @@ import path from "path";
 import matter from "gray-matter";
 import { PostMetadata } from "@/app/definitions/Types";
 
-// const folder = "posts";
-// const files = fs.readdirSync(folder);
-// const markDownPosts = files.filter((file) => file.endsWith(".md"));
-
 let markDownPosts: string[];
 
 const folder = path.join(process.cwd(), "posts"); // Ensure correct absolute path
 if (fs.existsSync(folder)) {
-    const files = fs.readdirSync(folder);
-    markDownPosts = files.filter((file) => file.endsWith(".md"));
-    console.log(markDownPosts); // Debugging
+	const files = fs.readdirSync(folder);
+	markDownPosts = files.filter((file) => file.endsWith(".md"));
 } else {
-    console.error("Posts directory does not exist in production.");
+	console.error("Posts directory does not exist in production.");
 }
 
 const getPostMetaData = (): PostMetadata[] => {
