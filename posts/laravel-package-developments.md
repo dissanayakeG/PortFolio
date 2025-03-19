@@ -2,7 +2,7 @@
 title: "Laravel Package Developments"
 subtitle: "Laravel Package Developments"
 date: "2024-12-14"
-tags: "#Laravel, #PHP, #PackageDevelopment"
+tags: "#Laravel, #PHP, #LaravelPackageDevelopment"
 ---
 
 # Laravel Package Developments

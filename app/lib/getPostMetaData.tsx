@@ -20,10 +20,36 @@ const getPostMetaData = (): PostMetadata[] => {
 			tags: matterResult.data.tags?.split(","),
 		};
 	});
-	return posts;
+	return formatPosts(posts);
 };
 
 const getPostMetaDataTags = (): string[] => {
+	return getStaticTags();
+	// return getPostTags();
+};
+
+const getStaticTags = (): string[] => {
+	const tags: string[] = [
+		"#php",
+		"#js",
+		"#laravel",
+		"#vuejs",
+		"#reactjs",
+		"#tdd",
+		"#nextjs",
+		"#nuxtjs",
+		"#spa",
+		"#authentication",
+		"#LaravelPackageDevelopment",
+	];
+	let upperCaseTags: string[] = [];
+
+	tags.forEach((tag: string) => upperCaseTags.push(tag.trim().toUpperCase()));
+
+	return upperCaseTags;
+};
+
+const getPostTags = (): string[] => {
 	let tags: string[] = [];
 
 	markDownPosts.forEach((fileName) => {
@@ -44,10 +70,14 @@ const getPostMetaDataByTags = async (searchTags: string[]): Promise<PostMetadata
 		const fileContents = fs.readFileSync(`posts/${fileName}`, "utf8");
 		const matterResult = matter(fileContents);
 
-		const postTags =
-			matterResult.data.tags
-				?.split(",")
-				.map((tag: string) => tag.trim())
+		//Change search tags to upperCase
+		searchTags = searchTags.map((tag: string) => {
+			return tag.trim().toUpperCase();
+		});
+
+		//Change post tags to upperCase
+		const postTags = matterResult.data.tags?.split(",")
+				.map((tag: string) => tag.trim().toUpperCase())
 				.filter(Boolean) || [];
 
 		// Check if any of the search tags match the post tags
@@ -66,7 +96,20 @@ const getPostMetaDataByTags = async (searchTags: string[]): Promise<PostMetadata
 		}
 	});
 
-	return posts;
+	return formatPosts(posts);
+};
+
+const formatPosts = (posts: PostMetadata[]) => {
+	let compare = (a: PostMetadata, b: PostMetadata) => {
+		if (a.date > b.date) {
+			return -1;
+		}
+		if (a.date > b.date) {
+			return 1;
+		}
+		return 0;
+	};
+	return posts.sort(compare);
 };
 
 export { getPostMetaData, getPostMetaDataTags, getPostMetaDataByTags };
