@@ -6,11 +6,11 @@ export default function TaxTable({ taxBrackets }: { taxBrackets: TaxGroup[] }) {
 			<table className="table-auto w-full text-left border-collapse">
 				<thead>
 					<tr>
-						<th className="px-4 py-2 border-b">From</th>
-						<th className="px-4 py-2 border-b">Up To</th>
-						<th className="px-4 py-2 border-b">Percentage</th>
-						<th className="px-4 py-2 border-b">Tax For Group</th>
-						<th className="px-4 py-2 border-b">Tax Upto Now</th>
+						<th className="px-4 py-2 border-b font-normal text-primary">From</th>
+						<th className="px-4 py-2 border-b font-normal text-primary">Up To</th>
+						<th className="px-4 py-2 border-b font-normal text-primary">%</th>
+						<th className="px-4 py-2 border-b font-normal text-primary">Tax (Group)</th>
+						<th className="px-4 py-2 border-b font-normal text-primary">Tax (Total)</th>
 					</tr>
 				</thead>
 				<tbody>
