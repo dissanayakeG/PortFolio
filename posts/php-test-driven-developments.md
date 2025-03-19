@@ -2,6 +2,7 @@
 title: "PHPUnit testing"
 subtitle: "First step into PHPUnit testing"
 date: "2024-11-08"
+tags: "#PHPUnit, #PHP, #TDD"
 ---
 
 # First step into PHPUnit testing

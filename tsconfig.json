@@ -30,6 +30,6 @@
     ".next/types/**/*.ts",
     "app/lib/placeholder-data.ts",
     "scripts/seed.js"
-, "app/lib/markdownOptions.tsx"  ],
+, "app/lib/markdownOptions.tsx", "app/blog/components/PostTags.tsx"  ],
   "exclude": ["node_modules"]
 }

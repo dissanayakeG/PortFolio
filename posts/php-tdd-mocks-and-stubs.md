@@ -2,6 +2,7 @@
 title: "PHP TDD (Test driven developments) -2"
 subtitle: "Mocks and Stubs"
 date: "2024-11-08"
+tags: "#PHPUnit, #PHP, #TDD, #Mocks"
 ---
 
 # Mocks and Stubs

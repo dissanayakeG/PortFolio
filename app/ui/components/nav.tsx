@@ -1,6 +1,6 @@
 export default function Nav() {
 	return (
-		<ul className="flex p-2 bg-theme-dark w-full rounded-sm mb-4 sticky top-2">
+		<ul className="flex p-2 bg-theme-dark w-full rounded-sm mb-4 sticky top-2 border border-theme-light">
 			<li className="mr-6">
 				<a className="text-white hover:text-secondary" href="/">
 					Home

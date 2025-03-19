@@ -2,6 +2,7 @@
 title: "Authentication with laravel Sanctum and VueJs"
 subtitle: "SPA authentication with laravel Sanctum and VueJs"
 date: "2024-11-08"
+tags: "#Laravel, #VueJs, #SPA, #Authentication"
 ---
 
 # SPA authentication with laravel Sanctum and VueJs
