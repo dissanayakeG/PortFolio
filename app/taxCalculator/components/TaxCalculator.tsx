@@ -81,20 +81,20 @@ export default function TaxCalculator() {
 	};
 
 	return (
-		<div className="w-full min-w-md max-w-xl">
-			<form className="bg-theme shadow-md rounded px-8 pt-6 pb-8 mb-4 min-w-80">
-				<div className="mb-4">
+		<div className="w-full min-w-md">
+			<form className="flex flex-col items-center content-start bg-theme shadow-md rounded px-8 pt-6 pb-8 mb-4 min-w-80">
+				<div className="mb-4 w-full max-w-md">
 					<label
 						className="block text-primary text-sm font-bold mb-2"
 						htmlFor="salary"
 					>
-						Enter Your Salary
+						Enter your salary
 					</label>
 					<input
 						className="min-w-md max-w-md shadow appearance-none border rounded border-primary-light w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline"
 						id="salary"
 						type="text"
-						placeholder="Enter Salary"
+						placeholder="Enter your salary"
 						onChange={handleInputChange}
 						value={salary}
 					/>

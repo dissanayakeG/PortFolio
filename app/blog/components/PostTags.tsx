@@ -19,7 +19,7 @@ export default function PostTags({
 			{checkedItems.map((tag) => (
 				<div
 					key={tag}
-					className="p-1 m-1 border rounded-md bg-theme text-primary-light"
+					className="p-1 m-1 rounded-md bg-theme text-primary-light"
 				>
 					{tag}
 				</div>
@@ -28,19 +28,15 @@ export default function PostTags({
 	);
 
 	const postTags = (
-		<div className="flex flex-row flex-wrap">
+		<div className="flex flex-wrap">
 			{postMetaDataTags.map((tag, index) => (
 				<label
 					key={tag}
-					className={clsx(
-						"flex items-center gap-2 mb-2 p-2 m-2 rounded-md hover:border",
-						{
-							"bg-theme-light text-secondary-light hover:bg-theme hover:text-primary":
-								!checkedItems.includes(tag),
-							"bg-theme text-primary":
-								checkedItems.includes(tag),
-						}
-					)}
+					className={clsx("flex items-center p-1 m-1 rounded-md", {
+						"bg-theme-light text-secondary-light hover:bg-theme hover:text-primary":
+							!checkedItems.includes(tag),
+						"bg-theme text-primary": checkedItems.includes(tag),
+					})}
 				>
 					<input
 						type="checkbox"
@@ -56,8 +52,9 @@ export default function PostTags({
 	);
 
 	return (
-		<div>
+		<div className="space-y-2">
 			<div>{selectedTags}</div>
+			<hr />
 			<div>{postTags}</div>
 		</div>
 	);

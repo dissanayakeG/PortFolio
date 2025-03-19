@@ -10,8 +10,8 @@ export default function TaxResults({
 	}
 
 	return (
-		<>
-			<div className="mt-2 font-bold flex">
+		<div className="mt-6 space-y-2">
+			<div className="font-bold flex">
 				<p className="text-primary-light mr-2">
 					Your Total Tax is (LKR):
 				</p>
@@ -29,6 +29,6 @@ export default function TaxResults({
 					{((totalTax / salary) * 100).toFixed(2)}%
 				</div>
 			)}
-		</>
+		</div>
 	);
 }
