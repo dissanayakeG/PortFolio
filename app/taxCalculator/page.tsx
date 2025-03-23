@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function Page() {
 	return (
 		<div className="flex flex-col items-center">
-			<TaxCalculator />;
+			<TaxCalculator />
 		</div>
 	);
 }

@@ -28,7 +28,6 @@ function NavLink({ href, children }: NavLinkProps) {
 }
 
 export default function Nav() {
-	const pathname = usePathname();
 	return (
 		<ul className="flex p-2 bg-theme-dark w-full rounded-sm mb-4 sticky top-2 border-2 border-theme">
 			<li className="mr-6">
