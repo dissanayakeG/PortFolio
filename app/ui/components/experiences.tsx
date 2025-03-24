@@ -1,6 +1,6 @@
 import { Experience } from "@/app/definitions/Types";
 import ExperienceCard from "../partials/experienceCard";
-import experiences from "@/app/lib/data";
+import experiences from "@/app/lib/portFolioData";
 
 //define data outside as this is static data, this helps to reduce memory usage and reusability across this file
 

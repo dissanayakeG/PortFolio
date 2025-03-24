@@ -10,16 +10,16 @@ export const metadata: Metadata = {
 		? new URL(process.env.SITE_URL)
 		: new URL("https://www.madusankadissanayake.com"),
 
-	// title: "PortFolio | DEV Blog | SL Payee TAX Calculator",
+	// title: "PortFolio | DEV Blog | SL PAYE TAX Calculator",
 	title: {
-		default: "PortFolio | DEV Blog | SL Payee TAX Calculator",
+		default: "PortFolio | DEV Blog | SL PAYE TAX Calculator",
 		template: "%s | Madusanka Dissanayake",
 	},
 	description:
-		"Explore my portfolio, insightful DEV blog, and an SL Payee tax calculator—all in one place.",
+		"Explore my portfolio, insightful DEV blog, and an SL PAYE tax calculator—all in one place.",
 	openGraph: {
-		title: "PortFolio | DEV Blog | SL Payee TAX Calculator",
-		description: "Explore my portfolio, insightful DEV blog, and an SL Payee tax calculator—all in one place.",
+		title: "PortFolio | DEV Blog | SL PAYE TAX Calculator",
+		description: "Explore my portfolio, insightful DEV blog, and an SL PAYE tax calculator—all in one place.",
 		type: "website",
 		locale: "en_US",
 		url: process.env.SITE_URL || "https://www.madusankadissanayake.com",

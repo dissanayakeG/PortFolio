@@ -11,7 +11,7 @@ export default function AboutMe() {
 	];
 
 	const heading: string = "Madusanka Dissanayake";
-	const subHeading: string = "I'm a Professional PHP/JavaScript Developer";
+	const subHeading: string = "I'm a Professional PHP/TypeScript Developer";
 	const aboutMe: string = `
 					Software engineer with more than 5 years of experience in the full
 					software development cycle. Highly adapted to leading
@@ -26,7 +26,7 @@ export default function AboutMe() {
 					{heading}
 				</h1>
 				<p className="text-secondary-light italic">{subHeading}</p>
-				<p className="text-white italic">{aboutMe}</p>
+				<p className="text-white italic text-justify">{aboutMe}</p>
 			</div>
 
 			<div className="flex flex-col sm:flex-row justify-between p-2">
