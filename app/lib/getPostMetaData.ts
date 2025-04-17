@@ -49,6 +49,7 @@ const getStaticTags = (): string[] => {
 		"#spa",
 		"#authentication",
 		"#LaravelPackageDevelopment",
+		"#Linux"
 	];
 	let upperCaseTags: string[] = [];
 

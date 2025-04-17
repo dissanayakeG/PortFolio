@@ -50,6 +50,44 @@ const markdownOptions: MarkdownOptions = {
 			component: "ul" as React.ElementType,
 			props: { className: "list-disc list-inside" },
 		},
+		table: {
+			component: "table" as React.ElementType,
+			props: {
+				className:
+					"min-w-full my-4 border-collapse bg-theme-light rounded-lg overflow-hidden",
+			},
+		},
+		thead: {
+			component: "thead" as React.ElementType,
+			props: {
+				className: "bg-theme text-primary border-b border-gray-700",
+			},
+		},
+		th: {
+			component: "th" as React.ElementType,
+			props: {
+				className: "px-6 py-2 text-left text-sm font-semibold",
+			},
+		},
+		tbody: {
+			component: "tbody" as React.ElementType,
+			props: {
+				className: "divide-y divide-gray-700",
+			},
+		},
+		tr: {
+			component: "tr" as React.ElementType,
+			props: {
+				className: "",
+			},
+		},
+		td: {
+			component: "td" as React.ElementType,
+			props: {
+				className:
+					"px-6 py-2 text-sm text-secondary-light whitespace-normal",
+			},
+		},
 		code: {
 			component: ({ children, className }: CodeOptions) => {
 				const language =
