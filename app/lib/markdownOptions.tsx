@@ -10,6 +10,7 @@ import "prismjs/components/prism-cshtml";
 import "prismjs/components/prism-python";
 import "prismjs/components/prism-javascript";
 import "prismjs/components/prism-css";
+import "prismjs/components/prism-bash";
 
 type MarkdownOptions = {
 	overrides: {

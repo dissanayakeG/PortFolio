@@ -99,7 +99,11 @@ sed -E -n '/21:19:[0-5][0-9]\]/,/21:21:[0-5][0-9]\]/p' file.log > result4.txt
 tail -l 1000 | grep "string" fileName
 ```
 
+<br>
+
 # Process Management & System Monitoring
+
+<br>
 
 ## lsof
 
@@ -129,12 +133,12 @@ Here’s a list of commonly used <strong>lsof<strong> flags, along with short ex
 
 | Flag		  | Description |
 |-----------|-------------|
-| -p <PID>	| Show files opened by specific process ID |
-| -u <USER>	| Show files opened by specific user |
-| -c <CMD>	| Filter by command name |
+| -p PID	| Show files opened by specific process ID |
+| -u USER	| Show files opened by specific user |
+| -c CMD	| Filter by command name |
 | -t		    | Output only PIDs (useful for scripting) |
-| +D <dir>	| Show all files under a directory (not recursive unless with +D) |
-| +d <dir>	| Like +D, but not recursive |
+| +D dir	| Show all files under a directory (not recursive unless with +D) |
+| +d dir	| Like +D, but not recursive |
 
 ## Output Control
 
@@ -158,7 +162,7 @@ lsof -t -i :3306         # Only show PIDs using port 3306
 
 ```bash
 lsof -n -P -i | grep 8000
-kill -9 <ID>
+kill -9 ID
 
 # The pipe (|) takes the output of the command on the left (lsof -n -P -i) and sends it as input to the command on the right (grep 8000).
 # Think of | like connecting two tools: one gathers raw data (lsof), and the other filters it (grep).
@@ -167,7 +171,7 @@ kill -9 <ID>
 # -15	SIGTERM	Politely asks the process to terminate
 # -9	SIGKILL	Forcefully kills the process immediately
 # -9 doesn't allow the process to release resources or save state.
-# Prefer kill <PID> (defaults to -15) first, and only use -9 if needed.
+# Prefer kill PID (defaults to -15) first, and only use -9 if needed.
 ```
 
 ## Kill a Process by name
@@ -184,7 +188,7 @@ pkill -x php               # Match exact process name only
 
 ```bash
 ps aux | grep firefox
-kill <PID>
+kill PID
 ```
 
 ## kill queue process in linux
@@ -200,7 +204,11 @@ kill -9 8118
 kill $(lsof -t -i :PORT_NUMBER)
 ```
 
+<br>
+
 # Linux file commands
+
+<br>
 
 ## append text to a file
 
@@ -239,9 +247,13 @@ split --lines=100000 file.txt folder/(separate text file into parts)
 wc -l file.txt(get number of lines in file)
 ```
 
+<br>
+
 # .bashrc
 
-- .bashrc is a shell script that runs every time a new terminal session is started in interactive mode (like when you open a terminal in Ubuntu).
+<br>
+
+ - .bashrc is a shell script that runs every time a new terminal session is started in interactive mode (like when you open a terminal in Ubuntu).
 
 - It’s where you customize your shell environment, including aliases, environment variables, prompt styles, and more.
 
@@ -286,7 +298,11 @@ echo "Welcome back, $USER!"   # A nice touch every time you open a terminal
 source ~/.bashrc  OR . ~/.bashrc
 ```
 
+<br>
+
 # Shell Scripting (Bash)
+
+<br>
 
 ```bash
 # Create a script
@@ -303,8 +319,11 @@ for i in {1..5}; do
   echo "Line $i"
 done
 ```
+<br>
 
 # File Permissions & Ownership
+
+<br>
 
 ```bash
 # Set permission
@@ -398,7 +417,11 @@ chmod a+rw file.txt       # Allow read+write to all (user, group, others)
 sudo chmod a+rw storage/logs/file.log
 ```
 
+<br>
+
 # Package Management
+
+<br>
 
 ## List down all the installed apt packages
 
@@ -449,15 +472,19 @@ for greater detail, check
 1. echo $PATH
 
 2. sudo apt install mlocate 
-    sudo updatedb
-    locate studio.sh
+   sudo updatedb
+   locate studio.sh
 
 3. cd /usr/share/applications/
-    cat android-studio.desktop
-    Location is -> Exec=.
+   cat android-studio.desktop
+   Location is -> Exec=.
 ```
 
+<br>
+
 # Linux Security & Hardening
+
+<br>
 
 ## Enable firewall
 
@@ -498,7 +525,11 @@ sudo cp -r /opt/home/dissanayake/Documents
 sudo mount -o remount,rw /media/dissanayake/D
 ```
 
+<br>
+
 # Systemd & Services
+
+<br>
 
 ## Start a service
 
@@ -518,7 +549,11 @@ sudo systemctl enable php7.4-fpm
 sudo systemctl status apache2
 ```
 
+<br>
+
 # PHP Server Management
+
+<br>
 
 ## Edit PHP config
 
@@ -538,7 +573,11 @@ sudo systemctl restart php7.4-fpm
 tail -f /var/log/nginx/error.log
 ```
 
+<br>
+
 # Logs & Monitoring
+
+<br>
 
 ## View logs
 
@@ -557,8 +596,11 @@ journalctl -f
 ```bash
 htop  # sudo apt install htop
 ```
+<br>
 
 # Deployment Tools
+
+<br>
 
 ## Copy files
 
@@ -578,7 +620,11 @@ ssh user@host
 nano deploy.sh
 ```
 
+<br>
+
 # Docker & Containers
+
+<br>
 
 ## Run PHP container
 
