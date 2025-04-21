@@ -1,137 +1,41 @@
-name: Deploy Production
+name: Deploy
 
+# on: [push] # Trigger the workflow on push or pull request events
 on:
   push:
     branches:
-      - main
-    paths-ignore:
-      - '**.md'
-      - '.gitignore'
-      - '.env.example'
-      - 'README.md'
+      - main  # Only trigger when there's a push to the 'main' branch
 
 jobs:
-  deploy:
-    name: Deploy to Production
+  build:
     runs-on: ubuntu-latest
-    
+
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        ref: main
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
+    - name: Copy repository contents via SCP
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        port: ${{ secrets.PORT }}
+        key: ${{ secrets.SSHKEY }}
+        source: "."
+        target: "/var/www/port-folio"
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-          run_install: true
-
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_ENV
-
-      - name: Setup pnpm cache
-        uses: actions/cache@v3
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
-      - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Clean Remote Directory
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          port: ${{ secrets.PORT }}
-          key: ${{ secrets.SSHKEY }}
-          script: |
-            echo "Cleaning existing deployment..."
-            rm -rf /var/www/port-folio/*
-            rm -rf /var/www/port-folio/.next
-            rm -rf /var/www/port-folio/node_modules
-            rm -rf /var/www/port-folio/.cache
-            mkdir -p /var/www/port-folio
-
-      - name: Deploy to Production
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          port: ${{ secrets.PORT }}
-          key: ${{ secrets.SSHKEY }}
-          source: "."
-          target: "/var/www/port-folio"
-          rm: true
-          strip_components: 1
-
-      - name: Build and Start Application
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          port: ${{ secrets.PORT }}
-          key: ${{ secrets.SSHKEY }}
-          script: |
-            echo "Starting deployment process..."
-            cd /var/www/port-folio
-
-            # Setup environment
-            export PATH="$HOME/.local/share/pnpm:$PATH"
-            export NODE_ENV=production
-
-            # Install dependencies
-            echo "Installing dependencies..."
-            pnpm install --frozen-lockfile
-
-            # Build application
-            echo "Building application..."
-            pnpm build
-
-            # Update PM2 process
-            if pm2 show port-folio > /dev/null 2>&1; then
-              echo "Reloading existing PM2 process..."
-              pm2 reload port-folio --update-env --time
-              pm2 flush port-folio
-            else
-              echo "Starting new PM2 process..."
-              pm2 start npm --name "port-folio" -- start
-            fi
-
-            # Save PM2 configuration
-            pm2 save
-
-            echo "Verifying deployment..."
-            if pm2 show port-folio | grep -q "online"; then
-              echo "✅ Deployment successful!"
-            else
-              echo "❌ Deployment failed!"
-              exit 1
-            fi
-
-      - name: Verify Deployment
-        if: success()
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          port: ${{ secrets.PORT }}
-          key: ${{ secrets.SSHKEY }}
-          script: |
-            if curl -f http://localhost:3000 > /dev/null 2>&1; then
-              echo "✅ Application is responding"
-            else
-              echo "❌ Application is not responding"
-              exit 1
-            fi
+    - name: Execute remote build and restart
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        port: ${{ secrets.PORT }}
+        key: ${{ secrets.SSHKEY }}
+        script: |
+          cd /var/www/port-folio
+          export PATH="$HOME/.local/share/pnpm:$PATH"
+          pnpm install --frozen-lockfile
+          pnpm build
+          pm2 restart port-folio || pm2 start pnpm --name "port-folio" -- start
