@@ -1,22 +1,50 @@
-name: Deploy
+name: Deploy Production
 
-# on: [push] # Trigger the workflow on push or pull request events
 on:
   push:
     branches:
-      - main  # Only trigger when there's a push to the 'main' branch
+      - main
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+      - '.env.example'
 
 jobs:
-  build:
+  deploy:
+    name: Production Deployment
     runs-on: ubuntu-latest
-
+    
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
-        ref: main
+        fetch-depth: 0
 
-    - name: Copy repository contents via SCP
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+        run_install: false
+
+    - name: Clean Remote Directory
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        port: ${{ secrets.PORT }}
+        key: ${{ secrets.SSHKEY }}
+        script: |
+          echo "Cleaning existing build files..."
+          cd /var/www/port-folio
+          rm -rf .next
+          rm -rf node_modules
+
+    - name: Deploy Files
       uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.HOST }}
@@ -25,8 +53,9 @@ jobs:
         key: ${{ secrets.SSHKEY }}
         source: "."
         target: "/var/www/port-folio"
+        rm: true
 
-    - name: Execute remote build and restart
+    - name: Build and Start Application
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
@@ -34,8 +63,28 @@ jobs:
         port: ${{ secrets.PORT }}
         key: ${{ secrets.SSHKEY }}
         script: |
+          echo "Starting deployment process..."
           cd /var/www/port-folio
+          
+          # Setup environment
           export PATH="$HOME/.local/share/pnpm:$PATH"
+          export NODE_ENV=production
+          
+          echo "Installing dependencies..."
           pnpm install --frozen-lockfile
+          
+          echo "Building application..."
           pnpm build
-          pm2 restart port-folio || pm2 start pnpm --name "port-folio" -- start
+          
+          echo "Updating PM2 process..."
+          if pm2 show port-folio > /dev/null 2>&1; then
+            pm2 reload port-folio --update-env
+          else
+            pm2 start pnpm --name "port-folio" -- start
+          fi
+          
+          # Cleanup and save PM2 configuration
+          pm2 flush port-folio
+          pm2 save
+          
+          echo "Deployment completed successfully!"
