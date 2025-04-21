@@ -13,6 +13,8 @@ tags: "#Linux"
 
 ## Grep
 
+<br>
+
 - grep stands for "Global Regular Expression Print".
 - It’s a command-line tool used to search for text patterns inside files or output.
 
@@ -20,84 +22,93 @@ tags: "#Linux"
 grep "pattern" filename
 ```
 
-| Option   | What it does |
-|----------|---------------|
+| Option  | What it does |
+|---------|---------------|
 -i 		 | Ignore case (e.g., Sunny = sunny)
--r or -R | Recursively search in directories
--n 		 | Show line numbers
 -v 	 	 | Invert match (show lines not matching)
+-r/-R     | Recursively search in directories
+-n 		 | Show line numbers
+-H 		 | Show the filename in the output (even if only one file is searched)
 -l 		 | Show only filenames with matches
+-L 		 | Show only the names of files without matches
 -c 		 | Count matching lines
---color  | Highlight matching text
-
-## Search in logs
-
-```bash
-grep "ERROR" /var/log/app.log
-```
-
-## Replace text
+-o 		 | Print only the matched part of the line
+-w 		 | Match whole words only
+-x 		 | Match entire lines only
+-E 		 | Use extended regular expressions (ERE)
+-F 		 | Interpret pattern as a fixed string (no regex)
+-P 		 | Interpret pattern as a Perl-compatible regex (PCRE; not available in all grep versions)
+--color=auto   | Highlight matches in color (usually on by default in many distros)
 
 ```bash
-sed 's/old/new/g' file.txt
+grep "ERROR" /var/log/app.log #Search in logs
+grep -Hnir zend_extension /etc/php/8.2/ #Searching for the term zend_extension within files in the /etc/php/8.2/ directory and its subdirectories
+grep "string" file.log > result.log #Find a string in a Linux file
+grep -E "21:20:[0-5][0-9]\]  some text" file.log > result.log # Apply search pattern in string
+tail -l 1000 | grep "string" fileName #List last 1000 line in a file by string
 ```
 
-## Print column from logs
-
-```bash
-awk '{print $1}' access.log
-```
-
-## Find a file/directory by starting name
-
-- in the current directory
-
-```bash
-ls -l test
-```
-
-- current directory and its sub-directories
-
-```bash
-find . -name 'test'
-```
-
-## Find a line a Linux file globally
-
-```bash
-grep -Hnir zend_extension /etc/php/8.2/
-```
-
-## Find a string in a Linux file
-
-```bash
-grep "string" file.log > result.log
-```
-
-## Apply search pattern in string
-
-```bash
-grep -E "21:20:[0-5][0-9]\]  some text" file.log > result.log
-```
-
-## print result into a file
+### print search result into a file
 
 ```bash
 grep -E "21:20:[0-5][0-9]\]some text" file.log > result.log
 ```
 
-## Get range
+## sed (stream editor)
+
+<br>
+
+### What sed Does
+
+- Reads input line by line
+- Applies editing commands (like substitute, delete, insert, etc.)
+- Outputs the modified text (usually to stdout)
 
 ```bash
+sed [OPTIONS] 'COMMAND' [FILE]
+sed 's/old/new/' file #Substitute text
+echo "hello world" | sed 's/world/universe/' #Output: hello universe
+sed 's/old/new/g' file #Global replace
+sed -i 's/old/new/g' file # In-place editing (modifies the file directly)
+
+#You can also back it up like this:
+sed -i.bak 's/old/new/g' file #This creates a file.bak backup
+sed '/pattern/d' file #Delete lines
+sed -n '/pattern/p' file #Print only matching lines
+sed '2s/foo/bar/' file #Replace only on specific lines
+
+#Get range
 sed -n '/^21:19:[0-5][0-9]\]/,/^21:21:[0-5][0-9]\]/p' file.log > result4.txt
 sed -E -n '/21:19:[0-5][0-9]\]/,/21:21:[0-5][0-9]\]/p' file.log > result4.txt
 ```
 
-## List last 1000 line in a file by string
+## awk
+
+<br>
+
+- awk is another powerful command-line tool like sed, but it’s better suited for working with structured text like columns in logs, CSVs, or space/tab-delimited data.
+
+### What is awk?
+
+- awk is a text-processing language.
+- It reads files line by line, splits lines into fields, and performs actions based on patterns.
+- Ideal for column-based operations, filtering, summarizing, and reporting.
 
 ```bash
-tail -l 1000 | grep "string" fileName
+#Basic Syntax
+awk 'pattern { action }' file
+awk '{print $1}' access.log #Print column from logs
 ```
+
+## Finding Files or Directories by Name Using ls and find
+
+| Goal    | Command | Matches |
+|---------|---------|---------|
+Exact match in current dir | ls -l test | Only test
+Starts with in current dir | ls -l test* | test, test1, testfile
+Exact match recursively | find . -name 'test' | Only test
+Starts with recursively | find . -name 'test*' | test, test123, etc.
+Case-insensitive recursive | find . -iname 'test*' | Test, TEST, etc.
 
 <br>
 
@@ -106,6 +117,8 @@ tail -l 1000 | grep "string" fileName
 <br>
 
 ## lsof
+
+<br>
 
 - lsof stands for List Open Files. In Linux, everything is a file, including sockets, devices, and network connections — and lsof shows which files are currently open by which processes.
 
