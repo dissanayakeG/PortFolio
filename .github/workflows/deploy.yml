@@ -33,9 +33,19 @@ jobs:
         port: ${{ secrets.PORT }}
         key: ${{ secrets.SSHKEY }}
         script: |
+          set -e
           cd /var/www/port-folio
-          rm -rf .next node_modules package-lock.json pnpm-lock.yaml yarn.lock
+
+          # Optional: install pnpm if not already installed
+          if ! command -v pnpm &> /dev/null; then
+            curl -fsSL https://get.pnpm.io/install.sh | sh -
+          fi
+
           export PATH="$HOME/.local/share/pnpm:$PATH"
+
+          rm -rf .next node_modules
+
           pnpm install
           pnpm build
+
           pm2 restart port-folio || pm2 start pnpm --name "port-folio" -- start
