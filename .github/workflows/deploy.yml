@@ -7,84 +7,90 @@ on:
     paths-ignore:
       - '**.md'
       - '.gitignore'
-      - '.env.example'
+      - 'README.md'
 
 jobs:
   deploy:
-    name: Production Deployment
+    name: Deploy to Production
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
 
-    - name: Install pnpm
-      uses: pnpm/action-setup@v2
-      with:
-        version: 8
-        run_install: false
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
 
-    - name: Clean Remote Directory
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        port: ${{ secrets.PORT }}
-        key: ${{ secrets.SSHKEY }}
-        script: |
-          echo "Cleaning existing build files..."
-          cd /var/www/port-folio
-          rm -rf .next
-          rm -rf node_modules
+      - name: Clean and Prepare Remote Directory
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.SSHKEY }}
+          script: |
+            echo "Cleaning up existing deployment..."
+            rm -rf /var/www/port-folio/*
+            rm -rf /var/www/port-folio/.next
+            rm -rf /var/www/port-folio/node_modules
+            mkdir -p /var/www/port-folio
 
-    - name: Deploy Files
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        port: ${{ secrets.PORT }}
-        key: ${{ secrets.SSHKEY }}
-        source: "."
-        target: "/var/www/port-folio"
-        rm: true
+      - name: Deploy to Production
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.SSHKEY }}
+          source: "."
+          target: "/var/www/port-folio"
+          rm: true
 
-    - name: Build and Start Application
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        port: ${{ secrets.PORT }}
-        key: ${{ secrets.SSHKEY }}
-        script: |
-          echo "Starting deployment process..."
-          cd /var/www/port-folio
-          
-          # Setup environment
-          export PATH="$HOME/.local/share/pnpm:$PATH"
-          export NODE_ENV=production
-          
-          echo "Installing dependencies..."
-          pnpm install --frozen-lockfile
-          
-          echo "Building application..."
-          pnpm build
-          
-          echo "Updating PM2 process..."
-          if pm2 show port-folio > /dev/null 2>&1; then
-            pm2 reload port-folio --update-env
-          else
-            pm2 start pnpm --name "port-folio" -- start
-          fi
-          
-          # Cleanup and save PM2 configuration
-          pm2 flush port-folio
-          pm2 save
-          
-          echo "Deployment completed successfully!"
+      - name: Build and Start Application
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.SSHKEY }}
+          script: |
+            echo "Starting deployment process..."
+            cd /var/www/port-folio
+            
+            # Setup environment
+            export PATH="$HOME/.local/share/pnpm:$PATH"
+            export NODE_ENV=production
+            
+            # Install dependencies
+            echo "Installing dependencies..."
+            pnpm install --frozen-lockfile
+            
+            # Build application
+            echo "Building application..."
+            pnpm build
+            
+            # Update PM2 process
+            if pm2 show port-folio > /dev/null 2>&1; then
+              echo "Reloading existing PM2 process..."
+              pm2 reload port-folio --update-env
+            else
+              echo "Starting new PM2 process..."
+              pm2 start pnpm --name "port-folio" -- start
+            fi
+            
+            # Cleanup and save PM2 configuration
+            pm2 flush port-folio
+            pm2 save
+            
+            echo "Deployment completed successfully!"
