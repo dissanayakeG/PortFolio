@@ -40,6 +40,8 @@ grep "pattern" filename
 -P 		 | Interpret pattern as a Perl-compatible regex (PCRE; not available in all grep versions)
 --color=auto   | Highlight matches in color (usually on by default in many distros)
 
+### Examples
+
 ```bash
 grep "ERROR" /var/log/app.log #Search in logs
 grep -Hnir zend_extension /etc/php/8.2/ #Searching for the term zend_extension within files in the /etc/php/8.2/ directory and its subdirectories
@@ -53,6 +55,7 @@ tail -l 1000 | grep "string" fileName #List last 1000 line in a file by string
 ```bash
 grep -E "21:20:[0-5][0-9]\]some text" file.log > result.log
 ```
+<br>
 
 ## sed (stream editor)
 
@@ -81,6 +84,8 @@ sed '2s/foo/bar/' file #Replace only on specific lines
 sed -n '/^21:19:[0-5][0-9]\]/,/^21:21:[0-5][0-9]\]/p' file.log > result4.txt
 sed -E -n '/21:19:[0-5][0-9]\]/,/21:21:[0-5][0-9]\]/p' file.log > result4.txt
 ```
+
+<br>
 
 ## awk
 
@@ -307,6 +312,8 @@ echo "Welcome back, $USER!"   # A nice touch every time you open a terminal
 
 ## Reload bashrc
 
+- After you make changes to your .bashrc file, you need to reload it in the current shell session for the changes to take effect.
+
 ```bash
 source ~/.bashrc  OR . ~/.bashrc
 ```
@@ -527,7 +534,7 @@ sudo nano /etc/ssh/sshd_config
 ## Copy linux directory
 
 ```bash
-sudo cp -r /opt/home/dissanayake/Documents
+sudo cp -r /path/to/directory
 
 # -r means the directory will be copied recursively, content first, then the directory itself.
 ```
@@ -535,7 +542,7 @@ sudo cp -r /opt/home/dissanayake/Documents
 ## mount directory as writable
 
 ```bash
-sudo mount -o remount,rw /media/dissanayake/D
+sudo mount -o remount,rw /path/to/directory
 ```
 
 <br>
@@ -631,28 +638,4 @@ ssh user@host
 
 ```bash
 nano deploy.sh
-```
-
-<br>
-
-# Docker & Containers
-
-<br>
-
-## Run PHP container
-
-```bash
-docker run -it php:8.1-cli bash
-```
-
-## Compose stack
-
-```bash
-docker-compose up -d
-```
-
-## Stop all containers
-
-```bash
-docker stop $(docker ps -q)
 ```
