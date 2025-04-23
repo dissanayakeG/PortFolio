@@ -345,26 +345,6 @@ done
 
 <br>
 
-```bash
-# Set permission
-chmod 755 file.sh
-
-# Change owner
-chown username:group file.txt
-
-# Set sticky bit
-chmod +t /shared_folder
-```
-
-## Linux directory/File permissions in laravel
-
-```bash
-sudo chown -R $USER:www-data storage
-sudo chown -R $USER:www-data bootstrap/cache
-chmod -R 775 storage
-chmod -R 775 bootstrap/cache
-```
-
 ## Linux File/Directory Permissions (Essentials)
 
 - Every file/directory has 3 permission sets
@@ -399,7 +379,7 @@ So:
 - r-- = 4 = 4
 - --- = 0 = 0
 
-## Example: chmod 755 file.sh
+### Example: chmod 755 file.sh
 
 Breakdown of 755:
 

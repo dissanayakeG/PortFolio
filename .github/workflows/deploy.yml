@@ -41,6 +41,7 @@ jobs:
             curl -fsSL https://get.pnpm.io/install.sh | sh -
           fi
 
+          # This line modifies the PATH environment variable so the shell can find and run pnpm commands that were installed in a user-specific location.
           export PATH="$HOME/.local/share/pnpm:$PATH"
 
           rm -rf .next node_modules
