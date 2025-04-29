@@ -436,7 +436,9 @@ snap package list
 ```bash
 sudo apt-get install --only-upgrade <packagename>
 or
-sudo apt update && sudo apt upgrade google-chrome-stable
+sudo apt update && sudo apt <packagename>
+
+Ex: sudo apt update && sudo apt upgrade google-chrome-stable
 ```
 
 ## Install a package
