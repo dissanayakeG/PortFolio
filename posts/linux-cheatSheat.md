@@ -80,9 +80,11 @@ sed '/pattern/d' file #Delete lines
 sed -n '/pattern/p' file #Print only matching lines
 sed '2s/foo/bar/' file #Replace only on specific lines
 
-#Get range
-sed -n '/^21:19:[0-5][0-9]\]/,/^21:21:[0-5][0-9]\]/p' file.log > result4.txt
-sed -E -n '/21:19:[0-5][0-9]\]/,/21:21:[0-5][0-9]\]/p' file.log > result4.txt
+#Extracting a range of lines from a file
+sed -n '/^START_TIME_PATTERN/,/^END_TIME_PATTERN/p' input_file > output_file
+
+#Example : Extract a specific range of lines from a log file based on timestamps
+sed -n '/^21:19:[0-5][0-9]\]/,/^21:21:[0-5][0-9]\]/p' file.log > result.txt
 ```
 
 <br>
