@@ -40,6 +40,20 @@ grep "pattern" filename
 -P 		 | Interpret pattern as a Perl-compatible regex (PCRE; not available in all grep versions)
 --color=auto   | Highlight matches in color (usually on by default in many distros)
 
+### Find an installed (apt/snap) package/application
+
+```bash
+snap list                           # Shows all installed snap packages (apps and CLI tools)
+dpkg --get-selections               # Shows all installed APT packages (manual + dependencies)
+dpkg --get-selections | grep google # Filter by package name (e.g., 'google')
+apt-mark showmanual                 # Lists only manually installed APT packages (not dependencies)
+apt-mark showmanual | grep google   # Filter manual installs by name
+
+# dpkg --get-selections shows everything installed via APT, not just "only installed" — it also lists packages marked as deinstall,
+# which means removed but not purged. It's still fine for most usage.
+```
+
+
 ### Examples
 
 ```bash
