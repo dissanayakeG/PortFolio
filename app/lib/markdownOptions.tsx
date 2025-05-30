@@ -11,6 +11,7 @@ import "prismjs/components/prism-python";
 import "prismjs/components/prism-javascript";
 import "prismjs/components/prism-css";
 import "prismjs/components/prism-bash";
+import "prismjs/components/prism-json";
 
 type MarkdownOptions = {
 	overrides: {
@@ -29,7 +30,7 @@ const markdownOptions: MarkdownOptions = {
 	overrides: {
 		img: {
 			component: "img" as React.ElementType,
-			props: { style: { width: "50px", height: "50px" } },
+			props: { style: { width: "500px", height: "300px" } },
 		},
 		h1: {
 			component: "h1" as React.ElementType,
