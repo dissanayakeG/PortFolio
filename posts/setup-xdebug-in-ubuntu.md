@@ -55,7 +55,7 @@ php -r "phpinfo();" | grep xdebug
 
 ## Test Xdebug
 
-```bash 
+```bash
 php -m | grep -i xdebug
 ```
 
@@ -66,7 +66,7 @@ echo '<?php var_dump(extension_loaded("xdebug")); xdebug_info(); ?>' > test_xdeb
 php test_xdebug.php
 ```
 
-- You should see bool(true) and Xdebug configuration information without any "already loaded" warnings.
+-   You should see bool(true) and Xdebug configuration information without any "already loaded" warnings.
 
 ![xdebugInEnabled](/posts/xdebugInEnabled.png)
 
@@ -92,7 +92,7 @@ sudo systemctl restart apache2
 sudo systemctl restart nginx
 ```
 
-- If everything is set up correctly, Xdebug should be working by now.
+-   If everything is set up correctly, Xdebug should be working by now.
 
 ## Laravel-Specific Xdebug Configuration
 
@@ -120,52 +120,48 @@ sudo systemctl restart apache2
 
 ## VS Code Configuration for Laravel
 
-- install xdebug vs-code extension/s 
-- Create `.vscode/launch.json` in your Laravel root directory,
-- **NOTE:** pathMappings in `.vscode/launch.json`
-- After setting up just click (FN+F5)
+-   install xdebug vs-code extension/s
+-   Create <i class="text-secondary-light">.vscode/launch.json</i> in your Laravel root directory,
+-   **NOTE:** pathMappings in below json <i class="text-secondary-light">.vscode/launch.json</i>
 
 ## for PHP artisan serve
 
 ```json
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Listen for Xdebug (Laravel Serve)",
-            "type": "php",
-            "request": "launch",
-            "port": 9003,
-            "pathMappings": {
-                "/path/to/application": "${workspaceFolder}"
-            },
-            "ignore": [
-                "**/vendor/**/*.php"
-            ]
-        },
-        {
-            "name": "Debug Laravel Serve with Xdebug",
-            "type": "php",
-            "request": "launch",
-            "program": "${workspaceFolder}/artisan",
-            "args": ["serve", "--host=127.0.0.1", "--port=8000"],
-            "cwd": "${workspaceFolder}",
-            "runtimeArgs": [
-                "-dxdebug.mode=debug",
-                "-dxdebug.client_host=127.0.0.1",
-                "-dxdebug.client_port=9003",
-                "-dxdebug.start_with_request=yes"
-            ],
-            "env": {
-                "XDEBUG_CONFIG": "idekey=VSCODE"
-            },
-            "ignore": [
-                "**/vendor/**/*.php"
-            ]
-        }
-    ]
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Listen for Xdebug (Laravel Serve)",
+			"type": "php",
+			"request": "launch",
+			"port": 9003,
+			"pathMappings": {
+				"/path/to/application": "${workspaceFolder}"
+			},
+			"ignore": ["**/vendor/**/*.php"]
+		},
+		{
+			"name": "Debug Laravel Serve with Xdebug",
+			"type": "php",
+			"request": "launch",
+			"program": "${workspaceFolder}/artisan",
+			"args": ["serve", "--host=127.0.0.1", "--port=8000"],
+			"cwd": "${workspaceFolder}",
+			"runtimeArgs": [
+				"-dxdebug.mode=debug",
+				"-dxdebug.client_host=127.0.0.1",
+				"-dxdebug.client_port=9003",
+				"-dxdebug.start_with_request=yes"
+			],
+			"env": {
+				"XDEBUG_CONFIG": "idekey=VSCODE"
+			},
+			"ignore": ["**/vendor/**/*.php"]
+		}
+	]
 }
 ```
+-   After setting up just click (F5) to start debug
 
 ## Enable Xdebug for CLI and Web
 
@@ -178,7 +174,6 @@ sudo phpenmod -s apache2 xdebug
 
 # or for nginx with php-fpm
 sudo phpenmod -s fpm xdebug
-
 ```
 
 ## Restart Services
@@ -188,6 +183,6 @@ sudo phpenmod -s fpm xdebug
 sudo systemctl restart apache2
 
 # For Nginx with PHP-FPM:
-sudo systemctl restart php8.1-fpm 
+sudo systemctl restart php8.1-fpm
 sudo systemctl restart nginx
 ```
