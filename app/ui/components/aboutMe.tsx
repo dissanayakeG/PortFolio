@@ -1,19 +1,20 @@
 import Image from "next/image";
 import ContactCard from "../partials/contactCard";
+import { link } from "fs";
 
 export default function AboutMe() {
 	const contacts = [
 		{ name: "git", src: "/contacts/git.svg", link: process.env.GIT },
 		{ name: "gmail", src: "/contacts/gmail.svg", link: process.env.MAIL },
 		{ name: "Linkdin", src: "/contacts/linkdin.svg", link: process.env.LINKDIN },
-		{ name: "twitter", src: "/contacts/twitter.svg" },
-		{ name: "whatsapp", src: "/contacts/whatsapp.svg" },
+		{ name: "dev-short-notes", src: "/contacts/github_io.svg",link: process.env.GITHUB_IO },
+		{ name: "whatsapp", src: "/contacts/whatsapp.svg" ,link: process.env.PHONE},
 	];
 
 	const heading: string = "Madusanka Dissanayake";
 	const subHeading: string = "I'm a Professional PHP/TypeScript Developer";
 	const aboutMe: string = `
-					Software engineer with more than 5 years of experience in the full
+					Software engineer with more than 6 years of experience in the full
 					software development cycle. Highly adapted to leading
 					engineering teams to achieve software development upgrades
 					and increase business efficiency while delivering
@@ -31,14 +32,14 @@ export default function AboutMe() {
 
 			<div className="flex flex-col sm:flex-row justify-between p-2">
 				<Image
-					src="/profilePicture.jpeg"
+					src="/profilePicture.jpg"
 					alt="flutters profile picture"
 					className="flex items-center justify-center p-4 max-w-80 overflow-hidden"
 					width={300}
 					height={250}
 				/>
 
-				<div className="flex sm:flex-col pt-4">
+				<div className="flex sm:flex-col bg-theme-light rounded-md p-1 gap-2">
 					{contacts.map((contact) => {
 						return (
 							<ContactCard
