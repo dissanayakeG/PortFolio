@@ -40,6 +40,10 @@ export default function Nav() {
 			<li className="mr-6">
 				<NavLink href="/taxCalculator">PAYE Tax (SL 2025)</NavLink>
 			</li>
+
+			<li className="mr-6">
+				<NavLink href="/words">Learn Spanish</NavLink>
+			</li>
 		</ul>
 	);
 }
