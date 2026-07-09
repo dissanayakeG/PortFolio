@@ -161,8 +161,9 @@ export default function WordCardView({ words }: Props) {
 															}`}
 														>
 															<td className="px-2 sm:px-6 lg:px-8 py-1  text-gray-900 font-bold">
+																
 																<a
-																	href={`/words/${word.id}`}
+																	href={`/words/${word.id}/edit`}
 																	className="hover:text-primary hover:underline transition-colors"
 																>
 																	{word.word}
