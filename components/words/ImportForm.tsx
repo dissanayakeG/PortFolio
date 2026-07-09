@@ -44,7 +44,7 @@ export default function ImportForm({ languages, categories }: Props) {
 
 	useEffect(() => {
 		if (selectedCategoryId) {
-			fetch(`/api/subcategories?categoryId=${selectedCategoryId}`)
+			fetch(`/api/words/subcategories?categoryId=${selectedCategoryId}`)
 				.then((res) => res.json())
 				.then((data) => setSubCategories(data));
 		}
@@ -109,12 +109,12 @@ export default function ImportForm({ languages, categories }: Props) {
 		<form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
 			<div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
 				<div>
-					<label className="block mb-2.5 font-semibold text-slate-700">
-						Language <span className="text-red-500">*</span>
+					<label className="block mb-2.5 font-semibold text-gray-900">
+						Language <span className="text-secondary">*</span>
 					</label>
 					<select
 						{...register("languageId")}
-						className="border-2 border-slate-200 rounded-xl p-4 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all bg-white"
+						className="border-2 border-theme rounded-xl p-4 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all bg-white"
 						required
 					>
 						<option value="">Select a language</option>
@@ -127,12 +127,12 @@ export default function ImportForm({ languages, categories }: Props) {
 				</div>
 
 				<div>
-					<label className="block mb-2.5 font-semibold text-slate-700">
-						Main Category <span className="text-red-500">*</span>
+					<label className="block mb-2.5 font-semibold text-gray-900">
+						Main Category <span className="text-secondary">*</span>
 					</label>
 					<select
 						{...register("categoryId")}
-						className="border-2 border-slate-200 rounded-xl p-4 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all bg-white"
+						className="border-2 border-theme rounded-xl p-4 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all bg-white"
 						required
 					>
 						<option value="">Select a category</option>
@@ -146,14 +146,14 @@ export default function ImportForm({ languages, categories }: Props) {
 			</div>
 
 			<div>
-				<label className="block mb-2.5 font-semibold text-slate-700">
-					Subcategory <span className="text-slate-400 text-sm font-normal">(Optional)</span>
+				<label className="block mb-2.5 font-semibold text-gray-900">
+					Subcategory <span className="text-theme-light text-sm font-normal">(Optional)</span>
 				</label>
 				{!useCustomSubCategory ? (
 					<div>
 						<select
 							{...register("subCategoryId")}
-							className="border-2 border-slate-200 rounded-xl p-4 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all bg-white"
+							className="border-2 border-theme rounded-xl p-4 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all bg-white"
 						>
 							<option value="">None</option>
 							{subCategories.map((subCat) => (
@@ -165,7 +165,7 @@ export default function ImportForm({ languages, categories }: Props) {
 						<button
 							type="button"
 							onClick={() => setUseCustomSubCategory(true)}
-							className="text-sm text-blue-600 font-medium mt-3 hover:text-blue-700 flex items-center gap-1"
+							className="text-sm text-primary font-medium mt-3 hover:text-primary-dark flex items-center gap-1"
 						>
 							<span>➕</span> Create new subcategory
 						</button>
@@ -174,13 +174,13 @@ export default function ImportForm({ languages, categories }: Props) {
 					<div>
 						<input
 							{...register("subCategoryName")}
-							className="border-2 border-slate-200 rounded-xl p-4 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all"
+							className="border-2 border-theme rounded-xl p-4 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
 							placeholder="Enter new subcategory name"
 						/>
 						<button
 							type="button"
 							onClick={() => setUseCustomSubCategory(false)}
-							className="text-sm text-slate-600 font-medium mt-3 hover:text-slate-700 flex items-center gap-1"
+							className="text-sm text-theme-light font-medium mt-3 hover:text-theme-dark flex items-center gap-1"
 						>
 							<span>←</span> Select existing
 						</button>
@@ -189,15 +189,15 @@ export default function ImportForm({ languages, categories }: Props) {
 			</div>
 
 			<div>
-				<label className="block mb-2.5 font-semibold text-slate-700">
-					CSV File <span className="text-red-500">*</span>
+				<label className="block mb-2.5 font-semibold text-gray-900">
+					CSV File <span className="text-secondary">*</span>
 				</label>
 				<div className="relative">
 					<input
 						type="file"
 						accept=".csv"
 						{...register("file")}
-						className="border-2 border-slate-200 rounded-xl p-4 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all file:mr-4 file:py-2 file:px-5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 file:transition-colors cursor-pointer"
+						className="border-2 border-theme rounded-xl p-4 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all file:mr-4 file:py-2 file:px-5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary-light/20 file:text-primary-dark hover:file:bg-primary-light/30 file:transition-colors cursor-pointer"
 						required
 					/>
 				</div>
@@ -207,8 +207,8 @@ export default function ImportForm({ languages, categories }: Props) {
 				<div
 					className={`p-5 rounded-xl font-medium ${
 						message.type === "success"
-							? "bg-green-50 text-green-800 border-2 border-green-200"
-							: "bg-red-50 text-red-800 border-2 border-red-200"
+							? "bg-secondary-light/20 text-secondary-dark border-2 border-secondary"
+							: "bg-secondary/20 text-secondary-dark border-2 border-secondary-dark"
 					}`}
 				>
 					{message.text}
@@ -218,7 +218,7 @@ export default function ImportForm({ languages, categories }: Props) {
 			<button
 				type="submit"
 				disabled={isLoading}
-				className="bg-linear-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 disabled:from-slate-400 disabled:to-slate-500 text-white px-8 py-4 rounded-xl font-semibold w-full transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 disabled:hover:translate-y-0 disabled:cursor-not-allowed"
+				className="bg-gradient-to-r from-primary to-primary-light hover:from-primary-dark hover:to-primary disabled:from-theme-light disabled:to-theme text-white px-8 py-4 rounded-xl font-semibold w-full transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 disabled:hover:translate-y-0 disabled:cursor-not-allowed"
 			>
 				{isLoading ? "⏳ Importing..." : "⬆️ Import CSV File"}
 			</button>
