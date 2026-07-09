@@ -49,22 +49,19 @@ export default async function EditWordPage({
 	return (
 		<div className="max-w-5xl mx-auto">
 			<Link
-				href={`/words/${id}`}
-				className="inline-flex items-center gap-2 text-primary hover:text-primary-dark mb-6 lg:mb-8 font-medium text-base lg:text-lg"
+				href={`/words`}
+				className="inline-flex items-center gap-2 text-primary hover:text-primary-dark mb-3 font-medium text-base lg:text-lg"
 			>
 				← Back to Word
 			</Link>
 
-			<div className="mb-8 sm:mb-10 lg:mb-14">
-				<h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-3 lg:mb-5">
+			<div className="mb-3">
+				<h1 className="text-2xl font-bold text-gray-900">
 					Edit Word
-				</h1>
-				<p className="text-lg sm:text-xl lg:text-2xl text-theme-dark">
-					Update the word details
-				</p>
+				</h1>				
 			</div>
 
-			<div className="bg-white rounded-2xl border-2 border-theme shadow-lg p-6 sm:p-8 lg:p-12">
+			<div className="bg-white rounded-2xl border-2 border-theme shadow-lg p-6">
 				<EditWordForm wordData={word} languages={languages} categories={categories} />
 			</div>
 		</div>

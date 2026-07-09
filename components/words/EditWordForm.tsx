@@ -141,14 +141,14 @@ export default function EditWordForm({ wordData, languages, categories }: Props)
 	}
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)} className="space-y-6 lg:space-y-8">
+		<form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
 			<div>
-				<label className="block mb-3 lg:mb-4 font-semibold text-gray-900 text-base lg:text-lg">
+				<label className="block mb-3 lg:mb-4 font-semibold text-gray-900 text-base">
 					Word <span className="text-secondary">*</span>
 				</label>
 				<input
 					{...register("word")}
-					className="border-2 border-theme rounded-xl p-4 lg:p-5 w-full text-base lg:text-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+					className="border-2 border-theme rounded-xl w-full text-base focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
 					placeholder="Enter the word"
 					required
 				/>
@@ -156,12 +156,12 @@ export default function EditWordForm({ wordData, languages, categories }: Props)
 
 			<div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
 				<div>
-					<label className="block mb-3 lg:mb-4 font-semibold text-gray-900 text-base lg:text-lg">
+					<label className="block mb-3 lg:mb-4 font-semibold text-gray-900 text-base">
 						Language <span className="text-secondary">*</span>
 					</label>
 					<select
 						{...register("languageId")}
-						className="border-2 border-theme rounded-xl p-4 lg:p-5 w-full text-base lg:text-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all bg-white"
+						className="border-2 border-theme rounded-xl w-full text-base focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all bg-white"
 						required
 					>
 						{languages.map((language) => (
@@ -173,12 +173,12 @@ export default function EditWordForm({ wordData, languages, categories }: Props)
 				</div>
 
 				<div>
-					<label className="block mb-3 lg:mb-4 font-semibold text-gray-900 text-base lg:text-lg">
+					<label className="block mb-3 lg:mb-4 font-semibold text-gray-900 text-base">
 						Category <span className="text-secondary">*</span>
 					</label>
 					<select
 						{...register("categoryId")}
-						className="border-2 border-theme rounded-xl p-4 lg:p-5 w-full text-base lg:text-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all bg-white"
+						className="border-2 border-theme rounded-xl w-full text-base focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all bg-white"
 						required
 					>
 						{categories.map((category) => (
@@ -191,14 +191,14 @@ export default function EditWordForm({ wordData, languages, categories }: Props)
 			</div>
 
 			<div>
-				<label className="block mb-3 lg:mb-4 font-semibold text-gray-900 text-base lg:text-lg">
-					Subcategory <span className="text-theme-light text-sm lg:text-base font-normal">(Optional)</span>
+				<label className="block mb-3 lg:mb-4 font-semibold text-gray-900 text-base">
+					Subcategory <span className="text-theme-light text-sm font-normal">(Optional)</span>
 				</label>
 				{!useCustomSubCategory ? (
 					<div>
 						<select
 							{...register("subCategoryId")}
-							className="border-2 border-theme rounded-xl p-4 lg:p-5 w-full text-base lg:text-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all bg-white"
+							className="border-2 border-theme rounded-xl w-full text-base focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all bg-white"
 						>
 							<option value="">None</option>
 							{subCategories.map((subCat) => (
@@ -219,7 +219,7 @@ export default function EditWordForm({ wordData, languages, categories }: Props)
 					<div>
 						<input
 							{...register("subCategoryName")}
-							className="border-2 border-theme rounded-xl p-4 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+							className="border-2 border-theme rounded-xl w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
 							placeholder="Enter new subcategory name"
 						/>
 						<button
@@ -234,12 +234,12 @@ export default function EditWordForm({ wordData, languages, categories }: Props)
 			</div>
 
 			<div>
-				<label className="block mb-3 lg:mb-4 font-semibold text-gray-900 text-base lg:text-lg">
+				<label className="block mb-3 lg:mb-4 font-semibold text-gray-900 text-base">
 					Meaning <span className="text-secondary">*</span>
 				</label>
 				<input
 					{...register("meaning")}
-					className="border-2 border-theme rounded-xl p-4 lg:p-5 w-full text-base lg:text-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+					className="border-2 border-theme rounded-xl w-full text-base focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
 					placeholder="Enter the meaning"
 					required
 				/>
@@ -248,7 +248,7 @@ export default function EditWordForm({ wordData, languages, categories }: Props)
 			<button
 				type="submit"
 				disabled={isLoading}
-				className="bg-primary hover:bg-primary-dark disabled:bg-theme-light text-white px-8 py-4 lg:py-5 rounded-xl font-bold text-base lg:text-lg w-full transition-all shadow-lg hover:shadow-xl disabled:cursor-not-allowed"
+				className="bg-primary hover:bg-primary-dark disabled:bg-theme-light text-white py-2 rounded-xl font-bold text-base w-full transition-all shadow-lg hover:shadow-xl disabled:cursor-not-allowed"
 			>
 				{isLoading ? "⏳ Updating..." : "💾 Update Word"}
 			</button>
