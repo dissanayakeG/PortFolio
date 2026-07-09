@@ -62,17 +62,17 @@ export default function WordCardView({ words }: Props) {
 
 	if (words.length === 0) {
 		return (
-			<div className="rounded-2xl border-2 border-dashed border-gray-300 bg-gray-50 p-16 text-center">
+			<div className="rounded-2xl border-2 border-dashed border-theme bg-theme/20 p-16 text-center">
 				<div className="text-6xl mb-4">📚</div>
 				<h3 className="text-2xl font-bold text-gray-900 mb-3">
 					No words yet
 				</h3>
-				<p className="text-gray-600 mb-8">
+				<p className="text-theme-dark mb-8">
 					Start building your vocabulary by adding words
 				</p>
 				<a
 					href="/words/new"
-					className="inline-block bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-all shadow-md hover:shadow-lg"
+					className="inline-block bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-xl font-semibold transition-all shadow-md hover:shadow-lg"
 				>
 					Add Your First Word
 				</a>
@@ -110,11 +110,10 @@ export default function WordCardView({ words }: Props) {
 					className="space-y-6 sm:space-y-8 lg:space-y-10"
 				>
 					<div className="flex items-center gap-4 lg:gap-6">
-						<h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 flex items-center gap-2 lg:gap-4">
-							<span className="text-emerald-600">#</span>
+						<h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2 lg:gap-4">
 							{category}
 						</h2>
-						<div className="flex-1 h-[3px] lg:h-1 bg-linear-to-r from-emerald-500 to-transparent rounded-full"></div>
+						<div className="flex-1 h-[3px] lg:h-1 bg-gradient-to-r from-primary to-transparent rounded-full"></div>
 					</div>
 
 					{Object.entries(subCategories).map(
@@ -123,10 +122,9 @@ export default function WordCardView({ words }: Props) {
 								key={subCategory}
 								className="space-y-3 sm:space-y-4 lg:space-y-5"
 							>
-								<h3 className="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-700 flex items-center gap-2 lg:gap-3 ml-2 sm:ml-4 lg:ml-8">
-									<span className="text-blue-600">##</span>
+								<h3 className="text-lg sm:text-xl lg:text-2xl font-semibold text-white flex items-center gap-2 lg:gap-3 ml-2 sm:ml-4 lg:ml-8">
 									{subCategory}
-									<span className="text-xs sm:text-sm lg:text-base font-normal text-gray-500 ml-2">
+									<span className="text-xs sm:text-sm lg:text-base font-normal text-white ml-2">
 										({subCategoryWords.length}{" "}
 										{subCategoryWords.length === 1
 											? "word"
@@ -135,11 +133,11 @@ export default function WordCardView({ words }: Props) {
 									</span>
 								</h3>
 
-								<div className="bg-white rounded-2xl border-2 border-gray-200 shadow-sm overflow-hidden ml-2 sm:ml-4 lg:ml-8">
+								<div className="bg-white rounded-2xl border-2 border-theme shadow-sm overflow-hidden ml-2 sm:ml-4 lg:ml-8">
 									<div className="overflow-x-auto">
 										<table className="w-full font-mono text-sm sm:text-base lg:text-lg">
 											<thead>
-												<tr className="bg-gray-100 border-b-2 border-gray-300">
+												<tr className="bg-theme/30 border-b-2 border-theme">
 													<th className="text-left px-4 sm:px-6 lg:px-8 py-3 sm:py-4 lg:py-5 font-bold text-gray-900">
 														Word
 													</th>
@@ -156,39 +154,32 @@ export default function WordCardView({ words }: Props) {
 													(word, index) => (
 														<tr
 															key={word.id}
-															className={`border-b border-gray-200 hover:bg-emerald-50 transition-colors ${
+															className={`border-b border-theme hover:bg-primary/10 transition-colors ${
 																index % 2 === 0
 																	? "bg-white"
-																	: "bg-gray-50"
+																	: "bg-theme/10"
 															}`}
 														>
-															<td className="px-4 sm:px-6 lg:px-8 py-3 sm:py-4 lg:py-5 text-gray-900 font-bold">
+															<td className="px-2 sm:px-6 lg:px-8 py-1  text-gray-900 font-bold">
 																<a
 																	href={`/words/${word.id}`}
-																	className="hover:text-emerald-600 hover:underline transition-colors"
+																	className="hover:text-primary hover:underline transition-colors"
 																>
 																	{word.word}
 																</a>
 															</td>
-															<td className="px-4 sm:px-6 lg:px-8 py-3 sm:py-4 lg:py-5 text-gray-700">
+															<td className="px-4 sm:px-6 lg:px-8 py-1  text-gray-700">
 																{getEnglishMeaning(
 																	word.meanings,
 																)}
 															</td>
-															<td className="px-4 sm:px-6 lg:px-8 py-3 sm:py-4 lg:py-5 text-center">
+															<td className="px-4 sm:px-6 lg:px-8 py-1  text-center">
 																<button
-																	onClick={() =>
-																		toggleRemembered(
-																			word.id,
-																		)
-																	}
-																	className={`inline-flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 rounded-lg font-bold text-lg lg:text-xl transition-all ${
-																		rememberStatus[
-																			word
-																				.id
-																		]
-																			? "bg-emerald-500 text-white hover:bg-emerald-600 shadow-md"
-																			: "bg-gray-300 text-gray-600 hover:bg-gray-400"
+																	onClick={() => toggleRemembered( word.id,)}
+																	className={`inline-flex items-center justify-center w-3 h-3  rounded-lg font-bold text-lg lg:text-xl transition-all ${
+																		rememberStatus[word.id]
+																			? "bg-secondary text-white hover:bg-secondary-dark shadow-md"
+																			: "bg-theme text-theme-dark hover:bg-theme-light"
 																	}`}
 																	title={
 																		rememberStatus[

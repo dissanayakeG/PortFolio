@@ -19,23 +19,49 @@ type SubCategory = {
 	categoryId: number;
 };
 
-type Props = {
-	languages: {
-		id: number;
-		name: string;
-	}[];
-
-	categories: {
-		id: number;
-		name: string;
-	}[];
+type Language = {
+	id: number;
+	name: string;
 };
 
-export default function WordForm({ languages, categories }: Props) {
+type Category = {
+	id: number;
+	name: string;
+};
+
+type WordData = {
+	id: number;
+	word: string;
+	languageId: number;
+	categoryId: number;
+	subCategoryId?: number | null;
+	meanings: Array<{
+		id: number;
+		meaning: string;
+		languageId: number;
+	}>;
+};
+
+type Props = {
+	wordData: WordData;
+	languages: Language[];
+	categories: Category[];
+};
+
+export default function EditWordForm({ wordData, languages, categories }: Props) {
 	const router = useRouter();
-	const { register, handleSubmit, watch } = useForm<FormData>();
+	const { register, handleSubmit, watch, setValue } = useForm<FormData>({
+		defaultValues: {
+			word: wordData.word,
+			languageId: wordData.languageId,
+			categoryId: wordData.categoryId,
+			subCategoryId: wordData.subCategoryId || undefined,
+			meaning: wordData.meanings.find(m => m.languageId === 1)?.meaning || wordData.meanings[0]?.meaning || "",
+		}
+	});
 	const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
 	const [useCustomSubCategory, setUseCustomSubCategory] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const selectedCategoryId = watch("categoryId");
 
@@ -43,53 +69,74 @@ export default function WordForm({ languages, categories }: Props) {
 		if (selectedCategoryId) {
 			fetch(`/api/words/subcategories?categoryId=${selectedCategoryId}`)
 				.then((res) => res.json())
-				.then((data) => setSubCategories(data));
+				.then((data) => {
+					setSubCategories(data);
+					if (wordData.subCategoryId && wordData.categoryId === Number(selectedCategoryId)) {
+						setValue("subCategoryId", wordData.subCategoryId);
+					}
+				});
 		}
-	}, [selectedCategoryId]);
+	}, [selectedCategoryId, wordData.subCategoryId, wordData.categoryId, setValue]);
 
 	async function onSubmit(data: FormData) {
-		let subCategoryId = data.subCategoryId;
+		setIsLoading(true);
+		try {
+			let subCategoryId = data.subCategoryId;
 
-		if (useCustomSubCategory && data.subCategoryName?.trim()) {
-			const subCatResponse = await fetch("/api/words/subcategories", {
-				method: "POST",
+			if (useCustomSubCategory && data.subCategoryName?.trim()) {
+				const subCatResponse = await fetch("/api/words/subcategories", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						name: data.subCategoryName.trim(),
+						categoryId: Number(data.categoryId),
+					}),
+				});
+
+				if (subCatResponse.ok) {
+					const newSubCat = await subCatResponse.json();
+					subCategoryId = newSubCat.id;
+				}
+			}
+
+			const wordResponse = await fetch(`/api/words/${wordData.id}`, {
+				method: "PUT",
 				headers: {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					name: data.subCategoryName.trim(),
+					word: data.word,
+					languageId: Number(data.languageId),
 					categoryId: Number(data.categoryId),
+					subCategoryId: subCategoryId ? Number(subCategoryId) : null,
 				}),
 			});
 
-			if (subCatResponse.ok) {
-				const newSubCat = await subCatResponse.json();
-				subCategoryId = newSubCat.id;
+			if (!wordResponse.ok) {
+				throw new Error("Failed to update word");
 			}
-		}
 
-		const response = await fetch("/api/words", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				word: data.word,
-				languageId: Number(data.languageId),
-				categoryId: Number(data.categoryId),
-				subCategoryId: subCategoryId ? Number(subCategoryId) : null,
-				meanings: [
-					{
-						languageId: 1,
-						meaning: data.meaning,
+			const englishMeaning = wordData.meanings.find(m => m.languageId === 1);
+			if (englishMeaning && englishMeaning.meaning !== data.meaning) {
+				await fetch(`/api/words/${wordData.id}/meanings/${englishMeaning.id}`, {
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json",
 					},
-				],
-			}),
-		});
+					body: JSON.stringify({
+						meaning: data.meaning,
+					}),
+				});
+			}
 
-		if (response.ok) {
-			router.push("/words");
+			router.push(`/words/${wordData.id}`);
 			router.refresh();
+		} catch (error) {
+			console.error("Error updating word:", error);
+		} finally {
+			setIsLoading(false);
 		}
 	}
 
@@ -198,8 +245,12 @@ export default function WordForm({ languages, categories }: Props) {
 				/>
 			</div>
 
-			<button className="bg-primary hover:bg-primary-dark text-white px-8 py-4 lg:py-5 rounded-xl font-bold text-base lg:text-lg w-full transition-all shadow-lg hover:shadow-xl">
-				💾 Save Word
+			<button
+				type="submit"
+				disabled={isLoading}
+				className="bg-primary hover:bg-primary-dark disabled:bg-theme-light text-white px-8 py-4 lg:py-5 rounded-xl font-bold text-base lg:text-lg w-full transition-all shadow-lg hover:shadow-xl disabled:cursor-not-allowed"
+			>
+				{isLoading ? "⏳ Updating..." : "💾 Update Word"}
 			</button>
 		</form>
 	);
