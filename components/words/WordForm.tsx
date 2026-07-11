@@ -5,12 +5,11 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
 type FormData = {
-	word: string;
+	wordList: string;
 	languageId: number;
 	categoryId: number;
 	subCategoryId?: number;
 	subCategoryName?: string;
-	meaning: string;
 };
 
 type SubCategory = {
@@ -68,22 +67,28 @@ export default function WordForm({ languages, categories }: Props) {
 			}
 		}
 
+		const words = data.wordList
+			.split("\n")
+			.map((line) => {
+				const [word, meaning] = line.split(",").map((item) => item.trim());
+
+				return {
+					word,
+					meaning,
+				};
+			})
+			.filter((item) => item.word && item.meaning);
+
 		const response = await fetch("/api/words", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				word: data.word,
 				languageId: Number(data.languageId),
 				categoryId: Number(data.categoryId),
 				subCategoryId: subCategoryId ? Number(subCategoryId) : null,
-				meanings: [
-					{
-						languageId: 1,
-						meaning: data.meaning,
-					},
-				],
+				words,
 			}),
 		});
 
@@ -95,26 +100,36 @@ export default function WordForm({ languages, categories }: Props) {
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="space-y-6 lg:space-y-8">
+
 			<div>
 				<label className="block mb-3 lg:mb-4 font-semibold text-gray-900 text-base lg:text-lg">
-					Word <span className="text-secondary">*</span>
+					Words List <span className="text-secondary">*</span>
 				</label>
-				<input
-					{...register("word")}
+
+				<textarea
+					{...register("wordList")}
+					rows={8}
 					className="border-2 border-theme rounded-xl p-4 lg:p-5 w-full text-base lg:text-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
-					placeholder="Enter the word"
+					placeholder={`Enter words as CSV list:\n\napple, a fruit\nrun, move quickly\nhappy, feeling joy`}
 					required
 				/>
+
+				<p className="text-sm text-theme-light mt-2">
+					Each line should contain: word, meaning
+				</p>
 			</div>
 
+
 			<div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
+
 				<div>
 					<label className="block mb-3 lg:mb-4 font-semibold text-gray-900 text-base lg:text-lg">
 						Language <span className="text-secondary">*</span>
 					</label>
+
 					<select
 						{...register("languageId")}
-						className="border-2 border-theme rounded-xl p-4 lg:p-5 w-full text-base lg:text-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all bg-white"
+						className="border-2 border-theme rounded-xl p-4 lg:p-5 w-full text-base lg:text-lg bg-white"
 						required
 					>
 						{languages.map((language) => (
@@ -125,13 +140,15 @@ export default function WordForm({ languages, categories }: Props) {
 					</select>
 				</div>
 
+
 				<div>
 					<label className="block mb-3 lg:mb-4 font-semibold text-gray-900 text-base lg:text-lg">
 						Category <span className="text-secondary">*</span>
 					</label>
+
 					<select
 						{...register("categoryId")}
-						className="border-2 border-theme rounded-xl p-4 lg:p-5 w-full text-base lg:text-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all bg-white"
+						className="border-2 border-theme rounded-xl p-4 lg:p-5 w-full text-base lg:text-lg bg-white"
 						required
 					>
 						{categories.map((category) => (
@@ -141,66 +158,62 @@ export default function WordForm({ languages, categories }: Props) {
 						))}
 					</select>
 				</div>
+
 			</div>
+
 
 			<div>
 				<label className="block mb-3 lg:mb-4 font-semibold text-gray-900 text-base lg:text-lg">
-					Subcategory <span className="text-theme-light text-sm lg:text-base font-normal">(Optional)</span>
+					Subcategory
 				</label>
+
 				{!useCustomSubCategory ? (
 					<div>
 						<select
 							{...register("subCategoryId")}
-							className="border-2 border-theme rounded-xl p-4 lg:p-5 w-full text-base lg:text-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all bg-white"
+							className="border-2 border-theme rounded-xl p-4 w-full bg-white"
 						>
 							<option value="">None</option>
+
 							{subCategories.map((subCat) => (
 								<option key={subCat.id} value={subCat.id}>
 									{subCat.name}
 								</option>
 							))}
 						</select>
+
 						<button
 							type="button"
 							onClick={() => setUseCustomSubCategory(true)}
-							className="text-sm text-primary font-medium mt-3 hover:text-primary-dark flex items-center gap-1"
+							className="text-sm text-primary mt-3"
 						>
-							<span>➕</span> Create new subcategory
+							➕ Create new subcategory
 						</button>
 					</div>
 				) : (
 					<div>
 						<input
 							{...register("subCategoryName")}
-							className="border-2 border-theme rounded-xl p-4 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+							className="border-2 border-theme rounded-xl p-4 w-full"
 							placeholder="Enter new subcategory name"
 						/>
+
 						<button
 							type="button"
 							onClick={() => setUseCustomSubCategory(false)}
-							className="text-sm text-theme-light font-medium mt-3 hover:text-theme-dark flex items-center gap-1"
+							className="text-sm text-theme-light mt-3"
 						>
-							<span>←</span> Select existing
+							← Select existing
 						</button>
 					</div>
 				)}
 			</div>
 
-			<div>
-				<label className="block mb-3 lg:mb-4 font-semibold text-gray-900 text-base lg:text-lg">
-					Meaning <span className="text-secondary">*</span>
-				</label>
-				<input
-					{...register("meaning")}
-					className="border-2 border-theme rounded-xl p-4 lg:p-5 w-full text-base lg:text-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
-					placeholder="Enter the meaning"
-					required
-				/>
-			</div>
 
-			<button className="bg-primary hover:bg-primary-dark text-white px-8 py-4 lg:py-5 rounded-xl font-bold text-base lg:text-lg w-full transition-all shadow-lg hover:shadow-xl">
-				💾 Save Word
+			<button className="bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-xl font-bold w-full">
+				💾 Save Words
 			</button>
+
 		</form>
 	);
 }

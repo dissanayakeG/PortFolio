@@ -1,4 +1,4 @@
-import { TaxGroup } from "@/app/definitions/Types";
+import { TaxGroup } from "@/types/Types";
 
 export default function TaxTable({ taxBrackets }: { taxBrackets: TaxGroup[] }) {
 	return (

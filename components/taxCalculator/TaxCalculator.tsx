@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
-import { TaxGroup } from "@/app/definitions/Types";
-import taxGroups from "../../lib/buildTaxGroups";
-import TaxTable from "./TaxTable";
-import TaxResults from "./TaxResults";
+import { TaxGroup } from "@/types/Types";
+import taxGroups from "@/lib/buildTaxGroups";
+import TaxTable from "@/components/taxCalculator/TaxTable";
+import TaxResults from "@/components/taxCalculator/TaxResults";
 
 const TAX_FREE_LIMIT = 150_000;
 const MAX_SALARY_LIMIT = 10_000_000;

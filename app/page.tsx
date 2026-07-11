@@ -1,6 +1,6 @@
-import AboutMe from "./ui/components/aboutMe";
-import TechSkills from "./ui/components/techSkills";
-import Experiences from "./ui/components/experiences";
+import AboutMe from "@/components/portFolio/aboutMe";
+import TechSkills from "@/components/portFolio/techSkills";
+import Experiences from "@/components/portFolio/experiences";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

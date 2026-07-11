@@ -1,4 +1,4 @@
-import { Experience } from "@/app/definitions/Types";
+import { Experience } from "@/types/Types";
 
 const experiences: Experience[] = [
 	{
@@ -6,6 +6,14 @@ const experiences: Experience[] = [
 		duration: "November 2022 - Present",
 		skills: "Laravel | Laravel Package Development | Livewire | Alpine.js | Pest | TDD",
 		breakdown: [
+			{
+				designation: "Associate Technical Lead",
+				duration: "April 2026 - Present",
+				notes: `Developed custom Laravel packages to streamline application functionality and reusability. |
+						Applied design patterns to create modular, maintainable, and expandable codebases. |
+						Led test-driven development (TDD) using PHPUnit and Pest, ensuring robust and error-free applications. | 
+						Collaborated with cross-functional teams to implement innovative solutions and optimize performance.`,
+			},
 			{
 				designation: "Senior Software Engineer",
 				duration: "November 2022 - Present",

@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import PostTags from "./PostTags";
-import { PostMetadata } from "@/app/definitions/Types";
-import Loading from "./loading";
+import PostTags from "@/components/blog/PostTags";
+import { PostMetadata } from "@/types/Types";
+import Loading from "@/components/blog/loading";
 
 export default function Posts() {
 	const [postMetaData, setPostMetaData] = useState<PostMetadata[]>([]);

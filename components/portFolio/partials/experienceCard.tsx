@@ -1,4 +1,4 @@
-import { Experience } from "@/app/definitions/Types";
+import { Experience } from "@/types/Types";
 
 type ExperienceType = {
 	experience: Experience;

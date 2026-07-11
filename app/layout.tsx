@@ -1,7 +1,7 @@
-import "@/app/ui/global.css";
-import { inter, montserrat } from "@/app/ui/fonts";
-import Nav from "./ui/components/nav";
-import Footer from "./ui/components/footer";
+import "@/components/global.css";
+import { inter, montserrat } from "@/components/fonts";
+import Nav from "@/components/layout/nav";
+import Footer from "@/components/layout/footer";
 import Head from "next/head";
 import { Metadata } from "next";
 

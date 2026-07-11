@@ -1,7 +1,7 @@
 import fs from "fs";
 import Markdown from "markdown-to-jsx";
-import { getPostMetaData } from "@/app/lib/getPostMetaData";
-import markdownOptions from "../../lib/markdownOptions";
+import { getPostMetaData } from "@/lib/getPostMetaData";
+import markdownOptions from "@/lib/markdownOptions";
 import { Metadata } from "next";
 
 const getPostContent = (slug: string) => {

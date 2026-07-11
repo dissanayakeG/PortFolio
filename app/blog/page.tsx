@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import Posts from "./components/Posts";
+import Posts from "@/components/blog/Posts";
 
 export const metadata: Metadata = {
 	title: "Developer Blog",

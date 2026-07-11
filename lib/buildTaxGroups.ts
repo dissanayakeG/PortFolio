@@ -1,4 +1,4 @@
-import { TaxGroup, GroupsTaxPercentages } from "@/app/definitions/Types";
+import { TaxGroup, GroupsTaxPercentages } from "@/types/Types";
 
 class TaxBracketConfig {
     private static readonly TAX_FREE_LIMIT = 150_000;
