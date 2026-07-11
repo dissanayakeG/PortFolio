@@ -1,6 +1,10 @@
 import { prisma } from "@/lib/prisma";
 import ImportForm from "@/components/words/ImportForm";
 import Link from "next/link";
+import { CustomLink } from "@/components/ui/customLink";
+import { Heading1 } from "@/components/ui/h1";
+import { Phetsarath } from "next/font/google";
+import { Paragraph } from "@/components/ui/p";
 
 export default async function ImportPage() {
 	const languages = await prisma.language.findMany({
@@ -17,20 +21,13 @@ export default async function ImportPage() {
 
 	return (
 		<div className="max-w-4xl mx-auto">
-			<Link
-				href="/words"
-				className="inline-flex items-center gap-2 text-primary hover:text-primary-dark mb-6 font-medium"
-			>
-				← Back to Words
-			</Link>
+			<CustomLink href="/words">← Back to Words</CustomLink>
 
 			<div className="mb-10">
-				<h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-3">
-					Import Vocabulary
-				</h1>
-				<p className="text-lg text-theme-dark">
+				<Heading1>Import Vocabulary</Heading1>
+				<Paragraph>
 					Upload a CSV file to bulk import multiple words at once
-				</p>
+				</Paragraph>
 			</div>
 
 			<div className="bg-white rounded-2xl border border-theme shadow-sm p-8 mb-7">

@@ -3,6 +3,11 @@
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { Select } from "../ui/select";
+import { LinkButton } from "../ui/link-button";
 
 type FormData = {
 	word: string;
@@ -48,7 +53,11 @@ type Props = {
 	categories: Category[];
 };
 
-export default function EditWordForm({ wordData, languages, categories }: Props) {
+export default function EditWordForm({
+	wordData,
+	languages,
+	categories,
+}: Props) {
 	const router = useRouter();
 	const { register, handleSubmit, watch, setValue } = useForm<FormData>({
 		defaultValues: {
@@ -56,8 +65,11 @@ export default function EditWordForm({ wordData, languages, categories }: Props)
 			languageId: wordData.languageId,
 			categoryId: wordData.categoryId,
 			subCategoryId: wordData.subCategoryId || undefined,
-			meaning: wordData.meanings.find(m => m.languageId === 1)?.meaning || wordData.meanings[0]?.meaning || "",
-		}
+			meaning:
+				wordData.meanings.find((m) => m.languageId === 1)?.meaning ||
+				wordData.meanings[0]?.meaning ||
+				"",
+		},
 	});
 	const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
 	const [useCustomSubCategory, setUseCustomSubCategory] = useState(false);
@@ -71,12 +83,20 @@ export default function EditWordForm({ wordData, languages, categories }: Props)
 				.then((res) => res.json())
 				.then((data) => {
 					setSubCategories(data);
-					if (wordData.subCategoryId && wordData.categoryId === Number(selectedCategoryId)) {
+					if (
+						wordData.subCategoryId &&
+						wordData.categoryId === Number(selectedCategoryId)
+					) {
 						setValue("subCategoryId", wordData.subCategoryId);
 					}
 				});
 		}
-	}, [selectedCategoryId, wordData.subCategoryId, wordData.categoryId, setValue]);
+	}, [
+		selectedCategoryId,
+		wordData.subCategoryId,
+		wordData.categoryId,
+		setValue,
+	]);
 
 	async function onSubmit(data: FormData) {
 		setIsLoading(true);
@@ -118,17 +138,22 @@ export default function EditWordForm({ wordData, languages, categories }: Props)
 				throw new Error("Failed to update word");
 			}
 
-			const englishMeaning = wordData.meanings.find(m => m.languageId === 1);
+			const englishMeaning = wordData.meanings.find(
+				(m) => m.languageId === 1,
+			);
 			if (englishMeaning && englishMeaning.meaning !== data.meaning) {
-				await fetch(`/api/words/${wordData.id}/meanings/${englishMeaning.id}`, {
-					method: "PUT",
-					headers: {
-						"Content-Type": "application/json",
+				await fetch(
+					`/api/words/${wordData.id}/meanings/${englishMeaning.id}`,
+					{
+						method: "PUT",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({
+							meaning: data.meaning,
+						}),
 					},
-					body: JSON.stringify({
-						meaning: data.meaning,
-					}),
-				});
+				);
 			}
 
 			router.push(`/words/${wordData.id}`);
@@ -143,12 +168,11 @@ export default function EditWordForm({ wordData, languages, categories }: Props)
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
 			<div>
-				<label className="block mb-3 lg:mb-4 font-semibold text-gray-900 text-base">
+				<Label>
 					Word <span className="text-secondary">*</span>
-				</label>
-				<input
+				</Label>
+				<Input
 					{...register("word")}
-					className="border-2 border-theme rounded-xl w-full text-base focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
 					placeholder="Enter the word"
 					required
 				/>
@@ -156,102 +180,87 @@ export default function EditWordForm({ wordData, languages, categories }: Props)
 
 			<div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
 				<div>
-					<label className="block mb-3 lg:mb-4 font-semibold text-gray-900 text-base">
+					<Label>
 						Language <span className="text-secondary">*</span>
-					</label>
-					<select
-						{...register("languageId")}
-						className="border-2 border-theme rounded-xl w-full text-base focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all bg-white"
-						required
-					>
+					</Label>
+					<Select {...register("languageId")}>
 						{languages.map((language) => (
 							<option key={language.id} value={language.id}>
 								{language.name}
 							</option>
 						))}
-					</select>
+					</Select>
 				</div>
 
 				<div>
-					<label className="block mb-3 lg:mb-4 font-semibold text-gray-900 text-base">
+					<Label>
 						Category <span className="text-secondary">*</span>
-					</label>
-					<select
-						{...register("categoryId")}
-						className="border-2 border-theme rounded-xl w-full text-base focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all bg-white"
-						required
-					>
+					</Label>
+
+					<Select {...register("categoryId")}>
 						{categories.map((category) => (
 							<option key={category.id} value={category.id}>
 								{category.name}
 							</option>
 						))}
-					</select>
+					</Select>
 				</div>
 			</div>
 
 			<div>
-				<label className="block mb-3 lg:mb-4 font-semibold text-gray-900 text-base">
-					Subcategory <span className="text-theme-light text-sm font-normal">(Optional)</span>
-				</label>
+				<Label>
+					Subcategory{" "}
+					<span className="text-theme-light text-sm font-normal">
+						(Optional)
+					</span>
+				</Label>
 				{!useCustomSubCategory ? (
 					<div>
-						<select
-							{...register("subCategoryId")}
-							className="border-2 border-theme rounded-xl w-full text-base focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all bg-white"
-						>
+						<Select {...register("subCategoryId")}>
 							<option value="">None</option>
 							{subCategories.map((subCat) => (
 								<option key={subCat.id} value={subCat.id}>
 									{subCat.name}
 								</option>
 							))}
-						</select>
-						<button
-							type="button"
+						</Select>
+
+						<LinkButton
 							onClick={() => setUseCustomSubCategory(true)}
-							className="text-sm text-primary font-medium mt-3 hover:text-primary-dark flex items-center gap-1"
 						>
 							<span>➕</span> Create new subcategory
-						</button>
+						</LinkButton>
 					</div>
 				) : (
 					<div>
-						<input
+						<Input
 							{...register("subCategoryName")}
-							className="border-2 border-theme rounded-xl w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
 							placeholder="Enter new subcategory name"
 						/>
-						<button
+						<LinkButton
 							type="button"
 							onClick={() => setUseCustomSubCategory(false)}
-							className="text-sm text-theme-light font-medium mt-3 hover:text-theme-dark flex items-center gap-1"
 						>
 							<span>←</span> Select existing
-						</button>
+						</LinkButton>
 					</div>
 				)}
 			</div>
 
 			<div>
-				<label className="block mb-3 lg:mb-4 font-semibold text-gray-900 text-base">
+				<Label>
 					Meaning <span className="text-secondary">*</span>
-				</label>
-				<input
+				</Label>
+				<Input
 					{...register("meaning")}
-					className="border-2 border-theme rounded-xl w-full text-base focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
 					placeholder="Enter the meaning"
 					required
 				/>
 			</div>
 
-			<button
-				type="submit"
-				disabled={isLoading}
-				className="bg-primary hover:bg-primary-dark disabled:bg-theme-light text-white py-2 rounded-xl font-bold text-base w-full transition-all shadow-lg hover:shadow-xl disabled:cursor-not-allowed"
-			>
+			<Button type="submit" disabled={isLoading}>
 				{isLoading ? "⏳ Updating..." : "💾 Update Word"}
-			</button>
+			</Button>
 		</form>
 	);
 }

@@ -1,6 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import WordForm from "@/components/words/WordForm";
 import Link from "next/link";
+import { Heading1 } from "@/components/ui/h1";
+import { CustomLink } from "@/components/ui/customLink";
+import { Paragraph } from "@/components/ui/p";
 
 export default async function AddWordPage() {
 	const languages = await prisma.language.findMany({
@@ -13,20 +16,13 @@ export default async function AddWordPage() {
 
 	return (
 		<div className="max-w-5xl mx-auto">
-			<Link
-				href="/words"
-				className="inline-flex items-center gap-2 text-primary hover:text-primary-dark mb-6 lg:mb-8 font-medium text-base lg:text-lg"
-			>
-				← Back to Words
-			</Link>
+			<CustomLink href="/words">← Back to Words</CustomLink>
 
 			<div className="mb-8 sm:mb-10 lg:mb-14">
-				<h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-3 lg:mb-5">
-					Add New Word
-				</h1>
-				<p className="text-lg sm:text-xl lg:text-2xl text-theme-dark">
+				<Heading1>Add New Word</Heading1>
+				<Paragraph>
 					Expand your vocabulary by adding a new word
-				</p>
+				</Paragraph>
 			</div>
 
 			<div className="bg-white rounded-2xl border-2 border-theme shadow-lg p-6 sm:p-8 lg:p-12">

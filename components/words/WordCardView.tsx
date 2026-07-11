@@ -1,6 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import NoWordFound from "@/components/words/partials/NoWordFound";
+import WordSearch from "./partials/WordSearch";
+import { Heading2 } from "../ui/h2";
+import { Heading3 } from "../ui/h3";
 
 type Meaning = {
 	id: number;
@@ -33,7 +37,9 @@ type Props = {
 };
 
 export default function WordCardView({ words }: Props) {
-	const [rememberStatus, setRememberStatus] = useState<Record<number, boolean>>(
+	const [rememberStatus, setRememberStatus] = useState<
+		Record<number, boolean>
+	>(
 		words.reduce(
 			(acc, word) => {
 				acc[word.id] = word.progress?.remembered || false;
@@ -111,79 +117,55 @@ export default function WordCardView({ words }: Props) {
 	);
 
 	return (
-		<div className="w-full space-y-8">
+		<div className="w-full space-y-6 sm:space-y-8">
 			{/* Search */}
 			<div className="w-full">
-				<input
-					type="text"
-					value={searchTerm}
-					onChange={(e) => setSearchTerm(e.target.value)}
-					placeholder="Search word or meaning..."
-					className="border-2 border-theme rounded-xl p-4 lg:p-5 w-full text-base lg:text-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+				<WordSearch
+					searchTerm={searchTerm}
+					setSearchTerm={setSearchTerm}
 				/>
 			</div>
 
-			{/* Empty result */}
-			{filteredWords.length === 0 && (
-				<div className="w-full rounded-2xl border-2 border-dashed border-theme bg-theme/20 p-16 text-center">
-					<div className="text-6xl mb-4">📚</div>
-
-					<h3 className="text-2xl font-bold text-gray-900 mb-3">
-						No words found
-					</h3>
-
-					<p className="text-theme-dark">
-						Try searching with another word or meaning
-					</p>
-				</div>
-			)}
+			{filteredWords.length === 0 && <NoWordFound />}
 
 			{/* Results */}
 			{Object.entries(groupedWords).map(([category, subCategories]) => (
-				<div
-					key={category}
-					className="space-y-6 sm:space-y-8 lg:space-y-10"
-				>
+				<div key={category} className="space-y-6 sm:space-y-8">
 					<div className="flex items-center gap-4 lg:gap-6">
-						<h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2 lg:gap-4">
-							{category}
-						</h2>
+						<Heading2>{category}</Heading2>
 
 						<div className="flex-1 h-[3px] lg:h-1 bg-gradient-to-r from-primary to-transparent rounded-full" />
 					</div>
 
 					{Object.entries(subCategories).map(
 						([subCategory, subCategoryWords]) => (
-							<div
-								key={subCategory}
-								className="space-y-3 sm:space-y-4 lg:space-y-5"
-							>
-								<h3 className="text-lg sm:text-xl lg:text-2xl font-semibold text-white ml-2 sm:ml-4 lg:ml-8">
+							<div key={subCategory} className="space-y-3">
+								<Heading3>
 									{subCategory}
 
-									<span className="text-xs sm:text-sm lg:text-base font-normal ml-2">
+									<span className="text-xs sm:text-sm font-normal ml-2 opacity-80">
 										({subCategoryWords.length}{" "}
 										{subCategoryWords.length === 1
 											? "word"
 											: "words"}
 										)
 									</span>
-								</h3>
+								</Heading3>
 
-								<div className="w-full bg-white rounded-2xl border-2 border-theme shadow-sm overflow-hidden ml-2 sm:ml-4 lg:ml-8">
-									<div className="overflow-x-auto">
-										<table className="w-full font-mono text-sm sm:text-base lg:text-lg">
+								<div className="w-full bg-white rounded-2xl border-2 border-theme shadow-sm overflow-hidden">
+									<div className="overflow-x-auto w-full">
+										<table className="w-full table-fixed min-w-[500px] font-mono text-sm sm:text-base">
 											<thead>
 												<tr className="bg-theme/30 border-b-2 border-theme">
-													<th className="text-left px-4 sm:px-6 lg:px-8 py-3 sm:py-4 lg:py-5 font-bold text-gray-900">
+													<th className="w-5/12 text-left px-4 sm:px-6 py-3 font-bold text-gray-900">
 														Word
 													</th>
 
-													<th className="text-left px-4 sm:px-6 lg:px-8 py-3 sm:py-4 lg:py-5 font-bold text-gray-900">
+													<th className="w-5/12 text-left px-4 sm:px-6 py-3 font-bold text-gray-900">
 														Meaning
 													</th>
 
-													<th className="text-center px-4 sm:px-6 lg:px-8 py-3 sm:py-4 lg:py-5 font-bold text-gray-900">
+													<th className="w-2/12 text-center px-4 sm:px-6 py-3 font-bold text-gray-900">
 														Status
 													</th>
 												</tr>
@@ -200,7 +182,7 @@ export default function WordCardView({ words }: Props) {
 																	: "bg-theme/10"
 															}`}
 														>
-															<td className="px-4 sm:px-6 lg:px-8 py-2 text-gray-900 font-bold">
+															<td className="px-4 sm:px-6 py-3 text-gray-900 font-bold truncate">
 																<a
 																	href={`/words/${word.id}/edit`}
 																	className="hover:text-primary hover:underline transition-colors"
@@ -209,13 +191,13 @@ export default function WordCardView({ words }: Props) {
 																</a>
 															</td>
 
-															<td className="px-4 sm:px-6 lg:px-8 py-2 text-gray-700">
+															<td className="px-4 sm:px-6 py-3 text-gray-700 truncate">
 																{getEnglishMeaning(
 																	word.meanings,
 																)}
 															</td>
 
-															<td className="px-4 sm:px-6 lg:px-8 py-2 text-center">
+															<td className="px-4 sm:px-6 py-3 text-center">
 																<button
 																	onClick={() =>
 																		toggleRemembered(
