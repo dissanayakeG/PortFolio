@@ -1,5 +1,5 @@
 import { MetadataRoute } from "next";
-import { getPostMetaData } from "./lib/getPostMetaData";
+import { getPostMetaData } from "../lib/getPostMetaData";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 

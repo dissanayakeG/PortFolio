@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import TaxCalculator from "./components/TaxCalculator";
+import TaxCalculator from "@/components/taxCalculator/TaxCalculator";
 
 export const metadata: Metadata = {
 	title: "SL PAYE Tax Calculator",

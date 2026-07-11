@@ -1,4 +1,4 @@
-import TechCard from "../partials/techCard";
+import TechCard from "@/components/portFolio/partials/techCard";
 
 export default function TechSkills() {
 	const techSkills = [

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import ContactCard from "../partials/contactCard";
+import ContactCard from "@/components/portFolio/partials/contactCard";
 import { link } from "fs";
 
 export default function AboutMe() {

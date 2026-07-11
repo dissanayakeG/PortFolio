@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 
 import matter from "gray-matter";
-import { PostMetadata } from "@/app/definitions/Types";
+import { PostMetadata } from "@/types/Types";
 
 let markDownPosts: string[];
 

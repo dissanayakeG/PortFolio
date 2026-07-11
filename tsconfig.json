@@ -35,8 +35,8 @@
     ".next/types/**/*.ts",
     "app/lib/placeholder-data.ts",
     "scripts/seed.js",
-    "app/lib/markdownOptions.tsx",
-    "app/blog/components/PostTags.tsx",
+    "lib/markdownOptions.tsx",
+    "components/blog/PostTags.tsx",
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [

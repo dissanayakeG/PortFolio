@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getPostMetaDataByTags } from "@/app/lib/getPostMetaData";
-import { PostMetadata } from "@/app/definitions/Types";
+import { getPostMetaDataByTags } from "@/lib/getPostMetaData";
+import { PostMetadata } from "@/types/Types";
 
 export async function GET(req: NextRequest): Promise<NextResponse> {
     try {

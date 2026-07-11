@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getPostMetaData } from "@/app/lib/getPostMetaData";
+import { getPostMetaData } from "@/lib/getPostMetaData";
 
 export async function GET() {
     try {

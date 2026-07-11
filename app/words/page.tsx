@@ -34,7 +34,7 @@ export default async function WordsPage() {
 						href="/words/new"
 						className="flex-1 sm:flex-none text-center rounded-xl bg-primary hover:bg-primary-dark px-3  py-3  text-white text-sm sm:text-base lg:text-lg font-bold transition-all shadow-lg hover:shadow-xl"
 					>
-						➕ Add Word
+						➕ Add Words
 					</Link>
 					<Link
 						href="/words/import"
