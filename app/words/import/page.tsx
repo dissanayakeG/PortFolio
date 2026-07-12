@@ -1,9 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import ImportForm from "@/components/words/ImportForm";
-import Link from "next/link";
 import { CustomLink } from "@/components/ui/customLink";
 import { Heading1 } from "@/components/ui/h1";
-import { Phetsarath } from "next/font/google";
 import { Paragraph } from "@/components/ui/p";
 
 export default async function ImportPage() {
