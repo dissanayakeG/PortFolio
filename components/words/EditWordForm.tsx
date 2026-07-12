@@ -3,11 +3,11 @@
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { Select } from "../ui/select";
-import { LinkButton } from "../ui/link-button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Select } from "@/components/ui/select";
+import { LinkButton } from "@/components/ui/link-button";
 
 type FormData = {
 	word: string;
@@ -178,7 +178,7 @@ export default function EditWordForm({
 				/>
 			</div>
 
-			<div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
+			<div>
 				<div>
 					<Label>
 						Language <span className="text-secondary">*</span>
@@ -258,7 +258,11 @@ export default function EditWordForm({
 				/>
 			</div>
 
-			<Button type="submit" disabled={isLoading}>
+			<Button
+				type="submit"
+				disabled={isLoading}
+				className="bg-gradient-to-r from-primary to-primary-light hover:from-primary-dark hover:to-primary disabled:from-theme-light disabled:to-theme text-white px-8 py-4 rounded-xl font-semibold w-full transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 disabled:hover:translate-y-0 disabled:cursor-not-allowed"
+			>
 				{isLoading ? "⏳ Updating..." : "💾 Update Word"}
 			</Button>
 		</form>

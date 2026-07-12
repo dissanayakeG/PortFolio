@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import NoWordFound from "@/components/words/partials/NoWordFound";
-import WordSearch from "./partials/WordSearch";
-import { Heading2 } from "../ui/h2";
-import { Heading3 } from "../ui/h3";
+import WordSearch from "@/components/words/partials/WordSearch";
+import { Heading2 } from "@/components/ui/h2";
+import { Heading3 } from "@/components/ui/h3";
 
 type Meaning = {
 	id: number;

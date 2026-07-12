@@ -3,17 +3,17 @@
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Label } from "../ui/label";
-import { Paragraph } from "../ui/p";
-import { Select } from "../ui/select";
-import { Button } from "../ui/button";
-import { LinkButton } from "../ui/link-button";
-import { Input } from "../ui/input";
+import { Label } from "@/components/ui/label";
+import { Paragraph } from "@/components/ui/p";
+import { Select } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { LinkButton } from "@/components/ui/link-button";
+import { Input } from "@/components/ui/input";
 
 type FormData = {
 	wordList: string;
-	languageId: string; // Changed to string because HTML select yields strings
-	categoryId: string; // Changed to string because HTML select yields strings
+	languageId: string;
+	categoryId: string;
 	subCategoryId?: string;
 	subCategoryName?: string;
 };
@@ -32,8 +32,12 @@ type Props = {
 export default function WordForm({ languages, categories }: Props) {
 	const router = useRouter();
 
-	// Set explicit default values for form selects to avoid undefined passes
-	const { register, handleSubmit, watch } = useForm<FormData>({
+	const {
+		register,
+		handleSubmit,
+		watch,
+		formState: { errors },
+	} = useForm<FormData>({
 		defaultValues: {
 			languageId: languages[0]?.id?.toString() || "",
 			categoryId: categories[0]?.id?.toString() || "",
@@ -61,6 +65,31 @@ export default function WordForm({ languages, categories }: Props) {
 		}
 	}, [selectedCategoryId]);
 
+	// Validation logic for format and malicious scripts
+	const validateWordList = (value: string) => {
+		if (!value.trim()) return "Word list cannot be empty.";
+
+		// 1. Basic Malicious text/XSS protection check
+		const containsVulnerabilityText =
+			/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>|javascript:|onerror=|onload=/i.test(
+				value,
+			);
+		if (containsVulnerabilityText) {
+			return "Security Warning: Invalid or restricted characters detected in text.";
+		}
+
+		// 2. Format validation logic
+		const lines = value.split(/\r?\n/).filter((line) => line.trim() !== "");
+		for (let i = 0; i < lines.length; i++) {
+			const parts = lines[i].split(",");
+			if (parts.length < 2 || !parts[0].trim() || !parts[1].trim()) {
+				return `Line ${i + 1} is invalid. Make sure it follows the format: word, meaning`;
+			}
+		}
+
+		return true;
+	};
+
 	async function onSubmit(data: FormData) {
 		if (isSubmitting) return;
 		setIsSubmitting(true);
@@ -68,7 +97,6 @@ export default function WordForm({ languages, categories }: Props) {
 		try {
 			let finalSubCategoryId: number | null = null;
 
-			// 1. Handle Custom Subcategory Creation Safely
 			if (useCustomSubCategory && data.subCategoryName?.trim()) {
 				const subCatResponse = await fetch("/api/words/subcategories", {
 					method: "POST",
@@ -83,41 +111,27 @@ export default function WordForm({ languages, categories }: Props) {
 					const newSubCat = await subCatResponse.json();
 					finalSubCategoryId = Number(newSubCat.id);
 				}
-			}
-			// 2. Handle Selected Existing Subcategory Safely
-			else if (!useCustomSubCategory && data.subCategoryId) {
+			} else if (!useCustomSubCategory && data.subCategoryId) {
 				finalSubCategoryId = Number(data.subCategoryId);
 			}
 
-			// 3. Robust CSV parsing handling cross-platform newline discrepancies (\r\n)
 			const words = data.wordList
 				.split(/\r?\n/)
+				.filter((line) => line.trim() !== "")
 				.map((line) => {
 					const parts = line.split(",");
-					if (parts.length < 2) return { word: "", meaning: "" };
-
 					const word = parts[0].trim();
-					// Join remainder in case the meaning text contains commas itself
 					const meaning = parts.slice(1).join(",").trim();
-
 					return { word, meaning };
-				})
-				.filter((item) => item.word && item.meaning);
+				});
 
-			if (words.length === 0) {
-				alert("Please enter at least one valid word and meaning pair.");
-				setIsSubmitting(false);
-				return;
-			}
-
-			// 4. Send clean payload out to your server endpoint
 			const response = await fetch("/api/words", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
 					languageId: Number(data.languageId),
 					categoryId: Number(data.categoryId),
-					subCategoryId: finalSubCategoryId, // Clean Number or explicit null
+					subCategoryId: finalSubCategoryId,
 					words,
 				}),
 			});
@@ -149,13 +163,26 @@ export default function WordForm({ languages, categories }: Props) {
 					Words List <span className="text-secondary">*</span>
 				</Label>
 				<textarea
-					{...register("wordList")}
+					{...register("wordList", { validate: validateWordList })}
 					rows={8}
-					className="border-2 border-theme rounded-xl p-4 lg:p-5 w-full text-base lg:text-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+					className={`border-2 rounded-xl p-4 lg:p-5 w-full text-base lg:text-lg focus:outline-none focus:ring-2 transition-all ${
+						errors.wordList
+							? "border-red-500 focus:ring-red-500 focus:border-red-500"
+							: "border-theme focus:ring-primary focus:border-primary"
+					}`}
 					placeholder={`Enter words as CSV list:\n\napple, a fruit\nrun, move quickly\nhappy, feeling joy`}
-					required
 				/>
-				<Paragraph>Each line should contain: word, meaning</Paragraph>
+
+				{/* Dynamic Error Message Block */}
+				{errors.wordList ? (
+					<p className="mt-2 text-sm font-semibold text-red-500 flex items-center gap-1 animate-pulse">
+						⚠️ {errors.wordList.message}
+					</p>
+				) : (
+					<Paragraph>
+						Each line should contain: word, meaning
+					</Paragraph>
+				)}
 			</div>
 
 			<div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
