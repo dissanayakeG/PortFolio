@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Language {
+  id   Int    @id @default(autoincrement())
+  code String @unique
+  name String
+
+  words    Word[]
+  meanings Meaning[]
+}
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  code String @unique
+  name String @unique
+
+  words         Word[]
+  subCategories SubCategory[]
+}
+
+model SubCategory {
+  id         Int    @id @default(autoincrement())
+  name       String
+  categoryId Int
+
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  words    Word[]
+
+  @@unique([name, categoryId])
+  @@index([categoryId])
+}
+
+model Word {
+  id Int @id @default(autoincrement())
+
+  languageId    Int
+  categoryId    Int
+  subCategoryId Int?
+
+  word String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  language    Language     @relation(fields: [languageId], references: [id])
+  category    Category     @relation(fields: [categoryId], references: [id])
+  subCategory SubCategory? @relation(fields: [subCategoryId], references: [id])
+
+  meanings Meaning[]
+  progress Progress?
+
+  @@index([languageId])
+  @@index([categoryId])
+  @@index([subCategoryId])
+}
+
+model Meaning {
+  id Int @id @default(autoincrement())
+
+  wordId     Int
+  languageId Int
+
+  meaning String
+
+  word     Word     @relation(fields: [wordId], references: [id], onDelete: Cascade)
+  language Language @relation(fields: [languageId], references: [id])
+
+  @@index([wordId])
+}
+
+model Progress {
+  id Int @id @default(autoincrement())
+
+  wordId Int @unique
+
+  remembered Boolean @default(false)
+  favorite   Boolean @default(false)
+
+  reviewCount Int @default(0)
+
+  lastReviewedAt DateTime?
+  nextReviewAt   DateTime?
+
+  word Word @relation(fields: [wordId], references: [id], onDelete: Cascade)
+}
