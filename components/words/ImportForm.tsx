@@ -3,12 +3,12 @@
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Label } from "../ui/label";
-import { Select } from "../ui/select";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { LinkButton } from "../ui/link-button";
-import { FileInput } from "../ui/fileInput";
+import { Label } from "@/components/ui/label";
+import { Select } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { LinkButton } from "@/components/ui/link-button";
+import { FileInput } from "@/components/ui/fileInput";
 
 type FormData = {
 	languageId: number;
