@@ -14,27 +14,11 @@ Here's a concise reference of everything we've used so far.
 npx create-next-app@latest study-helper
 ```
 
-Choose:
-
-```text
-TypeScript          Yes
-ESLint              Yes
-Tailwind CSS        Yes
-src directory       No
-App Router          Yes
-Turbopack           Yes
-Import Alias        @/*
-```
-
----
-
 # 2. Install Prisma
 
 ```bash
 npm install prisma @prisma/client
 ```
-
----
 
 # 3. Initialize Prisma
 
@@ -42,15 +26,11 @@ npm install prisma @prisma/client
 npx prisma init
 ```
 
----
-
 # 4. Install SQLite adapter (Prisma 7)
 
 ```bash
 npm install @prisma/adapter-better-sqlite3 better-sqlite3
 ```
-
----
 
 # 5. Install form libraries
 
@@ -58,15 +38,11 @@ npm install @prisma/adapter-better-sqlite3 better-sqlite3
 npm install react-hook-form zod @hookform/resolvers
 ```
 
----
-
 # 6. Install tsx (for running seed files)
 
 ```bash
 npm install -D tsx
 ```
-
----
 
 # Prisma Commands
 
@@ -77,8 +53,6 @@ Run whenever you change `schema.prisma`.
 ```bash
 npx prisma generate
 ```
-
----
 
 ## Create a migration
 
@@ -92,13 +66,8 @@ Example:
 
 ```bash
 npx prisma migrate dev --name add_notes
-```
-
-```bash
 npx prisma migrate dev --name add_examples
 ```
-
----
 
 ## Reset the database
 
@@ -108,15 +77,11 @@ Deletes all data and reapplies migrations.
 npx prisma migrate reset
 ```
 
----
-
 ## Check migration status
 
 ```bash
 npx prisma migrate status
 ```
-
----
 
 ## Open Prisma Studio
 
@@ -124,15 +89,11 @@ npx prisma migrate status
 npx prisma studio
 ```
 
----
-
 ## Seed the database
 
 ```bash
 npx tsx prisma/seed.ts
 ```
-
----
 
 # Run the application
 
@@ -154,36 +115,6 @@ Run production:
 npm start
 ```
 
----
-
-# Useful Commands
-
-List project files:
-
-```bash
-find . -type f
-```
-
-Find a specific file:
-
-```bash
-find . -name "WordTable*"
-```
-
-List migrations:
-
-```bash
-ls prisma/migrations
-```
-
-Check SQLite database:
-
-```bash
-ls *.db
-```
-
----
-
 # Typical Workflow
 
 When you modify the Prisma schema:
@@ -203,17 +134,3 @@ npx tsx prisma/seed.ts
 # 5. Start development server
 npm run dev
 ```
-
----
-
-# Current Tech Stack
-
-* **Framework:** Next.js 16 (App Router)
-* **Language:** TypeScript
-* **Database:** SQLite
-* **ORM:** Prisma 7
-* **Database Adapter:** `@prisma/adapter-better-sqlite3`
-* **Styling:** Tailwind CSS
-* **Forms:** React Hook Form + Zod
-
-This covers all the packages and commands we've used up to this point.
