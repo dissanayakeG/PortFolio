@@ -9,27 +9,9 @@ import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { LinkButton } from "@/components/ui/link-button";
 import { Input } from "@/components/ui/input";
+import { WordFormFormData, WordFormProps, WordFormSubCategory } from "@/types/WordsTypes";
 
-type FormData = {
-	wordList: string;
-	languageId: string;
-	categoryId: string;
-	subCategoryId?: string;
-	subCategoryName?: string;
-};
-
-type SubCategory = {
-	id: number;
-	name: string;
-	categoryId: number;
-};
-
-type Props = {
-	languages: { id: number; name: string }[];
-	categories: { id: number; name: string }[];
-};
-
-export default function WordForm({ languages, categories }: Props) {
+export default function WordForm({ languages, categories }: WordFormProps) {
 	const router = useRouter();
 
 	const {
@@ -37,7 +19,7 @@ export default function WordForm({ languages, categories }: Props) {
 		handleSubmit,
 		watch,
 		formState: { errors },
-	} = useForm<FormData>({
+	} = useForm<WordFormFormData>({
 		defaultValues: {
 			languageId: languages[0]?.id?.toString() || "",
 			categoryId: categories[0]?.id?.toString() || "",
@@ -46,7 +28,7 @@ export default function WordForm({ languages, categories }: Props) {
 		},
 	});
 
-	const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
+	const [subCategories, setSubCategories] = useState<WordFormSubCategory[]>([]);
 	const [useCustomSubCategory, setUseCustomSubCategory] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -90,7 +72,7 @@ export default function WordForm({ languages, categories }: Props) {
 		return true;
 	};
 
-	async function onSubmit(data: FormData) {
+	async function onSubmit(data: WordFormFormData) {
 		if (isSubmitting) return;
 		setIsSubmitting(true);
 

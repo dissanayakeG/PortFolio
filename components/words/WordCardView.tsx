@@ -5,38 +5,9 @@ import NoWordFound from "@/components/words/partials/NoWordFound";
 import WordSearch from "@/components/words/partials/WordSearch";
 import { Heading2 } from "@/components/ui/h2";
 import { Heading3 } from "@/components/ui/h3";
+import { WordCardMeaning, WordCardProps, WordCardWord } from "@/types/WordsTypes";
 
-type Meaning = {
-	id: number;
-	meaning: string;
-	languageId: number;
-};
-
-type Word = {
-	id: number;
-	word: string;
-	language: {
-		name: string;
-		code: string;
-	};
-	category: {
-		name: string;
-	};
-	subCategory?: {
-		name: string;
-		id: number;
-	} | null;
-	meanings: Meaning[];
-	progress: {
-		remembered: boolean;
-	} | null;
-};
-
-type Props = {
-	words: Word[];
-};
-
-export default function WordCardView({ words }: Props) {
+export default function WordCardView({ words }: WordCardProps) {
 	const [rememberStatus, setRememberStatus] = useState<
 		Record<number, boolean>
 	>(
@@ -77,7 +48,7 @@ export default function WordCardView({ words }: Props) {
 		}
 	};
 
-	const getEnglishMeaning = (meanings: Meaning[]) => {
+	const getEnglishMeaning = (meanings: WordCardMeaning[]) => {
 		const english = meanings.find((m) => m.languageId === 1);
 
 		return english?.meaning || meanings[0]?.meaning || "-";
@@ -113,7 +84,7 @@ export default function WordCardView({ words }: Props) {
 
 			return acc;
 		},
-		{} as Record<string, Record<string, Word[]>>,
+		{} as Record<string, Record<string, WordCardWord[]>>,
 	);
 
 	return (

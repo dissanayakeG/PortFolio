@@ -9,39 +9,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { LinkButton } from "@/components/ui/link-button";
 import { FileInput } from "@/components/ui/fileInput";
+import { ImportFormFormData, ImportFormProps, ImportFormSubCategory } from "@/types/WordsTypes";
 
-type FormData = {
-	languageId: number;
-	categoryId: number;
-	subCategoryId?: number;
-	subCategoryName?: string;
-	file: FileList;
-};
-
-type SubCategory = {
-	id: number;
-	name: string;
-	categoryId: number;
-};
-
-type Props = {
-	languages: {
-		id: number;
-		name: string;
-		code: string;
-	}[];
-
-	categories: {
-		id: number;
-		name: string;
-		code: string;
-	}[];
-};
-
-export default function ImportForm({ languages, categories }: Props) {
+export default function ImportForm({ languages, categories }: ImportFormProps) {
 	const router = useRouter();
-	const { register, handleSubmit, watch } = useForm<FormData>();
-	const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
+	const { register, handleSubmit, watch } = useForm<ImportFormFormData>();
+	const [subCategories, setSubCategories] = useState<ImportFormSubCategory[]>([]);
 	const [useCustomSubCategory, setUseCustomSubCategory] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [message, setMessage] = useState<{
@@ -59,7 +32,7 @@ export default function ImportForm({ languages, categories }: Props) {
 		}
 	}, [selectedCategoryId]);
 
-	async function onSubmit(data: FormData) {
+	async function onSubmit(data: ImportFormFormData) {
 		setIsLoading(true);
 		setMessage(null);
 

@@ -8,58 +8,15 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
 import { LinkButton } from "@/components/ui/link-button";
-
-type FormData = {
-	word: string;
-	languageId: number;
-	categoryId: number;
-	subCategoryId?: number;
-	subCategoryName?: string;
-	meaning: string;
-};
-
-type SubCategory = {
-	id: number;
-	name: string;
-	categoryId: number;
-};
-
-type Language = {
-	id: number;
-	name: string;
-};
-
-type Category = {
-	id: number;
-	name: string;
-};
-
-type WordData = {
-	id: number;
-	word: string;
-	languageId: number;
-	categoryId: number;
-	subCategoryId?: number | null;
-	meanings: Array<{
-		id: number;
-		meaning: string;
-		languageId: number;
-	}>;
-};
-
-type Props = {
-	wordData: WordData;
-	languages: Language[];
-	categories: Category[];
-};
+import { EditWordFormFormData, EditWordFormProps, EditWordFormSubCategory } from "@/types/WordsTypes";
 
 export default function EditWordForm({
 	wordData,
 	languages,
 	categories,
-}: Props) {
+}: EditWordFormProps) {
 	const router = useRouter();
-	const { register, handleSubmit, watch, setValue } = useForm<FormData>({
+	const { register, handleSubmit, watch, setValue } = useForm<EditWordFormFormData>({
 		defaultValues: {
 			word: wordData.word,
 			languageId: wordData.languageId,
@@ -71,7 +28,7 @@ export default function EditWordForm({
 				"",
 		},
 	});
-	const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
+	const [subCategories, setSubCategories] = useState<EditWordFormSubCategory[]>([]);
 	const [useCustomSubCategory, setUseCustomSubCategory] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -98,7 +55,7 @@ export default function EditWordForm({
 		setValue,
 	]);
 
-	async function onSubmit(data: FormData) {
+	async function onSubmit(data: EditWordFormFormData) {
 		setIsLoading(true);
 		try {
 			let subCategoryId = data.subCategoryId;
