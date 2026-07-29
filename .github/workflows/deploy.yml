@@ -38,11 +38,15 @@ jobs:
             echo "User: $(whoami)"
             echo "Home: $HOME"
 
-            # Ensure pnpm is available via Corepack (portable + reproducible)
-            corepack enable || true
-            corepack prepare pnpm@latest --activate || true
-
-            echo "pnpm: $(pnpm --version || echo 'not-found')"
+            # Ensure pnpm is available (install to user home if missing)
+            if command -v pnpm >/dev/null 2>&1; then
+              echo "pnpm: $(pnpm --version)"
+            else
+              echo "pnpm not found — installing to $HOME/.local/share/pnpm"
+              curl -fsSL https://get.pnpm.io/install.sh | sh -
+              export PATH="$HOME/.local/share/pnpm/bin:$PATH"
+              echo "pnpm: $(pnpm --version || echo 'install-failed')"
+            fi
 
             cd /var/www/port-folio
 
