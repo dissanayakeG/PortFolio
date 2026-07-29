@@ -48,9 +48,16 @@ jobs:
 
             cd /var/www/port-folio
 
+            # Ensure production environment exists
+            echo "DATABASE_URL=file:./prisma/production.db" > .env
+
             rm -rf .next node_modules
 
             "$PNPM_HOME/bin/pnpm" install
+
+            # Creates DB file + applies migrations
+            "$PNPM_HOME/bin/pnpm" prisma migrate deploy
+            
             "$PNPM_HOME/bin/pnpm" build
 
             pm2 restart port-folio || pm2 start pnpm --name "port-folio" -- start
