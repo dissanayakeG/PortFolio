@@ -49,7 +49,7 @@ jobs:
             cd /var/www/port-folio
 
             # Ensure production environment exists
-            # echo "DATABASE_URL=file:./prisma/production.db" > .env
+            grep -q '^DATABASE_URL=' .env || echo "DATABASE_URL=file:/var/www/port-folio/prisma/production.db" >> .env
 
             rm -rf .next node_modules
 
