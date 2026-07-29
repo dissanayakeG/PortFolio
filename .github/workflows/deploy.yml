@@ -65,6 +65,9 @@ jobs:
             # Install deps (including prisma client + cli)
             pnpm install
 
+            # Rebuild native modules to match the current Node version (fixes better-sqlite3 ABI errors)
+            pnpm rebuild || pnpm rebuild better-sqlite3 || true
+
             # Ensure Prisma client is generated for the current schema
             pnpm prisma generate
 
