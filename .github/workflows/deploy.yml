@@ -50,8 +50,12 @@ jobs:
 
             cd /var/www/port-folio
 
-            # Ensure production environment exists; use relative sqlite path so Prisma can resolve it from project root
-            grep -q '^DATABASE_URL=' .env || echo "DATABASE_URL=file:./prisma/production.db" >> .env
+            # Ensure production DATABASE_URL is always set for deploy builds
+            if grep -q '^DATABASE_URL=' .env; then
+              sed -i 's|^DATABASE_URL=.*|DATABASE_URL=file:./prisma/production.db|' .env
+            else
+              echo "DATABASE_URL=file:./prisma/production.db" >> .env
+            fi
 
             rm -rf .next node_modules
 
