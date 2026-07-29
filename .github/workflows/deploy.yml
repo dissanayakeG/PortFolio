@@ -25,25 +25,32 @@ jobs:
         source: "."
         target: "/var/www/port-folio"
 
-    - name: Execute remote build and restart
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        port: ${{ secrets.PORT }}
-        key: ${{ secrets.SSHKEY }}
-        script: |
-          set -e
-          cd /var/www/port-folio
+    -   name: Execute remote build and restart
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.SSHKEY }}
+          script: |
+            set -e
 
-          export PNPM_HOME="$HOME/.local/share/pnpm"
-          export PATH="$PNPM_HOME/bin:$PATH"
+            echo "User: $(whoami)"
+            echo "Home: $HOME"
 
-          pnpm --version
+            export PNPM_HOME="$HOME/.local/share/pnpm"
+            export PATH="$PNPM_HOME/bin:$PATH"
 
-          rm -rf .next node_modules
+            echo "PATH=$PATH"
+            ls -la "$PNPM_HOME/bin"
 
-          pnpm install
-          pnpm build
+            "$PNPM_HOME/bin/pnpm" --version
 
-          pm2 restart port-folio || pm2 start pnpm --name "port-folio" -- start
+            cd /var/www/port-folio
+
+            rm -rf .next node_modules
+
+            "$PNPM_HOME/bin/pnpm" install
+            "$PNPM_HOME/bin/pnpm" build
+
+            pm2 restart port-folio || pm2 start pnpm --name "port-folio" -- start
