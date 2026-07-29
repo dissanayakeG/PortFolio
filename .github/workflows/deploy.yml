@@ -98,4 +98,5 @@ jobs:
             pnpm build
 
             # Restart or start the process
-            pm2 restart port-folio || pm2 start pnpm --name "port-folio" -- start
+            pm2 describe port-folio > /dev/null 2>&1 && pm2 restart port-folio --update-env || pm2 start pnpm --name "port-folio" -- start
+            pm2 save
