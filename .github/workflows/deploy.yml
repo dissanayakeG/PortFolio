@@ -33,37 +33,42 @@ jobs:
           port: ${{ secrets.PORT }}
           key: ${{ secrets.SSHKEY }}
           script: |
-            set -e
+            set -euo pipefail
 
             echo "User: $(whoami)"
             echo "Home: $HOME"
 
-            export PNPM_HOME="$HOME/.local/share/pnpm"
-            export PATH="$PNPM_HOME/bin:$PATH"
+            # Ensure pnpm is available via Corepack (portable + reproducible)
+            corepack enable || true
+            corepack prepare pnpm@latest --activate || true
 
-            echo "PATH=$PATH"
-            ls -la "$PNPM_HOME/bin"
-
-            "$PNPM_HOME/bin/pnpm" --version
+            echo "pnpm: $(pnpm --version || echo 'not-found')"
 
             cd /var/www/port-folio
 
-            # Ensure production environment exists
-            grep -q '^DATABASE_URL=' .env || echo "DATABASE_URL=file:/var/www/port-folio/prisma/production.db" >> .env
+            # Ensure production environment exists; use relative sqlite path so Prisma can resolve it from project root
+            grep -q '^DATABASE_URL=' .env || echo "DATABASE_URL=file:./prisma/production.db" >> .env
 
             rm -rf .next node_modules
 
+            # Export env vars for subsequent commands
             set -a
             source .env
             set +a
 
             echo "DATABASE_URL=$DATABASE_URL"
 
-            "$PNPM_HOME/bin/pnpm" install
+            # Install deps (including prisma client + cli)
+            pnpm install
 
-            # Creates DB file + applies migrations
-            "$PNPM_HOME/bin/pnpm" prisma migrate deploy
+            # Ensure Prisma client is generated for the current schema
+            pnpm prisma generate
 
-            "$PNPM_HOME/bin/pnpm" build
+            # Apply migrations to create any missing tables (will create the sqlite file if needed)
+            pnpm prisma migrate deploy
 
+            # Build the Next.js app (during build Next will run any getStaticProps/getStaticPaths)
+            pnpm build
+
+            # Restart or start the process
             pm2 restart port-folio || pm2 start pnpm --name "port-folio" -- start
