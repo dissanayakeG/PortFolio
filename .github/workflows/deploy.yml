@@ -38,23 +38,25 @@ jobs:
             echo "User: $(whoami)"
             echo "Home: $HOME"
 
-            # Ensure pnpm is available (install to user home if missing)
+            # Ensure pnpm is on PATH before checking for it
+            export PNPM_HOME="$HOME/.local/share/pnpm"
+            export PATH="$PNPM_HOME/bin:$PATH"
+
             if command -v pnpm >/dev/null 2>&1; then
               echo "pnpm: $(pnpm --version)"
             else
-              echo "pnpm not found — installing to $HOME/.local/share/pnpm"
+              echo "pnpm not found — installing to $PNPM_HOME"
               curl -fsSL https://get.pnpm.io/install.sh | sh -
-              export PATH="$HOME/.local/share/pnpm/bin:$PATH"
-              echo "pnpm: $(pnpm --version || echo 'install-failed')"
+              echo "pnpm: $(pnpm --version)"
             fi
 
             cd /var/www/port-folio
 
-            # Ensure production DATABASE_URL is always set for deploy builds
+            # Ensure production DATABASE_URL is always set to an absolute path
             if grep -q '^DATABASE_URL=' .env; then
-              sed -i 's|^DATABASE_URL=.*|DATABASE_URL=file:./prisma/production.db|' .env
+              sed -i 's|^DATABASE_URL=.*|DATABASE_URL=file:/var/www/port-folio/prisma/production.db|' .env
             else
-              echo "DATABASE_URL=file:./prisma/production.db" >> .env
+              echo "DATABASE_URL=file:/var/www/port-folio/prisma/production.db" >> .env
             fi
 
             rm -rf .next node_modules
@@ -69,32 +71,25 @@ jobs:
             # Install deps (including prisma client + cli)
             pnpm install
 
-            # Rebuild native modules to match the current Node version (fixes better-sqlite3 ABI errors)
-            pnpm rebuild || pnpm rebuild better-sqlite3 || true
+            # Rebuild native modules to match the current Node version
+            pnpm rebuild || pnpm rebuild better-sqlite3
 
             # Ensure Prisma client is generated for the current schema
             pnpm prisma generate
 
-            # Apply migrations to create any missing tables (will create the sqlite file if needed)
-            if pnpm prisma migrate deploy; then
-              echo "prisma migrate deploy succeeded"
-            else
-              echo "prisma migrate deploy failed — attempting prisma db push as fallback"
-              pnpm prisma db push --accept-data-loss || true
-            fi
+            # Apply migrations — fail the deploy loudly if this fails
+            pnpm prisma migrate deploy
 
             # Show migration status for debugging
-            pnpm prisma migrate status --schema=./prisma/schema.prisma || true
+            pnpm prisma migrate status --schema=./prisma/schema.prisma
 
-            # If sqlite3 is available, list tables for quick verification
+            # Verify tables exist before building
             if command -v sqlite3 >/dev/null 2>&1; then
               echo "SQLite tables:"
-              sqlite3 prisma/production.db ".tables" || true
-            else
-              echo "sqlite3 not installed on host — skipping table list"
+              sqlite3 prisma/production.db ".tables"
             fi
 
-            # Build the Next.js app (during build Next will run any getStaticProps/getStaticPaths)
+            # Build the Next.js app
             pnpm build
 
             # Restart or start the process
