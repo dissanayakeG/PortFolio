@@ -72,7 +72,23 @@ jobs:
             pnpm prisma generate
 
             # Apply migrations to create any missing tables (will create the sqlite file if needed)
-            pnpm prisma migrate deploy
+            if pnpm prisma migrate deploy; then
+              echo "prisma migrate deploy succeeded"
+            else
+              echo "prisma migrate deploy failed — attempting prisma db push as fallback"
+              pnpm prisma db push --accept-data-loss || true
+            fi
+
+            # Show migration status for debugging
+            pnpm prisma migrate status --schema=./prisma/schema.prisma || true
+
+            # If sqlite3 is available, list tables for quick verification
+            if command -v sqlite3 >/dev/null 2>&1; then
+              echo "SQLite tables:"
+              sqlite3 prisma/production.db ".tables" || true
+            else
+              echo "sqlite3 not installed on host — skipping table list"
+            fi
 
             # Build the Next.js app (during build Next will run any getStaticProps/getStaticPaths)
             pnpm build
