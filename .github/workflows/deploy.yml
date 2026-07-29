@@ -36,14 +36,6 @@ jobs:
           set -e
           cd /var/www/port-folio
 
-          # Optional: install pnpm if not already installed
-          if ! command -v pnpm &> /dev/null; then
-            curl -fsSL https://get.pnpm.io/install.sh | sh -
-          fi
-
-          export PNPM_HOME="$HOME/.local/share/pnpm"
-          export PATH="$PNPM_HOME:$PATH"
-
           pnpm --version
 
           rm -rf .next node_modules
