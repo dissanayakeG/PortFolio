@@ -36,6 +36,9 @@ jobs:
           set -e
           cd /var/www/port-folio
 
+          export PNPM_HOME="$HOME/.local/share/pnpm"
+          export PATH="$PNPM_HOME/bin:$PATH"
+
           pnpm --version
 
           rm -rf .next node_modules
