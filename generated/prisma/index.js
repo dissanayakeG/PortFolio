@@ -39,12 +39,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.8.0
- * Query Engine version: 3c6e192761c0362d496ed980de936e2f3cebcd3a
+ * Prisma Client JS version: 7.9.1
+ * Query Engine version: e922089b7d7502aff4249d5da3420f6fa55fc6ad
  */
 Prisma.prismaVersion = {
-  client: "7.8.0",
-  engine: "3c6e192761c0362d496ed980de936e2f3cebcd3a"
+  client: "7.9.1",
+  engine: "e922089b7d7502aff4249d5da3420f6fa55fc6ad"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -159,8 +159,8 @@ exports.Prisma.ModelName = {
  */
 const config = {
   "previewFeatures": [],
-  "clientVersion": "7.8.0",
-  "engineVersion": "3c6e192761c0362d496ed980de936e2f3cebcd3a",
+  "clientVersion": "7.9.1",
+  "engineVersion": "e922089b7d7502aff4249d5da3420f6fa55fc6ad",
   "activeProvider": "sqlite",
   "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n}\n\nmodel Language {\n  id   Int    @id @default(autoincrement())\n  code String @unique\n  name String\n\n  words    Word[]\n  meanings Meaning[]\n}\n\nmodel Category {\n  id   Int    @id @default(autoincrement())\n  code String @unique\n  name String @unique\n\n  words         Word[]\n  subCategories SubCategory[]\n}\n\nmodel SubCategory {\n  id         Int    @id @default(autoincrement())\n  name       String\n  categoryId Int\n\n  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)\n  words    Word[]\n\n  @@unique([name, categoryId])\n  @@index([categoryId])\n}\n\nmodel Word {\n  id Int @id @default(autoincrement())\n\n  languageId    Int\n  categoryId    Int\n  subCategoryId Int?\n\n  word String\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  language    Language     @relation(fields: [languageId], references: [id])\n  category    Category     @relation(fields: [categoryId], references: [id])\n  subCategory SubCategory? @relation(fields: [subCategoryId], references: [id])\n\n  meanings Meaning[]\n  progress Progress?\n\n  @@index([languageId])\n  @@index([categoryId])\n  @@index([subCategoryId])\n}\n\nmodel Meaning {\n  id Int @id @default(autoincrement())\n\n  wordId     Int\n  languageId Int\n\n  meaning String\n\n  word     Word     @relation(fields: [wordId], references: [id], onDelete: Cascade)\n  language Language @relation(fields: [languageId], references: [id])\n\n  @@index([wordId])\n}\n\nmodel Progress {\n  id Int @id @default(autoincrement())\n\n  wordId Int @unique\n\n  remembered Boolean @default(false)\n  favorite   Boolean @default(false)\n\n  reviewCount Int @default(0)\n\n  lastReviewedAt DateTime?\n  nextReviewAt   DateTime?\n\n  word Word @relation(fields: [wordId], references: [id], onDelete: Cascade)\n}\n"
 }
