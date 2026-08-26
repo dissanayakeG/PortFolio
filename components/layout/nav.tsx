@@ -44,6 +44,10 @@ export default function Nav() {
 			<li className="mr-6">
 				<NavLink href="/words">Learn Spanish</NavLink>
 			</li>
+
+			<li className="mr-6">
+				<NavLink href="/tasks">Daily Tasks</NavLink>
+			</li>
 		</ul>
 	);
 }

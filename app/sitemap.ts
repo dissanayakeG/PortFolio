@@ -27,6 +27,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             url: `${siteUrl}/taxCalculator`,
             lastModified: new Date().toISOString(),
         },
+        {
+            url: `${siteUrl}/tasks`,
+            lastModified: new Date().toISOString(),
+        },
         ...postUrls
     ]
 }
