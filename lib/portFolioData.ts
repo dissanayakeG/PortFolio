@@ -9,10 +9,11 @@ const experiences: Experience[] = [
 			{
 				designation: "Associate Technical Lead",
 				duration: "April 2026 - Present",
-				notes: `Developed custom Laravel packages to streamline application functionality and reusability. |
-						Applied design patterns to create modular, maintainable, and expandable codebases. |
-						Led test-driven development (TDD) using PHPUnit and Pest, ensuring robust and error-free applications. | 
-						Collaborated with cross-functional teams to implement innovative solutions and optimize performance.`,
+				notes: `Spearheaded major development initiatives from planning through delivery. |
+						Contributed to technical decision-making and strategic planning sessions. |
+						Developed AI-powered tools that streamlined and automated time-intensive manual processes. |
+						Managed versioning, release tagging, and deployment workflows through Laravel Forge and Envoyer. |
+						Collaborated with cross-functional teams to deliver innovative solutions and optimize performance.`,
 			},
 			{
 				designation: "Senior Software Engineer",

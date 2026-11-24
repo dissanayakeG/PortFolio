@@ -1,25 +1,6 @@
-import { Experience } from "@/types/Types";
-import ExperienceCard from "@/components/portFolio/partials/experienceCard";
 import experiences from "@/lib/portFolioData";
-
-//define data outside as this is static data, this helps to reduce memory usage and reusability across this file
+import styles from "@/components/home.module.css";
 
 export default function Experiences() {
-	return (
-		<div className="flex flex-col p-4">
-			<h1 className="flex justify-center text-secondary text-3xl font-bold italic">
-				EXPERIENCES
-			</h1>
-			<div className="flex flex-col text-white space-y-2">
-				{experiences.map((experience: Experience) => {
-					return (
-						<ExperienceCard
-							experience={experience}
-							key={experience.duration}
-						/>
-					);
-				})}
-			</div>
-		</div>
-	);
+	return <section id="experience" className={styles.section} aria-labelledby="experience-title"><div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>02 / Experience</span><h2 id="experience-title" className={styles.sectionTitle}>Career shaped by delivery.</h2></div><p className={styles.sectionIntro}>A progression from hands-on product development to leading technical direction and creating reusable engineering foundations.</p></div><div className={styles.experienceList}>{experiences.map((experience) => <article className={styles.experience} key={experience.company}><div><span className={styles.sectionKicker}>Company</span><h3 className={styles.company}>{experience.company}</h3><p className={styles.companyDuration}>{experience.duration}</p></div><div><p className={styles.skillLine}>{experience.skills}</p>{experience.breakdown?.map((role) => <div className={styles.role} key={`${role.designation}-${role.duration}`}><div className={styles.roleHeader}><h4 className={styles.roleTitle}>{role.designation}</h4><span className={styles.roleDuration}>{role.duration}</span></div>{role.notes && <ul className={styles.notes}>{role.notes.split("|").map((note) => note.trim()).filter(Boolean).map((note) => <li key={note}>{note}</li>)}</ul>}</div>)}</div></article>)}</div></section>;
 }

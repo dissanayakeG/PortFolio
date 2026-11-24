@@ -38,7 +38,7 @@ export default function Nav() {
 			</li>
 
 			<li className="mr-6">
-				<NavLink href="/taxCalculator">PAYE Tax (SL 2025)</NavLink>
+				<NavLink href="/taxCalculator">SL PAYE Tax Calculator</NavLink>
 			</li>
 
 		</ul>

@@ -1,57 +1,15 @@
 import Image from "next/image";
-import ContactCard from "@/components/portFolio/partials/contactCard";
-import { link } from "fs";
+import Link from "next/link";
+import styles from "@/components/home.module.css";
+
+const contacts = [
+	{ name: "GitHub", src: "/contacts/git.svg", link: process.env.GIT },
+	{ name: "Email", src: "/contacts/gmail.svg", link: process.env.MAIL },
+	{ name: "LinkedIn", src: "/contacts/linkdin.svg", link: process.env.LINKDIN },
+	{ name: "Developer notes", src: "/contacts/github_io.svg", link: process.env.GITHUB_IO },
+	{ name: "WhatsApp", src: "/contacts/whatsapp.svg", link: process.env.PHONE },
+];
 
 export default function AboutMe() {
-	const contacts = [
-		{ name: "git", src: "/contacts/git.svg", link: process.env.GIT },
-		{ name: "gmail", src: "/contacts/gmail.svg", link: process.env.MAIL },
-		{ name: "Linkdin", src: "/contacts/linkdin.svg", link: process.env.LINKDIN },
-		{ name: "dev-short-notes", src: "/contacts/github_io.svg",link: process.env.GITHUB_IO },
-		{ name: "whatsapp", src: "/contacts/whatsapp.svg" ,link: process.env.PHONE},
-	];
-
-	const heading: string = "Madusanka Dissanayake";
-	const subHeading: string = "I'm a Professional PHP/TypeScript Developer";
-	const aboutMe: string = `
-					Software engineer with more than 6 years of experience in the full
-					software development cycle. Highly adapted to leading
-					engineering teams to achieve software development upgrades
-					and increase business efficiency while delivering
-					world-class solutions to clients.`;
-
-	return (
-		<div className="flex flex-col sm:flex-row sm:justify-between items-center p-4">
-			<div className="flex flex-col gap-2 ">
-				<h1 className="text-xl md:text-2xl font-bold text-secondary italic">
-					{heading}
-				</h1>
-				<p className="text-secondary-light italic">{subHeading}</p>
-				<p className="text-white italic text-justify">{aboutMe}</p>
-			</div>
-
-			<div className="flex flex-col sm:flex-row justify-between p-2">
-				<Image
-					src="/profilePicture.jpg"
-					alt="flutters profile picture"
-					className="flex items-center justify-center p-4 max-w-80 overflow-hidden"
-					width={300}
-					height={250}
-				/>
-
-				<div className="flex sm:flex-col bg-theme-light rounded-md p-1 gap-2">
-					{contacts.map((contact) => {
-						return (
-							<ContactCard
-								key={contact.src}
-								src={contact.src}
-								alt={contact.name}
-								link={contact.link ?? "#"}
-							/>
-						);
-					})}
-				</div>
-			</div>
-		</div>
-	);
+	return <section className={styles.hero} aria-labelledby="intro-title"><div className={styles.heroCopy}><span className={styles.eyebrow}>Software engineer · Sri Lanka</span><h1 id="intro-title" className={styles.heroTitle}>Building software that feels <em>considered.</em></h1><p className={styles.lede}>I&apos;m Madusanka Dissanayake, a PHP and TypeScript developer with more than six years of experience across the full software development cycle. I build maintainable products, lead teams, and turn complex requirements into reliable systems.</p><div className={styles.actions}><a className={styles.primaryAction} href="#experience">Explore experience</a><Link className={styles.secondaryAction} href="/blog">Read developer notes</Link></div></div><div className={styles.portraitWrap}><div className={styles.portraitFrame}><Image className={styles.portrait} src="/profilePicture.jpg" alt="Madusanka Dissanayake" width={600} height={600} priority /></div><p className={styles.portraitNote}>Laravel · TypeScript · product-minded engineering</p><div className={styles.socials} aria-label="Contact links">{contacts.filter(({ link }) => Boolean(link)).map((contact) => <Link className={styles.socialLink} href={contact.link!} key={contact.name} target="_blank" rel="noreferrer" aria-label={contact.name}><Image src={contact.src} alt="" width={22} height={22} /></Link>)}</div></div></section>;
 }

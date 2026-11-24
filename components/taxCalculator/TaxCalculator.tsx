@@ -4,6 +4,7 @@ import { TaxGroup } from "@/types/Types";
 import taxGroups from "@/lib/buildTaxGroups";
 import TaxTable from "@/components/taxCalculator/TaxTable";
 import TaxResults from "@/components/taxCalculator/TaxResults";
+import styles from "@/components/content.module.css";
 
 const TAX_FREE_LIMIT = 150_000;
 const MAX_SALARY_LIMIT = 10_000_000;
@@ -81,17 +82,19 @@ export default function TaxCalculator() {
 	};
 
 	return (
-		<div className="w-full min-w-md">
-			<form className="flex flex-col items-center content-start bg-theme shadow-md rounded px-8 pt-6 pb-8 mb-4 min-w-80">
-				<div className="mb-4 w-full max-w-md">
+		<div className={styles.calculatorGrid}>
+			<form className={styles.formCard}>
+				<h2>Calculate your PAYE</h2>
+				<p className={styles.helper}>Enter your gross annual salary in LKR. The estimate uses the brackets shown alongside.</p>
+				<div>
 					<label
-						className="block text-primary text-sm font-bold mb-2"
+						className={styles.formLabel}
 						htmlFor="salary"
 					>
 						Enter your salary
 					</label>
 					<input
-						className="min-w-md max-w-md shadow appearance-none border rounded border-primary-light w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline"
+						className={styles.salaryInput}
 						id="salary"
 						type="text"
 						placeholder="Enter your salary"
@@ -100,20 +103,22 @@ export default function TaxCalculator() {
 					/>
 				</div>
 
-				<button
-					className="shadow bg-primary-light hover:bg-primary text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full max-w-md"
+				<div className={styles.buttonRow}>
+					<button
+					className={styles.calculate}
 					type="button"
 					onClick={calculateFinalTax}
 				>
 					Calculate
 				</button>
-				<button
-					className="mt-2 shadow bg-theme-light hover:bg-theme-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full max-w-md"
+					<button
+					className={styles.clear}
 					type="button"
 					onClick={clearTax}
 				>
 					Clear
-				</button>
+					</button>
+				</div>
 
 				<TaxResults totalTax={totalTax} salary={Number(salary)} />
 			</form>

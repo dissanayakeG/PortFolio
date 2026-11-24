@@ -3,6 +3,7 @@ import Markdown from "markdown-to-jsx";
 import { getPostMetaData } from "@/lib/getPostMetaData";
 import markdownOptions from "@/lib/markdownOptions";
 import { Metadata } from "next";
+import styles from "@/components/content.module.css";
 
 const getPostContent = (slug: string) => {
 	const folder = "posts/";
@@ -55,11 +56,7 @@ const PostPage = async (props: any) => {
 	const { slug } = await props.params; //slug is the dynamic folder name
 	const content = getPostContent(slug);
 
-	return (
-		<div className="flex flex-col text-white">
-			<Markdown options={markdownOptions}>{content}</Markdown>
-		</div>
-	);
+	return <main className={styles.page}><article className={styles.article}><Markdown options={markdownOptions}>{content}</Markdown></article></main>;
 };
 
 export default PostPage;

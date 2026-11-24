@@ -38,9 +38,9 @@ export default function RootLayout({
 				<link rel="icon" href="/favicon.png" sizes="32*32" />
 			</Head>
 			<body
-				className={`${montserrat.className} antialiased bg-theme-dark p-4`}
+				className={`${montserrat.className} antialiased bg-theme-dark p-4 sm:p-6`}
 			>
-				<div className="flex flex-col mx-auto max-w-screen-md">
+				<div className="flex flex-col mx-auto max-w-screen-xl">
 					<Nav />
 					{children}
 					<div className="w-full h-0.5 bg-theme mt-2"></div>

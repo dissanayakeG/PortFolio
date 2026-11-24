@@ -4,6 +4,7 @@ import Link from "next/link";
 import PostTags from "@/components/blog/PostTags";
 import { PostMetadata } from "@/types/Types";
 import Loading from "@/components/blog/loading";
+import styles from "@/components/content.module.css";
 
 export default function Posts() {
 	const [postMetaData, setPostMetaData] = useState<PostMetadata[]>([]);
@@ -71,30 +72,15 @@ export default function Posts() {
 		return <Loading />;
 	}
 
-	const postPreview = postMetaData.map((post, index) => (
-		<div
-			key={index}
-			className="w-full flex flex-col justify-start bg-theme-light p-4 rounded-md my-6"
-		>
-			<Link href={`/blog/${post.slug}`}>
-				<h2 className="text-xl md:text-2xl text-secondary font-bold">
-					{post.title}
-				</h2>
-			</Link>
-			<h2 className="text-ls md:text-xl text-white italic">
-				{post.subtitle}
-			</h2>
-			<p className="text-sm md:text-md text-secondary-light italic">{`Added on ${post.date}`}</p>
-		</div>
+	const postPreview = postMetaData.map((post) => (
+		<article key={post.slug} className={styles.post}><div><Link className={styles.postTitle} href={`/blog/${post.slug}`}>{post.title}</Link><p className={styles.postSubtitle}>{post.subtitle}</p><div className={styles.postTags}>{post.tags?.map((tag) => <span key={tag}>{tag.trim()}</span>)}</div></div><time className={styles.postDate} dateTime={post.date}>{post.date}</time></article>
 	));
-	return (
-		<div>
+	return <div>
 			<PostTags
 				postMetaDataTags={postMetaDataTags}
 				checkedItems={selectedTags}
 				selectTags={handleDataFromChild}
 			/>
-			{postPreview}
-		</div>
-	);
+			<div className={styles.postList}>{postPreview}</div>
+		</div>;
 }

@@ -12,23 +12,24 @@ const config: Config = {
         '13': 'repeat(13, minmax(0, 1fr))',
       },
       colors: {
-        // primary: '#1DA1F2', //bg-primary
+        // Core surfaces — deep navy with distinct raised states.
         theme: {
-          DEFAULT: '#dce0e2', // bg-theme
-          light: '#727c83',   // bg-theme-light
-          dark: '#304653',    // bg-theme-dark
+          DEFAULT: '#10263A', // borders and restrained surface accents
+          light: '#183851',   // elevated cards and hover surfaces
+          dark: '#071625',    // primary page background
         },
+        // Cyan is the primary interactive color; gold is reserved for emphasis.
         primary: {
-          DEFAULT: '#047df6', // bg-primary
-          light: '#3794f0',   // bg-primary-light
-          dark: '#386695',    // bg-primary-dark
+          DEFAULT: '#6EE7DE', // primary interactive state
+          light: '#A4F4EE',   // hover / high-emphasis state
+          dark: '#35B9B0',    // pressed / dark contrast state
         },
         secondary: {
-          DEFAULT: '#FFC300', // bg-secondary
-          light: '#f1e736',   // bg-secondary-light
-          dark: '#ada51e',    // bg-secondary-dark
+          DEFAULT: '#FFC857', // warm editorial accent
+          light: '#FFDA85',   // lighter accent text
+          dark: '#D69B16',    // stronger accent contrast
         },
-        white: '#ffffff'
+        white: '#F4F9FC',
       },
     },
   },

@@ -1,5 +1,6 @@
 "use client";
 import { clsx } from "clsx";
+import styles from "@/components/content.module.css";
 
 export default function PostTags({
 	postMetaDataTags,
@@ -14,28 +15,13 @@ export default function PostTags({
 		selectTags(event);
 	}
 
-	const selectedTags = (
-		<div className="flex flex-wrap text-sm">
-			{checkedItems.map((tag) => (
-				<div
-					key={tag}
-					className="p-1 m-1 rounded-md bg-theme text-primary-light"
-				>
-					{tag}
-				</div>
-			))}
-		</div>
-	);
-
 	const postTags = (
-		<div className="flex flex-wrap">
+		<div className={styles.tagList}>
 			{postMetaDataTags.map((tag, index) => (
 				<label
 					key={tag}
-					className={clsx("flex items-center p-1 m-1 rounded-md", {
-						"bg-theme-light text-secondary-light hover:bg-theme hover:text-primary":
-							!checkedItems.includes(tag),
-						"bg-theme text-primary": checkedItems.includes(tag),
+					className={clsx(styles.tag, {
+						[styles.tagActive]: checkedItems.includes(tag),
 					})}
 				>
 					<input
@@ -43,7 +29,6 @@ export default function PostTags({
 						name={tag}
 						checked={checkedItems.includes(tag) || false}
 						onChange={handleClick}
-						className="w-4 h-4 hidden"
 					/>
 					{tag}
 				</label>
@@ -51,11 +36,5 @@ export default function PostTags({
 		</div>
 	);
 
-	return (
-		<div className="space-y-2">
-			<div>{selectedTags}</div>
-			<hr />
-			<div>{postTags}</div>
-		</div>
-	);
+	return <div><span className={styles.filterLabel}>{checkedItems.length ? `Filtering by: ${checkedItems.join(", ")}` : "Filter by topic"}</span>{postTags}</div>;
 }

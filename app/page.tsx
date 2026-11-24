@@ -1,6 +1,7 @@
 import AboutMe from "@/components/portFolio/aboutMe";
 import TechSkills from "@/components/portFolio/techSkills";
 import Experiences from "@/components/portFolio/experiences";
+import styles from "@/components/home.module.css";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -10,12 +11,10 @@ export const metadata: Metadata = {
 
 export default function Page() {
 	return (
-		<>
-			<main>
+		<main className={styles.home}>
 				<AboutMe />
 				<TechSkills />
 				<Experiences />
-			</main>
-		</>
+		</main>
 	);
 }

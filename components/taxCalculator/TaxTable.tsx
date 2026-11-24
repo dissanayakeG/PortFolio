@@ -1,35 +1,33 @@
 import { TaxGroup } from "@/types/Types";
+import styles from "@/components/content.module.css";
 
 export default function TaxTable({ taxBrackets }: { taxBrackets: TaxGroup[] }) {
 	return (
-		<div className="bg-theme shadow-md rounded px-8 pt-6 pb-8 mb-4 min-w-80 overflow-x-auto">
-			<table className="table-auto w-full text-left border-collapse">
+		<div className={styles.tableCard}>
+			<div className={styles.tableTitle}><h2>Tax brackets used</h2></div>
+			<div className={styles.tableWrap}><table className={styles.taxTable}>
 				<thead>
 					<tr>
-						<th className="px-4 py-2 border-b font-normal text-primary">From</th>
-						<th className="px-4 py-2 border-b font-normal text-primary">Up To</th>
-						<th className="px-4 py-2 border-b font-normal text-primary">%</th>
-						<th className="px-4 py-2 border-b font-normal text-primary">Tax (Group)</th>
-						<th className="px-4 py-2 border-b font-normal text-primary">Tax (Total)</th>
+						<th>From</th><th>Up To</th><th>Rate</th><th>Tax (group)</th><th>Tax (total)</th>
 					</tr>
 				</thead>
 				<tbody>
 					{taxBrackets.length > 0 ? (
 						taxBrackets.map((tax, index) => (
 							<tr key={index}>
-								<td className="px-4 py-2 border-b">
+								<td>
 									{tax.from}
 								</td>
-								<td className="px-4 py-2 border-b">
+								<td>
 									{tax.upTo}
 								</td>
-								<td className="px-4 py-2 border-b">
+								<td>
 									{(tax.percentage * 100).toFixed(2)}%
 								</td>
-								<td className="px-4 py-2 border-b">
+								<td>
 									{tax.taxForThisGroupUpperLimit}
 								</td>
-								<td className="px-4 py-2 border-b">
+								<td>
 									{tax.taxUptoNow}
 								</td>
 							</tr>
@@ -38,14 +36,14 @@ export default function TaxTable({ taxBrackets }: { taxBrackets: TaxGroup[] }) {
 						<tr>
 							<td
 								colSpan={5}
-								className="px-4 py-2 border-b text-center"
+								className={styles.emptyCell}
 							>
 								No tax brackets available
 							</td>
 						</tr>
 					)}
 				</tbody>
-			</table>
+			</table></div>
 		</div>
 	);
 }
