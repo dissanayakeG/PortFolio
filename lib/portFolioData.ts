@@ -17,7 +17,7 @@ const experiences: Experience[] = [
 			},
 			{
 				designation: "Senior Software Engineer",
-				duration: "November 2022 - Present",
+				duration: "November 2022 - March 2026",
 				notes: `Developed custom Laravel packages to streamline application functionality and reusability. |
 						Applied design patterns to create modular, maintainable, and expandable codebases. |
 						Led test-driven development (TDD) using PHPUnit and Pest, ensuring robust and error-free applications. | 
