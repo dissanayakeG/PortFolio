@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 	// title: "PortFolio | DEV Blog | SL PAYE TAX Calculator",
 	title: {
 		default: "PortFolio | DEV Blog | SL PAYE TAX Calculator",
-		template: "%s | Madusanka Dissanayake",
+		template: "%s | MadzLabs.com",
 	},
 	description:
 		"Explore my portfolio, insightful DEV blog, and an SL PAYE tax calculator—all in one place.",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 		type: "website",
 		locale: "en_US",
 		url: process.env.SITE_URL || "https://madzlabs.com",
-		siteName: "Madusanka's Portfolio",
+		siteName: "MadzLabs.com",
 	},
 };
 
