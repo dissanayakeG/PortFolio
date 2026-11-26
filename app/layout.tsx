@@ -2,7 +2,6 @@ import "@/components/global.css";
 import { inter, montserrat } from "@/components/fonts";
 import Nav from "@/components/layout/nav";
 import Footer from "@/components/layout/footer";
-import Head from "next/head";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -34,9 +33,6 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en">
-			<Head>
-				<link rel="icon" href="/favicon.png" sizes="32*32" />
-			</Head>
 			<body
 				className={`${montserrat.className} antialiased bg-theme-dark p-4 sm:p-6`}
 			>
