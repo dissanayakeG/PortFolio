@@ -25,7 +25,8 @@ export async function generateMetadata(
 ): Promise<Metadata | undefined> {
 	const { slug } = await props.params;
 	const post = getPostMetaData().find((post) => post.slug === slug);
-	const url = process.env.SITE_URL || "https://www.madusankadissanayake.com";
+	const URL = "https://madzlabs.com"
+	const siteUrl = process.env.SITE_URL || URL;
 
 	if (!post) return;
 
@@ -37,7 +38,7 @@ export async function generateMetadata(
 			description: post?.title + " | " + post?.subtitle,
 			type: "article",
 			locale: "en_US",
-			url: url + "/blog/" + post.slug,
+			url: siteUrl + "/blog/" + post.slug,
 			siteName: "Madusanka's Portfolio",
 			images: [
 				// {

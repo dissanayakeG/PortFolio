@@ -2,8 +2,9 @@ import { MetadataRoute } from "next";
 import { getPostMetaData } from "../lib/getPostMetaData";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+    const URL = "https://madzlabs.com"
 
-    const siteUrl = process.env.SITE_URL || "https://madusankadissanayake.com";
+    const siteUrl = process.env.SITE_URL || URL;
 
     const postMetaData = getPostMetaData();
 

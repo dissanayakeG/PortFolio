@@ -8,7 +8,7 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
 	metadataBase: process.env.SITE_URL
 		? new URL(process.env.SITE_URL)
-		: new URL("https://www.madusankadissanayake.com"),
+		: new URL("https://madzlabs.com"),
 
 	// title: "PortFolio | DEV Blog | SL PAYE TAX Calculator",
 	title: {
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 		description: "Explore my portfolio, insightful DEV blog, and an SL PAYE tax calculator—all in one place.",
 		type: "website",
 		locale: "en_US",
-		url: process.env.SITE_URL || "https://www.madusankadissanayake.com",
+		url: process.env.SITE_URL || "https://madzlabs.com",
 		siteName: "Madusanka's Portfolio",
 	},
 };
