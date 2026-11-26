@@ -31,6 +31,7 @@ export async function generateMetadata(
 	if (!post) return;
 
 	return {
+		alternates: { canonical: `/blog/${encodeURIComponent(post.slug)}` },
 		title: post.title,
 		description: post?.title + " | " + post?.subtitle,
 		openGraph: {

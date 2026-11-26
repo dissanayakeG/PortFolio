@@ -3,6 +3,7 @@ import TaxCalculator from "@/components/taxCalculator/TaxCalculator";
 import styles from "@/components/content.module.css";
 
 export const metadata: Metadata = {
+	alternates: { canonical: "/taxCalculator" },
 	title: "SL PAYE Tax Calculator",
 	description:
 		"Calculate your Sri Lanka PAYE taxes effortlessly with SL PAYE Tax Calculator. Accurate, easy-to-use tool for employees and businesses in Sri Lanka.",

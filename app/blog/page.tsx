@@ -3,6 +3,7 @@ import Posts from "@/components/blog/Posts";
 import styles from "@/components/content.module.css";
 
 export const metadata: Metadata = {
+	alternates: { canonical: "/blog" },
 	title: "Developer Blog",
 	description:
 		"Dive into developer blog, featuring insights, tutorials, and articles on various technologies, web development trends, and best practices.",
